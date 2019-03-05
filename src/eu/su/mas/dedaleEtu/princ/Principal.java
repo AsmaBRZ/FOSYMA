@@ -306,10 +306,10 @@ public class Principal {
 		Assert.assertNotNull("This container does not exist",c);
 		
 		//2) Give the name of your agent, MUST be the same as the one given in the entities file.
-		agentName="Explo1";
+		agentName="e1";
 		
 		List<String> data2=new ArrayList<String>();
-		data2.add("Explo2");
+		data2.add("e2");
     	Object [] entityParameters2={data2};
 		
 		//4) Give the class name of your agent to let the system instantiate it
@@ -325,11 +325,11 @@ public class Principal {
 		Assert.assertNotNull("This container does not exist",c);
 		
 		//2) Give the name of your agent, MUST be the same as the one given in the entities file.
-		agentName="Explo2";
+		agentName="e2";
 		
 		//3) If you want to give specific parameters to your agent, add them here
 		List<String> data3=new ArrayList<String>();
-		data3.add("Explo1");
+		data3.add("e1");
     	Object [] entityParameters3={data3};
 		
 		//4) Give the class name of your agent to let the system instantiate it

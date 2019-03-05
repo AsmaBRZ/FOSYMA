@@ -1,5 +1,7 @@
 package eu.su.mas.dedaleEtu.mas.agents.dummies;
 import java.util.Iterator;
+
+import eu.su.mas.dedaleEtu.mas.behaviours.ExploFinishedBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.ExploSoloBehaviour;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,11 +36,12 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	//Definition of states
 	private static final String explore="ExploSoloBehaviour";
 	private static final String sendKnow="SendKnowledge";
+	private static final String explofinished="ExploFinishedBehaviour";
 	private static final String receiveKnow="ReceiveKnowledge";
 	//private static final String ping="Ping";
 	//private static final String receivePing="ReceivePing";
 	private static final String mandatory="startMyBehaviours";
-	
+	private FSMBehaviour fsm ;
 	@SuppressWarnings("unchecked")
 	protected void setup(){
 		super.setup();	
@@ -52,14 +55,18 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 		}else{
 			System.out.println("Erreur lors du tranfert des parametres");
 		}		
-		FSMBehaviour fsm = new FSMBehaviour(this);
+		fsm = new FSMBehaviour(this);
 		// Define the different states and behaviours
 		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
 		fsm.registerState (new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
-		fsm.registerDefaultTransition (explore,sendKnow);
-		fsm.registerDefaultTransition (sendKnow,receiveKnow);
-		fsm.registerDefaultTransition (receiveKnow,explore);
+		fsm.registerState (new ExploFinishedBehaviour(this),explofinished);
+		fsm.registerDefaultTransition(explore,sendKnow);
+		fsm.registerDefaultTransition(explore,explofinished);
+		fsm.registerDefaultTransition(sendKnow,receiveKnow);
+		fsm.registerDefaultTransition(receiveKnow,explore);
+		fsm.registerTransition (explore,sendKnow, 0) ;
+		fsm.registerTransition (explore,explofinished, 1) ;
 		//fsm. registerState (new Ping(this,receivers.get(0)),ping);
 		//fsm. registerState (new ReceivePing(this),receivePing);
 		//gfsm.re

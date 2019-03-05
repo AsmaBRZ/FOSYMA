@@ -22,7 +22,10 @@ public class ReceiveKnowledge extends SimpleBehaviour{
 	public void action() {	
 		final MessageTemplate msgTemplate = MessageTemplate.MatchPerformative(ACLMessage.INFORM);			
 		final ACLMessage msg = agent.receive(msgTemplate);
-		if (msg != null) {		
+		
+		System.out.println("Agent \"+agent.getLocalName()"+ "before testing msg!=null");
+		if (msg != null) {	
+			System.out.println("Agent \"+agent.getLocalName()"+ "in testing msg!=null");
 			System.out.println(agent.getLocalName()+"<----Result received from "+msg.getSender().getLocalName());
 			try {
 				Object[] content=(Object[]) msg.getContentObject();
@@ -42,8 +45,14 @@ public class ReceiveKnowledge extends SimpleBehaviour{
 				e.printStackTrace();
 			}
 		}else{
-			block();// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
 		}
+		finished=true;
 	}
 
 	@Override

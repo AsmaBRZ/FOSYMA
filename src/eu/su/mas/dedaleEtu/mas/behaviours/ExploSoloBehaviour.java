@@ -23,10 +23,10 @@ import jade.core.behaviours.SimpleBehaviour;
  * @author hc
  *
  */
-public class ExploSoloBehaviour extends SimpleBehaviour {
+public class ExploSoloBehaviour extends SimpleBehaviour{
 
 	private static final long serialVersionUID = 8567689731496787661L;
-
+	private int exitValue ;
 	private boolean finished = false;
 
 	/**
@@ -88,10 +88,11 @@ public class ExploSoloBehaviour extends SimpleBehaviour {
 				}
 			}
 
-			//3) while openNodes is not empty, continues.
+			//3) while openNodes is not empty, continue.
+			
 			if (((ExploratorAgent)agent).isEmptyOpenedNodes()){
 				//Explo finished
-				finished=true;
+				
 				System.out.println("Exploration successufully done, behaviour removed.");
 			}else{
 				//4) select next move.
@@ -104,13 +105,15 @@ public class ExploSoloBehaviour extends SimpleBehaviour {
 				}
 				((AbstractDedaleAgent)this.myAgent).moveTo(nextNode);
 			}
-
+			finished=true;
 		}
 	}
 
 	@Override
 	public boolean done() {
+		
 		return finished;
+		
 	}
 
 }

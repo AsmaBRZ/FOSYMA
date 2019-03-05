@@ -28,7 +28,7 @@ public class SendKnwoledge extends SimpleBehaviour{
 	//Visited nodes
 	private Set<String> closedNodes;
 	private List<String[]> edges;
-	
+	private boolean finished= false;
 	private String receiver;
 	public SendKnwoledge (final Agent myagent,String r ,List<String> openNodes ,Set<String> closedNodes) {
 		super();
@@ -72,16 +72,18 @@ public class SendKnwoledge extends SimpleBehaviour{
 				e.printStackTrace();
 			}
 			msg.addReceiver(new AID(this.receiver,AID.ISLOCALNAME));
-//			msg.addReceiver(new AID("Collect2",AID.ISLOCALNAME));
-
 			//Mandatory to use this method (it takes into account the environment to decide if someone is reachable or not)
+			System.out.println("Agent \"+agent.getLocalName()"+ "Before send");
+			
 			((AbstractDedaleAgent)agent).sendMessage(msg);
+			System.out.println("Agent \"+agent.getLocalName()"+ "After send");
+			finished=true;
 		}
 	}
 
 	@Override
 	public boolean done() {
 		// TODO Auto-generated method stub
-		return false;
+		return finished;
 	}
 }
