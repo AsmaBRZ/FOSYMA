@@ -54,26 +54,24 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 		}		
 		FSMBehaviour fsm = new FSMBehaviour(this);
 		// Define the different states and behaviours
-		fsm.registerFirstState (new startMyBehaviours(this,lb), mandatory);
-		fsm. registerState (new ExploSoloBehaviour(this), explore);
-		fsm. registerState (new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes),sendKnow);
-		fsm. registerState (new ReceiveKnowledge(this),receiveKnow);
-		fsm. registerDefaultTransition (mandatory,explore);
-		fsm. registerDefaultTransition (explore,sendKnow);
-		fsm. registerDefaultTransition (sendKnow,receiveKnow);
-		fsm. registerDefaultTransition (receiveKnow,explore);
-		addBehaviour(fsm);
+		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
+		fsm.registerState (new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes),sendKnow);
+		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
+		fsm.registerDefaultTransition (explore,sendKnow);
+		fsm.registerDefaultTransition (sendKnow,receiveKnow);
+		fsm.registerDefaultTransition (receiveKnow,explore);
 		//fsm. registerState (new Ping(this,receivers.get(0)),ping);
 		//fsm. registerState (new ReceivePing(this),receivePing);
 		//gfsm.re
-	    //lb=new ArrayList<Behaviour>();
+	    lb=new ArrayList<Behaviour>();
 	    //lb.add(new ExploSoloBehaviour(this));
         //lb.add(new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes));	
 	    //lb.add(new ReceiveKnowledge(this));
+		lb.add(fsm);
 	    /***
 	     * MANDATORY TO ALLOW YOUR AGENT TO BE DEPLOYED CORRECTLY
 	    */
-	 	//addBehaviour(new startMyBehaviours(this,lb));	
+	 	addBehaviour(new startMyBehaviours(this,lb));	
 	 	System.out.println("the  agent "+this.getLocalName()+ " is started");
 	}
 	
