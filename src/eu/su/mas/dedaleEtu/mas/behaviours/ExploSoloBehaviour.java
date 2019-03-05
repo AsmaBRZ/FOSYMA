@@ -8,6 +8,8 @@ import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;	
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation.MapAttribute;
+import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.SimpleBehaviour;
 
 
@@ -23,12 +25,10 @@ import jade.core.behaviours.SimpleBehaviour;
  * @author hc
  *
  */
-public class ExploSoloBehaviour extends SimpleBehaviour{
-
+public class ExploSoloBehaviour extends Behaviour{
+	private boolean finished=false;
 	private static final long serialVersionUID = 8567689731496787661L;
-	private int exitValue ;
-	private boolean finished = false;
-
+	private int exitValue=1;
 	/**
 	 * Current knowledge of the agent regarding the environment
 	 */
@@ -43,10 +43,10 @@ public class ExploSoloBehaviour extends SimpleBehaviour{
 		System.out.println(agent.getLocalName()+" I am exploring "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
 		if(((ExploratorAgent)agent).getMap()==null)
 			((ExploratorAgent)agent).setMap(new MapRepresentation());
-		
+
 		//0) Retrieve the current position
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
-	
+
 		if (myPosition!=null){
 			//List of observable from the agent's current position
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
@@ -79,7 +79,7 @@ public class ExploSoloBehaviour extends SimpleBehaviour{
 						((ExploratorAgent)agent).addOpenedNode(nodeId);
 						((ExploratorAgent)agent).addNodeMap(nodeId, MapAttribute.open);
 						((ExploratorAgent)agent).addEdgeMap(myPosition, nodeId);
-					//add only edge with the node B	
+						//add only edge with the node B	
 					}else{
 						//the node exist, but not necessarily the edge
 						((ExploratorAgent)agent).addEdgeMap(myPosition, nodeId);
@@ -89,10 +89,10 @@ public class ExploSoloBehaviour extends SimpleBehaviour{
 			}
 
 			//3) while openNodes is not empty, continue.
-			
+
 			if (((ExploratorAgent)agent).isEmptyOpenedNodes()){
 				//Explo finished
-				
+				exitValue=2;
 				System.out.println("Exploration successufully done, behaviour removed.");
 			}else{
 				//4) select next move.
@@ -105,15 +105,19 @@ public class ExploSoloBehaviour extends SimpleBehaviour{
 				}
 				((AbstractDedaleAgent)this.myAgent).moveTo(nextNode);
 			}
-			finished=true;
 		}
+		finished=true;
+	}
+
+	@Override
+	public int onEnd() {
+		return exitValue;
 	}
 
 	@Override
 	public boolean done() {
-		
+		// TODO Auto-generated method stub
 		return finished;
-		
 	}
 
 }

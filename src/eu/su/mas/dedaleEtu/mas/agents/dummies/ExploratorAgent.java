@@ -61,12 +61,10 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 		fsm.registerState (new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
 		fsm.registerState (new ExploFinishedBehaviour(this),explofinished);
-		fsm.registerDefaultTransition(explore,sendKnow);
-		fsm.registerDefaultTransition(explore,explofinished);
 		fsm.registerDefaultTransition(sendKnow,receiveKnow);
 		fsm.registerDefaultTransition(receiveKnow,explore);
-		fsm.registerTransition (explore,sendKnow, 0) ;
-		fsm.registerTransition (explore,explofinished, 1) ;
+		fsm.registerTransition (explore,sendKnow,1) ;
+		fsm.registerTransition (explore,explofinished,2) ;
 		//fsm. registerState (new Ping(this,receivers.get(0)),ping);
 		//fsm. registerState (new ReceivePing(this),receivePing);
 		//gfsm.re
