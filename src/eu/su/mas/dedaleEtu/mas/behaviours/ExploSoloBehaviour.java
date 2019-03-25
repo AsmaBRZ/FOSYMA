@@ -25,7 +25,7 @@ import jade.core.behaviours.SimpleBehaviour;
  * @author hc
  *
  */
-public class ExploSoloBehaviour extends Behaviour{
+public class ExploSoloBehaviour extends OneShotBehaviour{
 	private boolean finished=false;
 	private static final long serialVersionUID = 8567689731496787661L;
 	private int exitValue=1;
@@ -92,9 +92,13 @@ public class ExploSoloBehaviour extends Behaviour{
 
 			if (((ExploratorAgent)agent).isEmptyOpenedNodes()){
 				//Explo finished
+				System.out.println("Preparing exit value=2");
 				exitValue=2;
 				System.out.println("Exploration successufully done, behaviour removed.");
 			}else{
+				//send knowloedge
+				exitValue=1;
+				System.out.println("Prepating exitValue=1");
 				//4) select next move.
 				//4.1 If there exist one open node directly reachable, go for it,
 				//	 otherwise choose one from the openNode list, compute the shortestPath and go for it
@@ -106,18 +110,19 @@ public class ExploSoloBehaviour extends Behaviour{
 				((AbstractDedaleAgent)this.myAgent).moveTo(nextNode);
 			}
 		}
-		finished=true;
+		//System.out.println("Finished=true");
+		//finished=true;
 	}
 
 	@Override
 	public int onEnd() {
 		return exitValue;
 	}
-
+/*
 	@Override
 	public boolean done() {
 		// TODO Auto-generated method stub
 		return finished;
-	}
+	}*/
 
 }

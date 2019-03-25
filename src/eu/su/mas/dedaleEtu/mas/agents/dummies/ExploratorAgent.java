@@ -36,7 +36,6 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	//Definition of states
 	private static final String explore="ExploSoloBehaviour";
 	private static final String sendKnow="SendKnowledge";
-	private static final String explofinished="ExploFinishedBehaviour";
 	private static final String receiveKnow="ReceiveKnowledge";
 	//private static final String ping="Ping";
 	//private static final String receivePing="ReceivePing";
@@ -60,11 +59,10 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
 		fsm.registerState (new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
-		fsm.registerState (new ExploFinishedBehaviour(this),explofinished);
+		
+		fsm.registerDefaultTransition(explore,sendKnow);
 		fsm.registerDefaultTransition(sendKnow,receiveKnow);
 		fsm.registerDefaultTransition(receiveKnow,explore);
-		fsm.registerTransition (explore,sendKnow,1) ;
-		fsm.registerTransition (explore,explofinished,2) ;
 		//fsm. registerState (new Ping(this,receivers.get(0)),ping);
 		//fsm. registerState (new ReceivePing(this),receivePing);
 		//gfsm.re
@@ -108,6 +106,9 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 			if(openedNodes.contains(node)) {
 				openedNodes.remove(node);
 				closedNodes.add(node);
+				this.map.
+				addNodeMap(node);
+				System.out.println("Je vais fermer le node dans la map"+node);
 			}
 			if(!openedNodes.contains(node) && !closedNodes.contains(node)) {
 				closedNodes.add(node);
@@ -124,6 +125,10 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 			}
 		}
 
+		System.out.println("open after update ");
+		System.out.println(openedNodes);
+		System.out.println("close after update");
+		System.out.println(closedNodes);
 	}
 	public List<String> getOpenNodes() {
 		return openedNodes;

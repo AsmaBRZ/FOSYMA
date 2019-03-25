@@ -1,10 +1,9 @@
 package eu.su.mas.dedaleEtu.mas.behaviours;
 
 import jade.core.Agent;
-import jade.core.behaviours.SimpleBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
 
-public class ExploFinishedBehaviour extends SimpleBehaviour{
-	private boolean finished=false;
+public class ExploFinishedBehaviour extends OneShotBehaviour{
 	private static final long serialVersionUID = -45264489114908982L;
 	private Agent agent;
 	
@@ -15,14 +14,8 @@ public class ExploFinishedBehaviour extends SimpleBehaviour{
 
 	@Override
 	public void action() {
-		finished=true;
+		System.out.println("End of exploration confirmed");	
 		
 	}
-
-	@Override
-	public boolean done() {
-		// TODO Auto-generated method stub
-		return finished;
-	}
-
+	
 }

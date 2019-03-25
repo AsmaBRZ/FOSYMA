@@ -4,11 +4,12 @@ import java.util.Set;
 
 import eu.su.mas.dedaleEtu.mas.agents.dummies.ExploratorAgent;
 import jade.core.Agent;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
-public class ReceiveKnowledge extends SimpleBehaviour{
+public class ReceiveKnowledge extends OneShotBehaviour{
 
 	private static final long serialVersionUID = -4404490189062055618L;
 	private boolean finished=false;
@@ -52,12 +53,17 @@ public class ReceiveKnowledge extends SimpleBehaviour{
 				e.printStackTrace();
 			}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
 		}
-		finished=true;
+		//finished=true;
 	}
-
+	@Override
+	public int onEnd() {
+		System.out.println("onEnd ReceiveMessage");
+		return 0;
+	}
+/*
 	@Override
 	public boolean done() {
 		return finished;
-	}
+	}*/
 	
 }

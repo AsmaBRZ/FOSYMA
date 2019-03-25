@@ -9,6 +9,7 @@ import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation;
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.SimpleBehaviour;
 import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -18,7 +19,7 @@ import jade.lang.acl.ACLMessage;
  * @author hc
  *
  */
-public class SendKnwoledge extends SimpleBehaviour{
+public class SendKnwoledge extends OneShotBehaviour{
 
 	private static final long serialVersionUID = -2058134622078521998L;
 	private MapRepresentation myMap;
@@ -55,7 +56,7 @@ public class SendKnwoledge extends SimpleBehaviour{
 				Object[] mk= {myPosition,openNodes,closedNodes,edges};
 				System.out.println("*******************ENVOI***************************");	
 				System.out.println("position");
-				/*System.out.println(myPosition);
+				System.out.println(myPosition);
 				System.out.println("open");
 				System.out.println(openNodes);
 				System.out.println("close");
@@ -65,7 +66,7 @@ public class SendKnwoledge extends SimpleBehaviour{
 					System.out.println("i="+i+" "+edges.get(i)[0]);
 					System.out.println("i="+i+" "+edges.get(i)[1]);
 				}
-				System.out.println("***********************************************");*/
+				System.out.println("***********************************************");
 				msg.setContentObject(mk);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -73,17 +74,21 @@ public class SendKnwoledge extends SimpleBehaviour{
 			}
 			msg.addReceiver(new AID(this.receiver,AID.ISLOCALNAME));
 			//Mandatory to use this method (it takes into account the environment to decide if someone is reachable or not)
-			System.out.println("Agent \"+agent.getLocalName()"+ "Before send");
-			
+			//System.out.println("Agent" +agent.getLocalName()+ "Before send");
+
 			((AbstractDedaleAgent)agent).sendMessage(msg);
-			System.out.println("Agent \"+agent.getLocalName()"+ "After send");
-			finished=true;
+			//System.out.println("Agent "+agent.getLocalName()+ "After send");
+			//finished=true;
 		}
 	}
-
+	@Override
+	 public int onEnd() {
+	      return 0;
+	 } 
+/*
 	@Override
 	public boolean done() {
 		// TODO Auto-generated method stub
 		return finished;
-	}
+	}*/
 }
