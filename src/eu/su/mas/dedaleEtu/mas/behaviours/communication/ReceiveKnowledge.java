@@ -47,7 +47,7 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 			}
 		}else{
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -57,7 +57,6 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 	}
 	@Override
 	public int onEnd() {
-		System.out.println("onEnd ReceiveMessage");
 		return 0;
 	}
 /*

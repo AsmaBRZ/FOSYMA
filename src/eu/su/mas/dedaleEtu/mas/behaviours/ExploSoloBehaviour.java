@@ -41,6 +41,13 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 	@Override
 	public void action() {
 		System.out.println(agent.getLocalName()+" I am exploring "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
+		((ExploratorAgent) agent).addHist(((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
+		List<String> hist=((ExploratorAgent) agent).getHist();
+		int N=hist.size();
+		if((N>1 && hist.get(N-1)==hist.get(N-2))){
+			//interblocage --> informer les agents qui sont dans l'interblocage
+			
+		}
 		if(((ExploratorAgent)agent).getMap()==null)
 			((ExploratorAgent)agent).setMap(new MapRepresentation());
 
@@ -91,14 +98,8 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 			//3) while openNodes is not empty, continue.
 
 			if (((ExploratorAgent)agent).isEmptyOpenedNodes()){
-				//Explo finished
-				System.out.println("Preparing exit value=2");
-				exitValue=2;
 				System.out.println("Exploration successufully done, behaviour removed.");
 			}else{
-				//send knowloedge
-				exitValue=1;
-				System.out.println("Prepating exitValue=1");
 				//4) select next move.
 				//4.1 If there exist one open node directly reachable, go for it,
 				//	 otherwise choose one from the openNode list, compute the shortestPath and go for it
@@ -114,10 +115,6 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 		//finished=true;
 	}
 
-	@Override
-	public int onEnd() {
-		return exitValue;
-	}
 /*
 	@Override
 	public boolean done() {

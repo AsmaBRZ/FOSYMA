@@ -29,7 +29,7 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	private Set<String> closedNodes;
 	//List of receivers
 	protected List<String> receivers;
-	
+	private List<String> myHistory=new ArrayList<String>();
 	private List<Behaviour> lb;
 	
 	
@@ -104,9 +104,12 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 		while(itClose.hasNext()){
 			String node=itClose.next();
 			if(openedNodes.contains(node)) {
-				openedNodes.remove(node);
-				closedNodes.add(node);
-				this.map.
+				addClosedNode(node);
+				removeOpenedNode(node);
+
+				//openedNodes.remove(node);
+				//closedNodes.add(node);
+				System.out.println("Mes noeudddds sur la mp"+this.map.getNodes());
 				addNodeMap(node);
 				System.out.println("Je vais fermer le node dans la map"+node);
 			}
@@ -187,6 +190,11 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	public List<String> getOpenedNodes() {
 		return openedNodes;
 	}
-	
+	public void addHist(String h) {
+		this.myHistory.add(h);
+	}
+	public List<String> getHist() {
+		return this.myHistory;
+	}
 
 }
