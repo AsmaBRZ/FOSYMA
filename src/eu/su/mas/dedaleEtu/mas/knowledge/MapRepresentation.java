@@ -56,6 +56,10 @@ public class MapRepresentation implements Serializable {
 	 * @param id
 	 * @param mapAttribute
 	 */
+	
+	public void removeNode(String id) {
+		this.g.removeNode(id);
+	}
 	public void addNode(String id,MapAttribute mapAttribute){
 		Node n;
 		if (this.g.getNode(id)==null){

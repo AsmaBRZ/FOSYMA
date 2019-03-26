@@ -106,16 +106,17 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 			if(openedNodes.contains(node)) {
 				addClosedNode(node);
 				removeOpenedNode(node);
-
+				removeNodeMap(node);
+				addNodeMap(node);
 				//openedNodes.remove(node);
 				//closedNodes.add(node);
 				System.out.println("Mes noeudddds sur la mp"+this.map.getNodes());
-				addNodeMap(node);
+				
 				System.out.println("Je vais fermer le node dans la map"+node);
 			}
 			if(!openedNodes.contains(node) && !closedNodes.contains(node)) {
 				closedNodes.add(node);
-				addNodeMap(node, MapAttribute.open);
+				addNodeMap(node);
 				System.out.println("je vais rajouter ce noeud dans la map"+node);
 			}
 			
@@ -195,6 +196,9 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	}
 	public List<String> getHist() {
 		return this.myHistory;
+	}
+	public void removeNodeMap(String id) {
+		this.map.removeNode(id);
 	}
 
 }
