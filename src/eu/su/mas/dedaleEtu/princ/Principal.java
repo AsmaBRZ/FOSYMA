@@ -314,51 +314,13 @@ public class Principal {
 			List<String> myFriends=new ArrayList<String>(friends);
 			myFriends.remove("e"+i);
 			System.out.println("friend of "+agentName+" are:"+myFriends.toString());
+			//3) If you want to give specific parameters to your agent, add them here
 			Object [] entityParameters2={myFriends};
 			//4) Give the class name of your agent to let the system instantiate it
 			//ag=createNewDedaleAgent(c, agentName, DummyMovingAgent.class.getName(), entityParameters2);
 			ag=createNewDedaleAgent(c, agentName, ExploratorAgent.class.getName(), entityParameters2);
 			agentList.add(ag);
 		}
-		
-		
-		
-		/*********
-		 * AGENT Explo2
-		 *********//*
-		//1) Get the container where the agent will appear
-		c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
-		Assert.assertNotNull("This container does not exist",c);
-		
-		//2) Give the name of your agent, MUST be the same as the one given in the entities file.
-		agentName="e2";
-		
-		//3) If you want to give specific parameters to your agent, add them here
-		List<String> data3=new ArrayList<String>();
-		data3.add("e1");
-    	Object [] entityParameters3={data3};
-		
-		//4) Give the class name of your agent to let the system instantiate it
-		ag=createNewDedaleAgent(c, agentName, ExploratorAgent.class.getName(), entityParameters3);
-		agentList.add(ag);
-		
-		*/
-		/*********
-		 * AGENT Collect 1
-		 *********/
-		//1) Get the container where the agent will appear
-//		c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
-//		Assert.assertNotNull("This container does not exist",c);
-//		
-//		//2) Give the name of your agent, MUST be the same as the one given in the entities file.
-//		agentName="Collect1";
-//		
-//		//3) If you want to give specific parameters to your agent, add them here
-//		Object [] entityParametersC={"My parameters"};
-//		
-//		//4) Give the class name of your agent to let the system instantiate it
-//		ag=createNewDedaleAgent(c, agentName, DummyCollectorAgent.class.getName(), entityParametersC);
-//		agentList.add(ag);
 		
 		/***************
 		 * AGENT Tanker
