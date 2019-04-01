@@ -31,16 +31,19 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	protected List<String> receivers;
 	private List<String> myHistory=new ArrayList<String>();
 	private List<Behaviour> lb;
-	
+	//type 1:Explore 2:collect
+	private int type=1;
 	
 	//Definition of states
 	private static final String explore="ExploSoloBehaviour";
+	private static final String collect="CollectBehaviour";
 	private static final String sendKnow="SendKnowledge";
 	private static final String receiveKnow="ReceiveKnowledge";
 	//private static final String ping="Ping";
 	//private static final String receivePing="ReceivePing";
 	private static final String mandatory="startMyBehaviours";
 	private FSMBehaviour fsm ;
+	
 	@SuppressWarnings("unchecked")
 	protected void setup(){
 		super.setup();	
@@ -57,20 +60,17 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 		fsm = new FSMBehaviour(this);
 		// Define the different states and behaviours
 		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
-		//fsm.registerState (new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes),sendKnow);
+		
+		fsm.registerState (new CollectBehaviour(this), collect);
 		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
-		
-		fsm.registerDefaultTransition(explore,sendKnow);
+		fsm.registerTransition(explore,sendKnow,1);
+		fsm.registerTransition(explore,collect,2);
 		fsm.registerDefaultTransition(sendKnow,receiveKnow);
-		fsm.registerDefaultTransition(receiveKnow,explore);
-		//fsm. registerState (new Ping(this,receivers.get(0)),ping);
-		//fsm. registerState (new ReceivePing(this),receivePing);
-		//gfsm.re
+		fsm.registerDefaultTransition(collect,sendKnow);
+		fsm.registerTransition(receiveKnow,explore,1);
+		fsm.registerTransition(receiveKnow,collect,2);
 	    lb=new ArrayList<Behaviour>();
-	    //lb.add(new ExploSoloBehaviour(this));
-        //lb.add(new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes));	
-	    //lb.add(new ReceiveKnowledge(this));
 		lb.add(fsm);
 	    /***
 	     * MANDATORY TO ALLOW YOUR AGENT TO BE DEPLOYED CORRECTLY
@@ -78,9 +78,7 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	 	addBehaviour(new startMyBehaviours(this,lb));	
 	 	System.out.println("the  agent "+this.getLocalName()+ " is started");
 	}
-	
-	
-	
+
 	public MapRepresentation getMap() {
 		return map;
 	}
@@ -98,7 +96,6 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 				if(!openedNodes.contains(newOpenedNodes.get(i))) {
 					openedNodes.add(newOpenedNodes.get(i));
 					addNodeMap(newOpenedNodes.get(i), MapAttribute.open);
-					System.out.println("je vais rajouter ce noeud dans la map"+newOpenedNodes.get(i));					
 				}
 			}		
 		}
@@ -109,16 +106,10 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 				removeOpenedNode(node);
 				removeNodeMap(node);
 				addNodeMap(node);
-				//openedNodes.remove(node);
-				//closedNodes.add(node);
-				System.out.println("Mes noeudddds sur la mp"+this.map.getNodes());
-				
-				System.out.println("Je vais fermer le node dans la map"+node);
 			}
 			if(!openedNodes.contains(node) && !closedNodes.contains(node)) {
 				closedNodes.add(node);
 				addNodeMap(node);
-				System.out.println("je vais rajouter ce noeud dans la map"+node);
 			}
 			
 		}
@@ -130,10 +121,6 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 			}
 		}
 
-		System.out.println("open after update ");
-		System.out.println(openedNodes);
-		System.out.println("close after update");
-		System.out.println(closedNodes);
 	}
 	public List<String> getOpenNodes() {
 		return openedNodes;
@@ -201,5 +188,10 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	public void removeNodeMap(String id) {
 		this.map.removeNode(id);
 	}
-
+	public int getType() {
+		return this.type;
+	}
+	public void setType(int t) {
+		this.type=t;
+	}
 }

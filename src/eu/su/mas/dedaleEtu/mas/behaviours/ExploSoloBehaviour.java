@@ -28,14 +28,15 @@ import jade.core.behaviours.SimpleBehaviour;
 public class ExploSoloBehaviour extends OneShotBehaviour{
 	private boolean finished=false;
 	private static final long serialVersionUID = 8567689731496787661L;
-	private int exitValue=1;
+	private int exitValue;
 	/**
 	 * Current knowledge of the agent regarding the environment
 	 */
 	private Agent agent;
 
 	public ExploSoloBehaviour(final AbstractDedaleAgent myagent) {
-		agent=myagent;
+		this.agent=myagent;
+		this.exitValue=1;
 	}
 
 	@Override
@@ -53,12 +54,13 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 
 		//0) Retrieve the current position
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
-
+		
 		if (myPosition!=null){
 			//List of observable from the agent's current position
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
 			//System.out.println("LOBS");
-			//System.out.println(lobs);
+			//System.out.println(lobs+ " heu"+myPosition);
+			
 
 			/**
 			 * Just added here to let you see what the agent is doing, otherwise he will be too quick
@@ -72,7 +74,6 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 			//1) remove the current node from openlist and add it to closedNodes.
 			((ExploratorAgent)agent).addClosedNode(myPosition);
 			((ExploratorAgent)agent).removeOpenedNode(myPosition);
-
 			((ExploratorAgent)agent).addNodeMap(myPosition);
 
 			//2) get the surrounding nodes and, if not in closedNodes, add them to open nodes.
@@ -99,6 +100,8 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 
 			if (((ExploratorAgent)agent).isEmptyOpenedNodes()){
 				System.out.println("Exploration successufully done, behaviour removed.");
+				this.exitValue=2;
+				((ExploratorAgent)agent).setType(2);
 			}else{
 				//4) select next move.
 				//4.1 If there exist one open node directly reachable, go for it,
@@ -114,7 +117,10 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 		//System.out.println("Finished=true");
 		//finished=true;
 	}
-
+	@Override
+	public int onEnd() {
+		return this.exitValue;
+	}
 /*
 	@Override
 	public boolean done() {

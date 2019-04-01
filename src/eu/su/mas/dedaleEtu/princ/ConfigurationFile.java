@@ -60,21 +60,20 @@ public final class ConfigurationFile {
 	 * Not null when the environment is loaded; should be null if the environment is generated or already online
 	 */
 	//public static String INSTANCE_TOPOLOGY="resources/map2018-topology";
-	public static String INSTANCE_TOPOLOGY="resources/mapExamples/mapInterlocking1-topology";
-	//public static String INSTANCE_TOPOLOGY=null;
+	//public static String INSTANCE_TOPOLOGY="resources/mapExamples/mapInterlocking1-topology";
+	public static String INSTANCE_TOPOLOGY=null;
 	
 	/**
 	 * Not null when the environment is loaded; should be null if the environment is generated or already online
 	 */
-	public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/mapExamples/mapInterlocking1-elements";
-	//public static String INSTANCE_CONFIGURATION_ELEMENTS=null;
+	//public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/mapExamples/mapInterlocking1-elements";
+	public static String INSTANCE_CONFIGURATION_ELEMENTS=null;
 	
 	/**
 	 * Must'nt be null as it describes the agents capabilities on the map
 	 */
 	public static String INSTANCE_CONFIGURATION_ENTITIES="resources/monoAgent-entities2";
 	//public static String INSTANCE_CONFIGURATION_ENTITIES="resources/mapExamples/mapInterlocking1-entities";
-
 	
 	/************************************
 	 * 
@@ -87,7 +86,7 @@ public final class ConfigurationFile {
 	/**
 	 * Parameter used to generate the environment 
 	 */
-	public static Integer ENVIRONMENT_SIZE=7;
+	public static Integer ENVIRONMENT_SIZE=4;
 	
 	/**
 	 * Parameter used to perceive the wumpus trough its smell
@@ -99,6 +98,6 @@ public final class ConfigurationFile {
 	
 	public static boolean ACTIVE_WELL=false;
 	public static boolean ACTIVE_GOLD=true;
-	public static boolean ACTIVE_DIAMOND=false;
+	public static boolean ACTIVE_DIAMOND=true;
 	
 }
