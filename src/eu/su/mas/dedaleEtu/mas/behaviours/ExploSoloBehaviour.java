@@ -45,23 +45,25 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 		((ExploratorAgent) agent).addHist(((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
 		List<String> hist=((ExploratorAgent) agent).getHist();
 		int N=hist.size();
-		if((N>1 && hist.get(N-1)==hist.get(N-2))){
-			//interblocage --> informer les agents qui sont dans l'interblocage
-			
+		if((N>1 && hist.get(N-1)==hist.get(N-2))){//and list open not empty
+			//interblocage --> informer les agents qui sont dans l'interblocage		
 		}
 		if(((ExploratorAgent)agent).getMap()==null)
 			((ExploratorAgent)agent).setMap(new MapRepresentation());
 
 		//0) Retrieve the current position
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
-		
 		if (myPosition!=null){
 			//List of observable from the agent's current position
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
-			//System.out.println("LOBS");
-			//System.out.println(lobs+ " heu"+myPosition);
-			
-
+			//If there are any observations, I add them to my list of objects found
+			for(int i=0;i<lobs.size();i++){
+				Couple<String,List<Couple<Observation,Integer>>> element=lobs.get(i);
+				if(!element.getRight().isEmpty()) {
+					((ExploratorAgent)this.myAgent).addObjectFound(element);
+				}
+			}
+			//System.out.println("My list:"+((ExploratorAgent)this.myAgent).getObjetcsFound().toString());
 			/**
 			 * Just added here to let you see what the agent is doing, otherwise he will be too quick
 			 */

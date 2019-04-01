@@ -1,7 +1,6 @@
 package eu.su.mas.dedaleEtu.mas.agents.dummies;
 import java.util.Iterator;
 
-import eu.su.mas.dedaleEtu.mas.behaviours.ExploFinishedBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.ExploSoloBehaviour;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,11 +9,12 @@ import java.util.Set;
 
 import org.graphstream.graph.Node;
 
+import dataStructures.tuple.Couple;
+import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedale.mas.agent.behaviours.startMyBehaviours;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation.MapAttribute;
-import eu.su.mas.dedaleEtu.mas.behaviours.communication.Ping;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.ReceiveKnowledge;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.SendKnwoledge;
 import jade.core.behaviours.Behaviour;
@@ -33,6 +33,7 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	private List<Behaviour> lb;
 	//type 1:Explore 2:collect
 	private int type=1;
+	private List<Couple<String,List<Couple<Observation,Integer>>>> objetcsFound;
 	
 	//Definition of states
 	private static final String explore="ExploSoloBehaviour";
@@ -47,6 +48,7 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	@SuppressWarnings("unchecked")
 	protected void setup(){
 		super.setup();	
+		this.objetcsFound=new ArrayList<Couple<String,List<Couple<Observation,Integer>>>> ();
 		this.openedNodes=new ArrayList<String>();
 		this.closedNodes=new HashSet<String>();
 		//get the parameters given into the object[]
@@ -67,7 +69,7 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 		fsm.registerTransition(explore,sendKnow,1);
 		fsm.registerTransition(explore,collect,2);
 		fsm.registerDefaultTransition(sendKnow,receiveKnow);
-		fsm.registerDefaultTransition(collect,sendKnow);
+		fsm.registerDefaultTransition(collect,collect);
 		fsm.registerTransition(receiveKnow,explore,1);
 		fsm.registerTransition(receiveKnow,collect,2);
 	    lb=new ArrayList<Behaviour>();
@@ -87,7 +89,6 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 		this.map = myMap;
 	}
 	public void updateKnowledge(String positionReceived,List<String> newOpenedNodes ,Set<String> newClosedNodes,List<String[]> newEdges) {
-		System.out.println("I am updating");
 		Iterator<String> itClose=newClosedNodes.iterator();
 		//I Check its opened nodes
 		for(int i=0;i<newOpenedNodes.size();i++) {
@@ -193,5 +194,30 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 	}
 	public void setType(int t) {
 		this.type=t;
+	}
+
+	public List<Couple<String,List<Couple<Observation,Integer>>>>  getObjetcsFound() {
+		return objetcsFound;
+	}
+
+	public void setObjetcsFound(List<Couple<String,List<Couple<Observation,Integer>>>>  objetcsFound) {
+		this.objetcsFound = objetcsFound;
+	}
+	public void addObjectFound(Couple<String,List<Couple<Observation,Integer>>> e) {
+		if(!this.objetcsFound.contains(e)) {
+			this.objetcsFound.add(e);
+		}
+	}
+	
+	public void addObjectsFound(List<Couple<String,List<Couple<Observation,Integer>>>> e) {
+		for(int i=0;i<e.size();i++) {
+			this.objetcsFound.add(e.get(i));
+		}
+	}
+	public void deleteObjectFound(Couple<String,List<Couple<Observation,Integer>>>  e) {
+		this.objetcsFound.remove(e);
+	}
+	public List<String> getSPath(String idFrom,String idTo){
+		return this.map.getShortestPath(idFrom, idTo);
 	}
 }

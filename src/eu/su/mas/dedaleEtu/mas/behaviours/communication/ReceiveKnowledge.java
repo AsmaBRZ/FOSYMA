@@ -24,7 +24,6 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 		final MessageTemplate msgTemplate = MessageTemplate.MatchPerformative(ACLMessage.INFORM);			
 		final ACLMessage msg = myAgent.receive(msgTemplate);
 		
-		System.out.println("Agent \"+agent.getLocalName()"+ "before testing msg!=null");
 		if (msg != null) {	
 			//System.out.println("Agent \"+agent.getLocalName()"+ "in testing msg!=null");
 			//System.out.println(agent.getLocalName()+"<----Result received from "+msg.getSender().getLocalName());

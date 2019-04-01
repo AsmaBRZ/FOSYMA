@@ -10,8 +10,7 @@ import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
-import jade.core.behaviours.SimpleBehaviour;
-import jade.core.behaviours.TickerBehaviour;
+
 import jade.lang.acl.ACLMessage;
 
 /**
@@ -42,7 +41,6 @@ public class SendKnwoledge extends OneShotBehaviour{
 	@Override
 	public void action() {	
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
-
 		//A message is defined by : a performative, a sender, a set of receivers, (a protocol),(a content (and/or contentOBject))
 		ACLMessage msg;
 		if (myPosition!=""){
@@ -54,7 +52,7 @@ public class SendKnwoledge extends OneShotBehaviour{
 				this.edges=((ExploratorAgent)agent).getMap().getEdges();
 				Object[] mk= {myPosition,openNodes,closedNodes,edges};
 				for(int i=0;i<this.receivers.size();i++) {
-					System.out.println("Agent "+agent.getLocalName()+ " message send to"+this.receivers.get(i));
+					//System.out.println("Agent "+agent.getLocalName()+ " message send to"+this.receivers.get(i));
 					msg=new ACLMessage(ACLMessage.INFORM);
 					msg.setSender(this.myAgent.getAID());
 					msg.setProtocol("UselessProtocol");
