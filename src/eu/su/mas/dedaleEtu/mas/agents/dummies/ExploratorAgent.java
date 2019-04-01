@@ -57,7 +57,8 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 		fsm = new FSMBehaviour(this);
 		// Define the different states and behaviours
 		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
-		fsm.registerState (new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes),sendKnow);
+		//fsm.registerState (new SendKnwoledge(this,receivers.get(0),this.openedNodes,this.closedNodes),sendKnow);
+		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
 		
 		fsm.registerDefaultTransition(explore,sendKnow);

@@ -17,6 +17,7 @@ import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 import org.junit.Assert;
 import jade.wrapper.AgentContainer;
+import java.util.*;
 
 
 /**
@@ -296,30 +297,35 @@ public class Principal {
 //		
 //		//4) Give the class name of your agent to let the system instantiate it
 //		ag=createNewDedaleAgent(c, agentName, DummyWumpusShift.class.getName(), entityParameters);
-//		agentList.add(ag);	
+//		agentList.add(ag);
 		
-		/*********
-		 * AGENT Explo1
-		 *********/
-		//1) Get the container where the agent will appear
-		c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
-		Assert.assertNotNull("This container does not exist",c);
+		int nbAgents=3;
+		List<AbstractDedaleAgent> myAgents=new ArrayList<AbstractDedaleAgent >();
+		List<String> friends=new ArrayList<String>();
+		for(int j=1;j<=nbAgents;j++) {
+			friends.add("e"+j);
+		}
+		for(int i=1;i<=nbAgents;i++) {
+			//1) Get the container where the agent will appear
+			c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
+			Assert.assertNotNull("This container does not exist",c);
+			//2) Give the name of your agent, MUST be the same as the one given in the entities file.
+			agentName="e"+i;
+			List<String> myFriends=new ArrayList<String>(friends);
+			myFriends.remove("e"+i);
+			System.out.println("friend of "+agentName+" are:"+myFriends.toString());
+			Object [] entityParameters2={myFriends};
+			//4) Give the class name of your agent to let the system instantiate it
+			//ag=createNewDedaleAgent(c, agentName, DummyMovingAgent.class.getName(), entityParameters2);
+			ag=createNewDedaleAgent(c, agentName, ExploratorAgent.class.getName(), entityParameters2);
+			agentList.add(ag);
+		}
 		
-		//2) Give the name of your agent, MUST be the same as the one given in the entities file.
-		agentName="e1";
 		
-		List<String> data2=new ArrayList<String>();
-		data2.add("e2");
-    	Object [] entityParameters2={data2};
-		
-		//4) Give the class name of your agent to let the system instantiate it
-		//ag=createNewDedaleAgent(c, agentName, DummyMovingAgent.class.getName(), entityParameters2);
-		ag=createNewDedaleAgent(c, agentName, ExploratorAgent.class.getName(), entityParameters2);
-		agentList.add(ag);
 		
 		/*********
 		 * AGENT Explo2
-		 *********/
+		 *********//*
 		//1) Get the container where the agent will appear
 		c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
 		Assert.assertNotNull("This container does not exist",c);
@@ -336,7 +342,7 @@ public class Principal {
 		ag=createNewDedaleAgent(c, agentName, ExploratorAgent.class.getName(), entityParameters3);
 		agentList.add(ag);
 		
-		
+		*/
 		/*********
 		 * AGENT Collect 1
 		 *********/
@@ -449,9 +455,3 @@ public class Principal {
 		return res;
 	}
 }
-
-
-
-
-
-

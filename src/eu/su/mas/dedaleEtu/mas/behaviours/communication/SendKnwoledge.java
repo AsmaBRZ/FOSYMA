@@ -30,11 +30,12 @@ public class SendKnwoledge extends OneShotBehaviour{
 	private Set<String> closedNodes;
 	private List<String[]> edges;
 	private boolean finished= false;
-	private String receiver;
-	public SendKnwoledge (final Agent myagent,String r ,List<String> openNodes ,Set<String> closedNodes) {
+	//private String receiver;
+	private List<String> receivers;
+	public SendKnwoledge (final Agent myagent,List<String> r ,List<String> openNodes ,Set<String> closedNodes) {
 		super();
 		this.agent=myagent;
-		this.receiver=r;
+		this.receivers=r;
 		this.openNodes=openNodes;
 		this.closedNodes=closedNodes;
 	}
@@ -43,18 +44,26 @@ public class SendKnwoledge extends OneShotBehaviour{
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 
 		//A message is defined by : a performative, a sender, a set of receivers, (a protocol),(a content (and/or contentOBject))
-		ACLMessage msg=new ACLMessage(ACLMessage.INFORM);
-		msg.setSender(this.myAgent.getAID());
-		msg.setProtocol("UselessProtocol");
-
+		ACLMessage msg;
 		if (myPosition!=""){
 			System.out.println("Agent "+agent.getLocalName()+ " is trying to reach its friends");
 			try {
 				//Creation of message's content
 				//MessageKnowledge mk=new MessageKnowledge(myMap,openNodes,closedNodes);
+				
 				this.edges=((ExploratorAgent)agent).getMap().getEdges();
 				Object[] mk= {myPosition,openNodes,closedNodes,edges};
-				System.out.println("*******************ENVOI***************************");	
+				for(int i=0;i<this.receivers.size();i++) {
+					System.out.println("Agent "+agent.getLocalName()+ " message send to"+this.receivers.get(i));
+					msg=new ACLMessage(ACLMessage.INFORM);
+					msg.setSender(this.myAgent.getAID());
+					msg.setProtocol("UselessProtocol");
+					msg.setContentObject(mk);
+					msg.addReceiver(new AID(this.receivers.get(i),AID.ISLOCALNAME));
+					((AbstractDedaleAgent)agent).sendMessage(msg);
+				}
+				
+				/*System.out.println("*******************ENVOI***************************");	
 				System.out.println("position");
 				System.out.println(myPosition);
 				System.out.println("open");
@@ -66,17 +75,16 @@ public class SendKnwoledge extends OneShotBehaviour{
 					System.out.println("i="+i+" "+edges.get(i)[0]);
 					System.out.println("i="+i+" "+edges.get(i)[1]);
 				}
-				System.out.println("***********************************************");
-				msg.setContentObject(mk);
+				System.out.println("***********************************************");*/
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			msg.addReceiver(new AID(this.receiver,AID.ISLOCALNAME));
+			
 			//Mandatory to use this method (it takes into account the environment to decide if someone is reachable or not)
 			//System.out.println("Agent" +agent.getLocalName()+ "Before send");
 
-			((AbstractDedaleAgent)agent).sendMessage(msg);
+			
 			//System.out.println("Agent "+agent.getLocalName()+ "After send");
 			//finished=true;
 		}
