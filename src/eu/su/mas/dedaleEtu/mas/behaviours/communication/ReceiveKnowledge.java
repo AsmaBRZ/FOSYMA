@@ -52,8 +52,15 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 			}
 		}
 		if(((MyAgent)this.myAgent).getType()==2) {
-			this.exitValue=2;
-			System.out.println("Receive: collection!");
+			if(this.myAgent.getLocalName().contentEquals("e1")) {
+				System.out.println("Je vais collecter Agent1!");
+				this.exitValue=2;
+			}
+			else {
+				System.out.println("Je ne vais pas collecter!");
+				this.exitValue=4;
+			}
+			
 		}
 		if(((MyAgent)this.myAgent).getType()==1) {
 			this.exitValue=1;

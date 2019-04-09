@@ -1,5 +1,5 @@
 mapname:noNameMonoAgentExplo
-agentExplo:e1:3:free:-1:-1:3:0:3
-agentExplo:e2:3:free:-1:-1:3:0:3
-agentExplo:e3:3:free:-1:-1:3:0:3
-agentExplo:e4:3:free:-1:-1:3:0:3
+agentExplo:e1:3:free:1:-1:3:0:3
+agentExplo:e2:3:free:1:-1:3:0:3
+agentExplo:e3:3:free:1:-1:3:0:3
+agentExplo:e4:3:free:1:-1:3:0:3

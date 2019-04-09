@@ -2,6 +2,7 @@ package eu.su.mas.dedaleEtu.mas.agents.dummies;
 import java.util.Iterator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.graphstream.graph.Node;
@@ -210,6 +211,33 @@ public class MyAgent extends AbstractDedaleAgent   {
 				this.objetcsFound.add(newObjsFound.get(i));
 			}
 		}
+	}
+	public List<String>getTheNearestTrs(String myPosition) {
+		List<String>  pathToTarget;
+		List<Couple<String,List<Couple<Observation,Integer>>>> obj=this.objetcsFound;
+		List<String> myTargets=new ArrayList<String>();	
+		for(int i=0;i<obj.size();i++) {
+			String pos=obj.get(i).getLeft();
+			List<Couple<Observation,Integer>> element=obj.get(i).getRight();
+			myTargets.add(pos);
+		}
+		//Cette liste contient les distances vers tous les noeuds contenant des trésros
+		List<Integer> listDistToTre=new ArrayList<Integer>();
+		List<List<String>> listPathToTarget=new ArrayList<List<String>>();
+		for(int i=0;i<myTargets.size();i++) {
+			//je calcule le chemin le plus plus courts vers mon node myTargets[i]
+			pathToTarget=getSPath(myPosition, myTargets.get(i));
+			listDistToTre.add(pathToTarget.size());	
+			listPathToTarget.add(pathToTarget);	
+		}
+		//recuperer l'index du noeud le plus proche
+		int minDis = Collections.min(listDistToTre); 
+		Integer minId = listDistToTre.indexOf(minDis);
+		//Je recupre mon noeud but contenant le tresorle plus proche de moi
+		String target=myTargets.get(minId);
+		//je recupere le chemin vers mon target
+		pathToTarget=listPathToTarget.get(minId);
+		return  pathToTarget;
 	}
 	public List<String> getSPath(String idFrom,String idTo){
 		return this.map.getShortestPath(idFrom, idTo);

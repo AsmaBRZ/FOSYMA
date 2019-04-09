@@ -52,9 +52,7 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 		if (myPosition!=null){
 			//List of observable from the agent's current position
-			//System.out.println(agent.getLocalName()+" Before** "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
-			//System.out.println(agent.getLocalName()+" After **"+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
 			//If there are any observations, I add them to my list of objects found
 			for(int i=0;i<lobs.size();i++){
 				Couple<String,List<Couple<Observation,Integer>>> element=lobs.get(i);
@@ -62,10 +60,6 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 					((MyAgent)this.myAgent).addObjectFound(element);
 				}
 			}
-			//System.out.println("My list:"+((ExploratorAgent)this.myAgent).getObjetcsFound().toString());
-			/**
-			 * Just added here to let you see what the agent is doing, otherwise he will be too quick
-			 */
 			try {
 				this.myAgent.doWait(2000);
 			} catch (Exception e) {

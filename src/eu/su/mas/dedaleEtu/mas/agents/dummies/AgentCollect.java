@@ -1,6 +1,8 @@
 package eu.su.mas.dedaleEtu.mas.agents.dummies;
 import eu.su.mas.dedaleEtu.mas.behaviours.CollectBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.ExploSoloBehaviour;
+import eu.su.mas.dedaleEtu.mas.behaviours.RandomSearchBehaviour;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +30,7 @@ public class AgentCollect  extends MyAgent {
 	private static final String sendKnow="SendKnowledge";
 	private static final String receiveKnow="ReceiveKnowledge";
 	private static final String mandatory="startMyBehaviours";
+	private static final String randomSearch="RandomSearchBehaviour";
 	private FSMBehaviour fsm ;
 	
 	@SuppressWarnings("unchecked")
@@ -47,6 +50,7 @@ public class AgentCollect  extends MyAgent {
 		fsm = new FSMBehaviour(this);
 		// Define the different states and behaviours
 		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
+		fsm.registerState (new RandomSearchBehaviour(this), randomSearch);
 		fsm.registerState (new CollectBehaviour(this), collect);
 		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
@@ -56,6 +60,8 @@ public class AgentCollect  extends MyAgent {
 		fsm.registerDefaultTransition(collect,sendKnow);
 		fsm.registerTransition(receiveKnow,explore,1);
 		fsm.registerTransition(receiveKnow,collect,2);
+		fsm.registerTransition(receiveKnow,randomSearch,4);
+		fsm.registerDefaultTransition(randomSearch,randomSearch);
 	    lb=new ArrayList<Behaviour>();
 		lb.add(fsm);
 	    /***
