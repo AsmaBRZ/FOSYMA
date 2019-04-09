@@ -1,4 +1,4 @@
-package eu.su.mas.dedaleEtu.mas.agents.dummies;
+package eu.su.mas.dedaleEtu.mas.behaviours;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +7,8 @@ import java.util.List;
 import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
-import eu.su.mas.dedaleEtu.mas.behaviours.communication.Pair;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
+import eu.su.mas.dedaleEtu.mas.behaviours.communication.Triple;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 
@@ -28,9 +29,10 @@ public class CollectBehaviour extends OneShotBehaviour{
 	@Override
 	public void action() {
 		this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
-		List<Couple<String,List<Couple<Observation,Integer>>>> obj=((ExploratorAgent)agent).getObjetcsFound();
+		List<Couple<String,List<Couple<Observation,Integer>>>> obj=((MyAgent)agent).getObjetcsFound();
 		//get the best observation
-		List<Pair<String,Integer>> max_per_couple=new ArrayList<Pair<String,Integer>>();
+		List<Triple<String,Observation,Integer>> max_per_couple=new ArrayList<Triple<String,Observation,Integer>>();
+		
 		for(int i=0;i<obj.size();i++) {
 			//[<Gold, 31>]
 			String pos=obj.get(i).getLeft();
@@ -43,8 +45,10 @@ public class CollectBehaviour extends OneShotBehaviour{
 			//get observation with max value
 			int maxVal = Collections.max(list); 
 			Integer maxIdx = list.indexOf(maxVal);
+			//search for observation associated
+			
 			//add best pair from a couple<>
-			Pair<String,Integer> p=new Pair<String,Integer>(pos,maxIdx);
+			Triple<String,Observation,Integer> p=new Triple<String,Observation,Integer>(pos,element.get(maxIdx).getLeft(),maxIdx);
 			max_per_couple.add(p);
 		}
 		//search for the best observation 
@@ -54,19 +58,27 @@ public class CollectBehaviour extends OneShotBehaviour{
 		}
 		int maxVal = Collections.max(total); 
 		Integer maxIdx = total.indexOf(maxVal);
-		Pair<String,Integer>  target =max_per_couple.get(maxIdx);
+		Triple<String,Observation,Integer>  target =max_per_couple.get(maxIdx);
 		System.out.println("my target is"+target.getLeft());
-		List<String>  pathToTarget=((ExploratorAgent)this.agent).getSPath(this.myPosition, target.getLeft());
-		System.out.println("mon graphe"+((ExploratorAgent)this.agent).getMap().getNodes().toString());/*
-		//System.out.println("Path to target"+pathToTarget);
-		System.out.println("Ma liste"+pathToTarget.size());
+		List<String>  pathToTarget=((MyAgent)this.agent).getSPath(this.myPosition, target.getLeft());
 		boolean suc=true;
 		int k=0;
 		while(suc==true && k<pathToTarget.size()) {
-			((ExploratorAgent)this.agent).moveTo(pathToTarget.get(k));
-			System.out.println("we go too"+pathToTarget.get(k));
+			((MyAgent)this.agent).moveTo(pathToTarget.get(k));
+			System.out.println("we go o o"+pathToTarget.get(k));
 			k++;
-		}*/
+		}
+		this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
+		//I am on my goal
+		
+		//remove the obj if success: picking it
+		//check if I am pretty well in my target
+		
+		if(this.myPosition==target.getLeft()) {
+			//try to pick it
+			System.out.println("Im on my goal youhouu !");
+			//((ExploratorAgent)agent).removeObjectFound(target);
+		}
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {

@@ -1,5 +1,6 @@
 package eu.su.mas.dedaleEtu.mas.behaviours;
-import eu.su.mas.dedaleEtu.mas.agents.dummies.ExploratorAgent;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation;
 import jade.core.Agent;
 import java.util.Iterator;
@@ -8,9 +9,7 @@ import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;	
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation.MapAttribute;
-import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.OneShotBehaviour;
-import jade.core.behaviours.SimpleBehaviour;
 
 
 /**
@@ -26,41 +25,41 @@ import jade.core.behaviours.SimpleBehaviour;
  *
  */
 public class ExploSoloBehaviour extends OneShotBehaviour{
-	private boolean finished=false;
 	private static final long serialVersionUID = 8567689731496787661L;
 	private int exitValue;
 	/**
 	 * Current knowledge of the agent regarding the environment
 	 */
 	private Agent agent;
-
 	public ExploSoloBehaviour(final AbstractDedaleAgent myagent) {
 		this.agent=myagent;
 		this.exitValue=1;
 	}
-
 	@Override
 	public void action() {
 		System.out.println(agent.getLocalName()+" I am exploring "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
-		((ExploratorAgent) agent).addHist(((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
-		List<String> hist=((ExploratorAgent) agent).getHist();
+		//System.out.println(agent.getLocalName()+" My list of open nodes"+((MyAgent)this.myAgent).getOpenedNodes().toString());
+		((MyAgent) agent).addHist(((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
+		List<String> hist=((MyAgent) agent).getHist();
 		int N=hist.size();
 		if((N>1 && hist.get(N-1)==hist.get(N-2))){//and list open not empty
 			//interblocage --> informer les agents qui sont dans l'interblocage		
 		}
-		if(((ExploratorAgent)agent).getMap()==null)
-			((ExploratorAgent)agent).setMap(new MapRepresentation());
+		if(((MyAgent)agent).getMap()==null)
+			((MyAgent)agent).setMap(new MapRepresentation());
 
 		//0) Retrieve the current position
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 		if (myPosition!=null){
 			//List of observable from the agent's current position
+			//System.out.println(agent.getLocalName()+" Before** "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
+			//System.out.println(agent.getLocalName()+" After **"+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
 			//If there are any observations, I add them to my list of objects found
 			for(int i=0;i<lobs.size();i++){
 				Couple<String,List<Couple<Observation,Integer>>> element=lobs.get(i);
 				if(!element.getRight().isEmpty()) {
-					((ExploratorAgent)this.myAgent).addObjectFound(element);
+					((MyAgent)this.myAgent).addObjectFound(element);
 				}
 			}
 			//System.out.println("My list:"+((ExploratorAgent)this.myAgent).getObjetcsFound().toString());
@@ -74,25 +73,25 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 			}
 
 			//1) remove the current node from openlist and add it to closedNodes.
-			((ExploratorAgent)agent).addClosedNode(myPosition);
-			((ExploratorAgent)agent).removeOpenedNode(myPosition);
-			((ExploratorAgent)agent).addNodeMap(myPosition);
+			((MyAgent)agent).addClosedNode(myPosition);
+			((MyAgent)agent).removeOpenedNode(myPosition);
+			((MyAgent)agent).addNodeMap(myPosition);
 
 			//2) get the surrounding nodes and, if not in closedNodes, add them to open nodes.
 			String nextNode=null;
 			Iterator<Couple<String, List<Couple<Observation, Integer>>>> iter=lobs.iterator();
 			while(iter.hasNext()){
 				String nodeId=iter.next().getLeft();
-				if (!((ExploratorAgent)agent).containsClosedNode(nodeId)){
+				if (!((MyAgent)agent).containsClosedNode(nodeId)){
 					//new node W
-					if (!((ExploratorAgent)agent).containsOpenedNode(nodeId)){
-						((ExploratorAgent)agent).addOpenedNode(nodeId);
-						((ExploratorAgent)agent).addNodeMap(nodeId, MapAttribute.open);
-						((ExploratorAgent)agent).addEdgeMap(myPosition, nodeId);
+					if (!((MyAgent)agent).containsOpenedNode(nodeId)){
+						((MyAgent)agent).addOpenedNode(nodeId);
+						((MyAgent)agent).addNodeMap(nodeId, MapAttribute.open);
+						((MyAgent)agent).addEdgeMap(myPosition, nodeId);
 						//add only edge with the node B	
 					}else{
 						//the node exist, but not necessarily the edge
-						((ExploratorAgent)agent).addEdgeMap(myPosition, nodeId);
+						((MyAgent)agent).addEdgeMap(myPosition, nodeId);
 					}
 					if (nextNode==null) nextNode=nodeId;
 				}
@@ -100,10 +99,21 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 
 			//3) while openNodes is not empty, continue.
 
-			if (((ExploratorAgent)agent).isEmptyOpenedNodes()){
+			if (((MyAgent)agent).isEmptyOpenedNodes()){
 				System.out.println("Exploration successufully done, behaviour removed.");
-				this.exitValue=2;
-				((ExploratorAgent)agent).setType(2);
+				//only collector  moves from explo to collect
+				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
+					//System.out.println("I am "+ agent.getClass()+" I Move to collection");
+					this.exitValue=2;
+					((MyAgent)agent).setType(2);
+				}
+				//only explo moves to randaom searching for the moment, 
+				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo) {
+					//System.out.println("I am "+ agent.getClass()+" I Move to random exploration");
+					this.exitValue=3;
+					((MyAgent)agent).setType(3);
+				}
+				
 			}else{
 				//4) select next move.
 				//4.1 If there exist one open node directly reachable, go for it,
@@ -111,7 +121,9 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 				if (nextNode==null){
 					//no directly accessible openNode
 					//chose one, compute the path and take the first step.
-					nextNode=((ExploratorAgent)agent).getShortestPath(myPosition,((ExploratorAgent)agent).getOpenNodes().get(0)).get(0);
+					//System.out.println(agent.getLocalName()+" Before compute"+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
+					nextNode=((MyAgent)agent).getShortestPath(myPosition,((MyAgent)agent).getOpenNodes().get(0)).get(0);
+				//	System.out.println(agent.getLocalName()+" After compute "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
 				}
 				((AbstractDedaleAgent)this.myAgent).moveTo(nextNode);
 			}

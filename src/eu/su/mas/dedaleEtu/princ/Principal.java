@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
-import eu.su.mas.dedaleEtu.mas.agents.dummies.ExploratorAgent;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import eu.su.mas.dedale.mas.agents.GateKeeperAgent;
 
 
@@ -276,7 +278,7 @@ public class Principal {
 		
 		/*****************************************************
 		 * 
-		 * 				ADD YOUR AGENTS HERE - As many as you want.
+		 * ADD YOUR AGENTS HERE - As many as you want.
 		 * Any agent added here should have its associated configuration available in the entities file 
 		 * 
 		 *****************************************************/
@@ -299,12 +301,13 @@ public class Principal {
 //		ag=createNewDedaleAgent(c, agentName, DummyWumpusShift.class.getName(), entityParameters);
 //		agentList.add(ag);
 		
-		int nbAgents=2;
-		List<AbstractDedaleAgent> myAgents=new ArrayList<AbstractDedaleAgent >();
+		int nbAgents=4;
+		List<AbstractDedaleAgent> myAgents=new ArrayList<AbstractDedaleAgent>();
 		List<String> friends=new ArrayList<String>();
 		for(int j=1;j<=nbAgents;j++) {
 			friends.add("e"+j);
 		}
+		System.out.println("*-******************************"+ConfigurationFile.INSTANCE_CONFIGURATION_ENTITIES);
 		for(int i=1;i<=nbAgents;i++) {
 			//1) Get the container where the agent will appear
 			c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
@@ -313,12 +316,16 @@ public class Principal {
 			agentName="e"+i;
 			List<String> myFriends=new ArrayList<String>(friends);
 			myFriends.remove("e"+i);
-			System.out.println("friend of "+agentName+" are:"+myFriends.toString());
+			//System.out.println("friend of "+agentName+" are:"+myFriends.toString());
 			//3) If you want to give specific parameters to your agent, add them here
 			Object [] entityParameters2={myFriends};
 			//4) Give the class name of your agent to let the system instantiate it
-			//ag=createNewDedaleAgent(c, agentName, DummyMovingAgent.class.getName(), entityParameters2);
-			ag=createNewDedaleAgent(c, agentName, ExploratorAgent.class.getName(), entityParameters2);
+			if(i>nbAgents) {
+				ag=createNewDedaleAgent(c, agentName, AgentCollect.class.getName(), entityParameters2);
+			}
+			else {
+				ag=createNewDedaleAgent(c, agentName, AgentCollect.class.getName(), entityParameters2);
+			}
 			agentList.add(ag);
 		}
 		

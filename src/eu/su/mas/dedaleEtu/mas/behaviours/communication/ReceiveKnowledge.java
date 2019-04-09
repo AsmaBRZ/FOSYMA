@@ -2,7 +2,9 @@ package eu.su.mas.dedaleEtu.mas.behaviours.communication;
 import java.util.List;
 import java.util.Set;
 
-import eu.su.mas.dedaleEtu.mas.agents.dummies.ExploratorAgent;
+import dataStructures.tuple.Couple;
+import eu.su.mas.dedale.env.Observation;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.SimpleBehaviour;
@@ -37,25 +39,23 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 				List<String> openNodes=(List<String>)content[1];
 				Set<String> closedNodes=(Set<String>)content[2];
 				List<String[]> edges=(List<String[]>)content[3];
-				((ExploratorAgent) myAgent).updateKnowledge(positionReceived,openNodes,closedNodes,edges);
+				//List<Couple<String,List<Couple<Observation,Integer>>>> newObjsFound=(List<Couple<String,List<Couple<Observation,Integer>>>> )content[4];;
+				((MyAgent) myAgent).updateKnowledge(positionReceived,openNodes,closedNodes,edges);
+				//System.out.println("before update receive: "+((MyAgent)this.myAgent).getObjetcsFound().toString());
+				//((MyAgent) myAgent).updateObjsFound(newObjsFound);
+				//System.out.println("On receive:"+newObjsFound.toString());
+				//System.out.println("after update receive: "+((MyAgent)this.myAgent).getObjetcsFound().toString());
 				
 			} catch (UnreadableException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else{
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
 		}
-		if(((ExploratorAgent)this.myAgent).getType()==2) {
+		if(((MyAgent)this.myAgent).getType()==2) {
 			this.exitValue=2;
 			System.out.println("Receive: collection!");
 		}
-		if(((ExploratorAgent)this.myAgent).getType()==1) {
+		if(((MyAgent)this.myAgent).getType()==1) {
 			this.exitValue=1;
 			System.out.println("Receive: exploration!");
 		}

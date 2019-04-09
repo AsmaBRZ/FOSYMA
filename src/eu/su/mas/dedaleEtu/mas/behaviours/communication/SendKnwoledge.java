@@ -3,8 +3,10 @@ package eu.su.mas.dedaleEtu.mas.behaviours.communication;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import eu.su.mas.dedaleEtu.mas.agents.dummies.ExploratorAgent;
 
+import dataStructures.tuple.Couple;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
+import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation;
 import jade.core.AID;
@@ -48,8 +50,9 @@ public class SendKnwoledge extends OneShotBehaviour{
 			try {
 				//Creation of message's content
 				//MessageKnowledge mk=new MessageKnowledge(myMap,openNodes,closedNodes);
-				
-				this.edges=((ExploratorAgent)agent).getMap().getEdges();
+				List<Couple<String,List<Couple<Observation,Integer>>>>  objectsFound=((MyAgent)this.agent).getObjetcsFound();
+				this.edges=((MyAgent)agent).getMap().getEdges();
+				//Object[] mk= {myPosition,openNodes,closedNodes,edges,objectsFound};
 				Object[] mk= {myPosition,openNodes,closedNodes,edges};
 				for(int i=0;i<this.receivers.size();i++) {
 					//System.out.println("Agent "+agent.getLocalName()+ " message send to"+this.receivers.get(i));

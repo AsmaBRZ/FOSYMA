@@ -5,7 +5,7 @@ import java.util.Set;
 
 import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;
-import eu.su.mas.dedaleEtu.mas.agents.dummies.ExploratorAgent;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -33,7 +33,7 @@ public class ReceiveObs  extends OneShotBehaviour{
 				System.out.println(content[0]);
 				System.out.println("***********************************************");
 				List<Couple<String,List<Couple<Observation,Integer>>>> newObj=(List<Couple<String,List<Couple<Observation,Integer>>>> ) content[0];
-				((ExploratorAgent) myAgent).addObjectsFound(newObj);
+				((MyAgent) myAgent).addObjectsFound(newObj);
 				
 			} catch (UnreadableException e) {
 				// TODO Auto-generated catch block

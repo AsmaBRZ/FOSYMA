@@ -121,6 +121,7 @@ public class MapRepresentation implements Serializable {
 		while (iter.hasNext()){
 			shortestPath.add(iter.next().getId());
 		}
+		//System.out.println("path"+shortestPath.toString());
 		dijkstra.clear();
 		shortestPath.remove(0);//remove the current position
 		return shortestPath;

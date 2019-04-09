@@ -1,84 +1,45 @@
 package eu.su.mas.dedaleEtu.mas.agents.dummies;
 import java.util.Iterator;
 
-import eu.su.mas.dedaleEtu.mas.behaviours.ExploSoloBehaviour;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.graphstream.graph.Node;
-
 import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
-import eu.su.mas.dedale.mas.agent.behaviours.startMyBehaviours;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation.MapAttribute;
-import eu.su.mas.dedaleEtu.mas.behaviours.communication.ReceiveKnowledge;
-import eu.su.mas.dedaleEtu.mas.behaviours.communication.SendKnwoledge;
+import eu.su.mas.dedaleEtu.mas.behaviours.communication.Triple;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.FSMBehaviour;
-public class ExploratorAgent  extends AbstractDedaleAgent   {
+public class MyAgent extends AbstractDedaleAgent   {
+	//agentName
+	//communicationRange
+	//initialLocation
+	//BackPackCapacityGold
+	//BackPackCapacityDiamond
+	//detectionRadius
+	//strengthExpertise
+	//LockPickingExpertise
 	private static final long serialVersionUID = 2384524762066236260L;
     //Current knowledge of the agent regarding the environment
-	private MapRepresentation map;
+	protected MapRepresentation map;
 	//Nodes known but not yet visited
-	private List<String> openedNodes;
+	protected List<String> openedNodes;
 	//Visited nodes
-	private Set<String> closedNodes;
+	protected Set<String> closedNodes;
 	//List of receivers
 	protected List<String> receivers;
-	private List<String> myHistory=new ArrayList<String>();
-	private List<Behaviour> lb;
+	protected List<String> myHistory=new ArrayList<String>();
+	protected List<Behaviour> lb;
 	//type 1:Explore 2:collect
-	private int type=1;
-	private List<Couple<String,List<Couple<Observation,Integer>>>> objetcsFound;
-	
-	//Definition of states
-	private static final String explore="ExploSoloBehaviour";
-	private static final String collect="CollectBehaviour";
-	private static final String sendKnow="SendKnowledge";
-	private static final String receiveKnow="ReceiveKnowledge";
-	//private static final String ping="Ping";
-	//private static final String receivePing="ReceivePing";
-	private static final String mandatory="startMyBehaviours";
-	private FSMBehaviour fsm ;
-	
-	@SuppressWarnings("unchecked")
+	protected int type=1;
+	protected List<Couple<String,List<Couple<Observation,Integer>>>> objetcsFound;
+	protected FSMBehaviour fsm ;
+	protected String role;
 	protected void setup(){
 		super.setup();	
-		this.objetcsFound=new ArrayList<Couple<String,List<Couple<Observation,Integer>>>> ();
-		this.openedNodes=new ArrayList<String>();
-		this.closedNodes=new HashSet<String>();
-		//get the parameters given into the object[]
-		final Object[] args = getArguments();
-		if(args[0]!=null){
-			receivers = (List<String>) args[2];
-			//these data are currently not used by the agent, its just to show you how to get them if you need it 
-		}else{
-			System.out.println("Erreur lors du tranfert des parametres");
-		}		
-		fsm = new FSMBehaviour(this);
-		// Define the different states and behaviours
-		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
-		
-		fsm.registerState (new CollectBehaviour(this), collect);
-		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
-		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
-		fsm.registerTransition(explore,sendKnow,1);
-		fsm.registerTransition(explore,collect,2);
-		fsm.registerDefaultTransition(sendKnow,receiveKnow);
-		fsm.registerDefaultTransition(collect,collect);
-		fsm.registerTransition(receiveKnow,explore,1);
-		fsm.registerTransition(receiveKnow,collect,2);
-	    lb=new ArrayList<Behaviour>();
-		lb.add(fsm);
-	    /***
-	     * MANDATORY TO ALLOW YOUR AGENT TO BE DEPLOYED CORRECTLY
-	    */
-	 	addBehaviour(new startMyBehaviours(this,lb));	
-	 	System.out.println("the  agent "+this.getLocalName()+ " is started");
 	}
 
 	public MapRepresentation getMap() {
@@ -214,10 +175,69 @@ public class ExploratorAgent  extends AbstractDedaleAgent   {
 			this.objetcsFound.add(e.get(i));
 		}
 	}
-	public void deleteObjectFound(Couple<String,List<Couple<Observation,Integer>>>  e) {
+	public void removeObjectsFound(Couple<String,List<Couple<Observation,Integer>>>  e) {
 		this.objetcsFound.remove(e);
+	}
+	//remove observation from my list if I succeed picking it
+	public void removeObjectFound(Triple<String,Observation,Integer> e) {
+		String node=e.getLeft();
+		Observation myObservation=e.getMiddle();
+		Integer value=e.getRight();
+		//List<Couple<String,List<Couple<Observation,Integer>>>>
+		//je boucle sur les couples <String,List<Couple<Observation,Integer>>
+		for(int i=0;i<this.objetcsFound.size();i++) {
+			//<Couple<String,List<Couple<Observation,Integer>>>
+			//je recupere la liste de chaque couple
+			String target=this.objetcsFound.get(i).getLeft();
+			if(target==node) {
+				//serach for the observation
+				for(int j=0;j<this.objetcsFound.get(i).getRight().size();j++) {
+					// Couple<Observation,Integer>
+					Observation obs=this.objetcsFound.get(i).getRight().get(j).getLeft();
+					Integer val=this.objetcsFound.get(i).getRight().get(j).getRight();
+					if(obs.equals(myObservation ) && val==value) {
+						//we delete the observation that we picked ! 
+						Couple<Observation,Integer> coupleToRemove= this.objetcsFound.get(i).getRight().get(j);
+						this.objetcsFound.get(i).getRight().remove(coupleToRemove);
+					}
+				}	
+			}
+		}
+	}
+	public void updateObjsFound(List<Couple<String,List<Couple<Observation,Integer>>>> newObjsFound) {
+		for (int i=0;i<newObjsFound.size();i++) {
+			if(!this.objetcsFound.contains(newObjsFound.get(i))) {
+				this.objetcsFound.add(newObjsFound.get(i));
+			}
+		}
 	}
 	public List<String> getSPath(String idFrom,String idTo){
 		return this.map.getShortestPath(idFrom, idTo);
 	}
+
+	public List<String> getReceivers() {
+		return receivers;
+	}
+
+	public void setReceivers(List<String> receivers) {
+		this.receivers = receivers;
+	}
+
+	public FSMBehaviour getFsm() {
+		return fsm;
+	}
+
+	public void setFsm(FSMBehaviour fsm) {
+		this.fsm = fsm;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	
 }

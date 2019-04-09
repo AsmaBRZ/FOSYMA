@@ -5,7 +5,7 @@ import java.util.List;
 import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
-import eu.su.mas.dedaleEtu.mas.agents.dummies.ExploratorAgent;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
@@ -21,7 +21,7 @@ public class SendObs  extends OneShotBehaviour{
 		super();
 		this.receivers = receivers;
 		this.agent = agent;
-		this.objetcsFound = ((ExploratorAgent) this.agent).getObjetcsFound();
+		this.objetcsFound = ((MyAgent) this.agent).getObjetcsFound();
 	}
 	@Override
 	public void action() {
