@@ -25,7 +25,6 @@ public class AskHelpCollect extends OneShotBehaviour {
 			System.out.println("Agent "+agent.getLocalName()+ " is trying to reach its friends");
 			//Object[] mk= {'Collectons',myPosition};
 			for(int i=0;i<this.receivers.size();i++) {
-				
 				msg=new ACLMessage(ACLMessage.REQUEST);
 				msg.setSender(this.myAgent.getAID());
 				msg.setProtocol("UselessProtocol");
