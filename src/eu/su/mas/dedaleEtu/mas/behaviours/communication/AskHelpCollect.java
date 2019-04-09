@@ -1,5 +1,7 @@
 package eu.su.mas.dedaleEtu.mas.behaviours.communication;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
@@ -23,12 +25,19 @@ public class AskHelpCollect extends OneShotBehaviour {
 		ACLMessage msg;
 		if (myPosition!=""){
 			System.out.println("Agent "+agent.getLocalName()+ " is trying to reach its friends");
-			//Object[] mk= {'Collectons',myPosition};
+			List<String> position=new ArrayList<String>();
+			position.add(myPosition);
+			Object[] mk= {position};
 			for(int i=0;i<this.receivers.size();i++) {
 				msg=new ACLMessage(ACLMessage.REQUEST);
 				msg.setSender(this.myAgent.getAID());
 				msg.setProtocol("UselessProtocol");
-				//msg.setContentObject("Collectons");
+				try {
+					msg.setContentObject(mk);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				msg.addReceiver(new AID(this.receivers.get(i),AID.ISLOCALNAME));
 				((AbstractDedaleAgent)agent).sendMessage(msg);
 			}

@@ -9,6 +9,7 @@ import java.util.List;
 import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.agent.behaviours.startMyBehaviours;
+import eu.su.mas.dedaleEtu.mas.behaviours.communication.AskHelpCollect;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.ReceiveKnowledge;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.SendKnwoledge;
 import jade.core.behaviours.Behaviour;
@@ -31,6 +32,7 @@ public class AgentCollect  extends MyAgent {
 	private static final String receiveKnow="ReceiveKnowledge";
 	private static final String mandatory="startMyBehaviours";
 	private static final String randomSearch="RandomSearchBehaviour";
+	private static final String askToCome="AskToCome";
 	private FSMBehaviour fsm ;
 	
 	@SuppressWarnings("unchecked")
@@ -52,6 +54,8 @@ public class AgentCollect  extends MyAgent {
 		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
 		fsm.registerState (new RandomSearchBehaviour(this), randomSearch);
 		fsm.registerState (new CollectBehaviour(this), collect);
+		fsm.registerState (new AskHelpCollect(this,this.receivers), askToCome);
+	
 		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
 		fsm.registerTransition(explore,sendKnow,1);
