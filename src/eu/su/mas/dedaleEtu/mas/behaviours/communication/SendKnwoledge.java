@@ -52,8 +52,7 @@ public class SendKnwoledge extends OneShotBehaviour{
 				//MessageKnowledge mk=new MessageKnowledge(myMap,openNodes,closedNodes);
 				List<Couple<String,List<Couple<Observation,Integer>>>>  objectsFound=((MyAgent)this.agent).getObjetcsFound();
 				this.edges=((MyAgent)agent).getMap().getEdges();
-				//Object[] mk= {myPosition,openNodes,closedNodes,edges,objectsFound};
-				Object[] mk= {myPosition,openNodes,closedNodes,edges};
+				Object[] mk= {myPosition,openNodes,closedNodes,edges,objectsFound};
 				for(int i=0;i<this.receivers.size();i++) {
 					//System.out.println("Agent "+agent.getLocalName()+ " message send to"+this.receivers.get(i));
 					msg=new ACLMessage(ACLMessage.INFORM);

@@ -24,5 +24,9 @@ public class Triple<L,M,R> {
 	    return this.left.equals(t.getLeft()) &&
 	           this.right.equals(t.getRight()) && this.middle.equals(t.getMiddle());
 	  }
+	@Override
+	public String toString() {
+		return "Triple [left=" + left + ", middle=" + middle + ", right=" + right + "]";
+	}
 
 	}

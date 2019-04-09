@@ -28,7 +28,7 @@ public class AskHelpCollect extends OneShotBehaviour {
 				msg=new ACLMessage(ACLMessage.REQUEST);
 				msg.setSender(this.myAgent.getAID());
 				msg.setProtocol("UselessProtocol");
-				msg.setContent("Collectons");
+				//msg.setContentObject("Collectons");
 				msg.addReceiver(new AID(this.receivers.get(i),AID.ISLOCALNAME));
 				((AbstractDedaleAgent)agent).sendMessage(msg);
 			}

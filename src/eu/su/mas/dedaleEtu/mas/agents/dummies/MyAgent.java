@@ -29,11 +29,11 @@ public class MyAgent extends AbstractDedaleAgent   {
 	protected List<String> openedNodes;
 	//Visited nodes
 	protected Set<String> closedNodes;
-	//List of receivers
+	//List of receivers (agents) 
 	protected List<String> receivers;
 	protected List<String> myHistory=new ArrayList<String>();
 	protected List<Behaviour> lb;
-	//type 1:Explore 2:collect
+	//type 1:Explore 2:collect 3: explore
 	protected int type=1;
 	protected List<Couple<String,List<Couple<Observation,Integer>>>> objetcsFound;
 	protected FSMBehaviour fsm ;

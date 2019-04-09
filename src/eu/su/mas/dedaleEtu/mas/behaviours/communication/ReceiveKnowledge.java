@@ -39,10 +39,10 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 				List<String> openNodes=(List<String>)content[1];
 				Set<String> closedNodes=(Set<String>)content[2];
 				List<String[]> edges=(List<String[]>)content[3];
-				//List<Couple<String,List<Couple<Observation,Integer>>>> newObjsFound=(List<Couple<String,List<Couple<Observation,Integer>>>> )content[4];;
+				List<Couple<String,List<Couple<Observation,Integer>>>> newObjsFound=(List<Couple<String,List<Couple<Observation,Integer>>>> )content[4];;
 				((MyAgent) myAgent).updateKnowledge(positionReceived,openNodes,closedNodes,edges);
 				//System.out.println("before update receive: "+((MyAgent)this.myAgent).getObjetcsFound().toString());
-				//((MyAgent) myAgent).updateObjsFound(newObjsFound);
+				((MyAgent) myAgent).updateObjsFound(newObjsFound);
 				//System.out.println("On receive:"+newObjsFound.toString());
 				//System.out.println("after update receive: "+((MyAgent)this.myAgent).getObjetcsFound().toString());
 				
