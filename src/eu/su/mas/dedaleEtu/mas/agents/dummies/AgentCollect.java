@@ -10,6 +10,7 @@ import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.agent.behaviours.startMyBehaviours;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.AskHelpCollect;
+import eu.su.mas.dedaleEtu.mas.behaviours.communication.ReceiveHelpCollect;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.ReceiveKnowledge;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.SendKnwoledge;
 import jade.core.behaviours.Behaviour;
@@ -32,7 +33,7 @@ public class AgentCollect  extends MyAgent {
 	private static final String receiveKnow="ReceiveKnowledge";
 	private static final String mandatory="startMyBehaviours";
 	private static final String randomSearch="RandomSearchBehaviour";
-	private static final String askToCome="AskToCome";
+	private static final String goToHelp="ReceiveHelpCollect ";
 	private FSMBehaviour fsm ;
 	
 	@SuppressWarnings("unchecked")
@@ -54,18 +55,15 @@ public class AgentCollect  extends MyAgent {
 		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
 		fsm.registerState (new RandomSearchBehaviour(this), randomSearch);
 		fsm.registerState (new CollectBehaviour(this), collect);
-		fsm.registerState (new AskHelpCollect(this,this.receivers), askToCome);
-	
+		fsm.registerState (new ReceiveHelpCollect(this), goToHelp);
 		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
-		fsm.registerTransition(explore,sendKnow,1);
-		fsm.registerTransition(explore,collect,2);
+		fsm.registerDefaultTransition(explore,sendKnow);
 		fsm.registerDefaultTransition(sendKnow,receiveKnow);
-		fsm.registerDefaultTransition(collect,sendKnow);
 		fsm.registerTransition(receiveKnow,explore,1);
 		fsm.registerTransition(receiveKnow,collect,2);
-		fsm.registerTransition(receiveKnow,randomSearch,4);
-		fsm.registerDefaultTransition(randomSearch,randomSearch);
+		fsm.registerDefaultTransition(collect,goToHelp);
+		fsm.registerDefaultTransition(goToHelp,collect);
 	    lb=new ArrayList<Behaviour>();
 		lb.add(fsm);
 	    /***

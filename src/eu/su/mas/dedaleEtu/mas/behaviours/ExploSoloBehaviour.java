@@ -26,14 +26,12 @@ import jade.core.behaviours.OneShotBehaviour;
  */
 public class ExploSoloBehaviour extends OneShotBehaviour{
 	private static final long serialVersionUID = 8567689731496787661L;
-	private int exitValue;
 	/**
 	 * Current knowledge of the agent regarding the environment
 	 */
 	private Agent agent;
 	public ExploSoloBehaviour(final AbstractDedaleAgent myagent) {
 		this.agent=myagent;
-		this.exitValue=1;
 	}
 	@Override
 	public void action() {
@@ -98,14 +96,12 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 				//only collector  moves from explo to collect
 				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
 					//System.out.println("I am "+ agent.getClass()+" I Move to collection");
-					this.exitValue=2;
 					((MyAgent)agent).setType(2);
 				}
-				//only explo moves to randaom searching for the moment, 
+				//only explo moves to randaom searching for the moment :D
 				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo) {
 					//System.out.println("I am "+ agent.getClass()+" I Move to random exploration");
-					this.exitValue=3;
-					((MyAgent)agent).setType(3);
+					((MyAgent)agent).setType(1);
 				}
 				
 			}else{
@@ -125,10 +121,10 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 		//System.out.println("Finished=true");
 		//finished=true;
 	}
-	@Override
+	/*@Override
 	public int onEnd() {
 		return this.exitValue;
-	}
+	}*/
 /*
 	@Override
 	public boolean done() {
