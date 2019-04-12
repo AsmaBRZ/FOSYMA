@@ -27,6 +27,8 @@ public class AskHelpCollect extends OneShotBehaviour {
 			System.out.println("Agent "+agent.getLocalName()+ " is trying to reach its friends");
 			List<String> position=new ArrayList<String>();
 			position.add(myPosition);
+			//quand je suis arrivée à mon target, je demande de laide en envoyant ma position aux autres
+			//agents pour quils viennent
 			Object[] mk= {position};
 			for(int i=0;i<this.receivers.size();i++) {
 				msg=new ACLMessage(ACLMessage.REQUEST);

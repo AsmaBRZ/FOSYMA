@@ -9,6 +9,7 @@ import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.agent.behaviours.startMyBehaviours;
 import eu.su.mas.dedaleEtu.mas.behaviours.ExploSoloBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.RandomSearchBehaviour;
+import eu.su.mas.dedaleEtu.mas.behaviours.communication.ReceiveHelpCollect;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.ReceiveKnowledge;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.SendKnwoledge;
 import jade.core.behaviours.Behaviour;
@@ -33,7 +34,9 @@ public class AgentExplo extends MyAgent{
 	private static final String randomSearch="RandomSearchBehaviour";
 	private static final String sendKnow="SendKnowledge";
 	private static final String receiveKnow="ReceiveKnowledge";
+	private static final String goToHelp="ReceiveHelpCollect ";
 	private static final String mandatory="startMyBehaviours";
+	
 	private FSMBehaviour fsm ;
 	
 	@SuppressWarnings("unchecked")
@@ -54,14 +57,15 @@ public class AgentExplo extends MyAgent{
 		// Define the different states and behaviours
 		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
 		fsm.registerState (new RandomSearchBehaviour(this), randomSearch);
+		fsm.registerState (new ReceiveHelpCollect(this), goToHelp);
 		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
-		fsm.registerTransition(explore,sendKnow,1);
-		fsm.registerTransition(explore,randomSearch,3);
+		fsm.registerDefaultTransition(explore,sendKnow);
 		fsm.registerDefaultTransition(sendKnow,receiveKnow);
 		fsm.registerTransition(receiveKnow,explore,1);
 		fsm.registerTransition(receiveKnow,randomSearch,3);
-		fsm.registerDefaultTransition(randomSearch,sendKnow);
+		fsm.registerDefaultTransition(randomSearch,goToHelp);
+		fsm.registerDefaultTransition(goToHelp,sendKnow);
 		lb=new ArrayList<Behaviour>();
 		lb.add(fsm);
 		/***
