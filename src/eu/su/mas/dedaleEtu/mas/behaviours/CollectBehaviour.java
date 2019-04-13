@@ -29,9 +29,6 @@ public class CollectBehaviour extends OneShotBehaviour{
 	@Override
 	public void action() {
 		List<String>  pathToTarget;
-		if(agent.getLocalName().equals("e1") ){
-			//Je suis l'agent c'est moi qui decide quel trésor chercher
-			System.out.println("Je suis lagent 1 ! "+agent.getLocalName());
 			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
 			pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
 			boolean suc=true;
@@ -72,6 +69,6 @@ public class CollectBehaviour extends OneShotBehaviour{
 				e.printStackTrace();
 			}*/
 			
-		}		
+	
 	}
 }

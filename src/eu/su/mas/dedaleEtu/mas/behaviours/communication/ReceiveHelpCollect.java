@@ -28,14 +28,17 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 
 	@Override
 	public void action() {
-		String myName=this.myAgent.getName();
-		Integer myOrder=Integer.parseInt(myName.substring(1,myName.length()-1));
 		
 		final MessageTemplate msgTemplate = MessageTemplate.MatchPerformative(ACLMessage.INFORM);			
 		final ACLMessage msg = myAgent.receive(msgTemplate);
-		String senderName=msg.getSender().getName();
-		Integer senderOrder=Integer.parseInt(senderName.substring(1,senderName.length()-1));
+		
+		//Integer senderOrder=Integer.parseInt(senderName.substring(1,senderName.length()-1));
 		if (msg != null) {	
+			String myName=((AbstractDedaleAgent)this.myAgent).getLocalName();
+			System.out.println("eeeeeeeeeeeeee"+myName.substring(1,myName.length()-1));
+			String senderName=msg.getSender().getLocalName();
+			//Integer senderOrder=Integer.parseInt(senderName.substring(1,senderName.length()-1));
+			//System.out.println("moimmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmi: "+myOrder+" lui: "+senderOrder);
 			String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 			//System.out.println("Agent \"+agent.getLocalName()"+ "in testing msg!=null");
 			//System.out.println(agent.getLocalName()+"<----Result received from "+msg.getSender().getLocalName());
@@ -51,7 +54,7 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 					}
 				}
 				//si je suis collecteur dont le nom est < au sender
-				else{
+				/*else{
 					if(this.myAgent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo && myOrder<senderOrder) {
 						List<String>  pathToTarget=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget); 
 						for(int k=0;k<pathToTarget.size();k++) {
@@ -59,7 +62,7 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 						}
 				}
 			}
-
+*/
 				
 			} catch (UnreadableException e) {
 				// TODO Auto-generated catch block
