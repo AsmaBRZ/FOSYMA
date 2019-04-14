@@ -51,6 +51,7 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 		if (myPosition!=null){
 			//List of observable from the agent's current position
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
+			//System.out.println(lobs);
 			//If there are any observations, I add them to my list of objects found
 			for(int i=0;i<lobs.size();i++){
 				Couple<String,List<Couple<Observation,Integer>>> element=lobs.get(i);
