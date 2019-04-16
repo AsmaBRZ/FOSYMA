@@ -1,7 +1,9 @@
 package eu.su.mas.dedaleEtu.mas.agents.dummies;
 import eu.su.mas.dedaleEtu.mas.behaviours.CollectBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.ExploSoloBehaviour;
+import eu.su.mas.dedaleEtu.mas.behaviours.MovetoTarget;
 import eu.su.mas.dedaleEtu.mas.behaviours.RandomSearchBehaviour;
+import eu.su.mas.dedaleEtu.mas.behaviours.Donothing;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,6 +36,9 @@ public class AgentCollect  extends MyAgent {
 	private static final String mandatory="startMyBehaviours";
 	private static final String randomSearch="RandomSearchBehaviour";
 	private static final String goToHelp="ReceiveHelpCollect ";
+	private static final String donothing="Donothing ";
+	private static final String movetoTarget="MovetoTarget ";
+
 	private FSMBehaviour fsm ;
 	
 	@SuppressWarnings("unchecked")
@@ -56,14 +61,18 @@ public class AgentCollect  extends MyAgent {
 		fsm.registerState (new RandomSearchBehaviour(this), randomSearch);
 		fsm.registerState (new CollectBehaviour(this), collect);
 		fsm.registerState (new ReceiveHelpCollect(this), goToHelp);
+		fsm.registerLastState (new Donothing(), donothing);
+		fsm.registerState (new MovetoTarget(this,"2_2"), movetoTarget);
 		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
 		fsm.registerDefaultTransition(explore,sendKnow);
 		fsm.registerDefaultTransition(sendKnow,receiveKnow);
 		fsm.registerTransition(receiveKnow,explore,1);
 		fsm.registerTransition(receiveKnow,collect,2);
-		fsm.registerDefaultTransition(collect,goToHelp);
-		fsm.registerDefaultTransition(goToHelp,collect);
+		fsm.registerTransition(collect,movetoTarget,1);
+		fsm.registerTransition(collect,donothing,2 );
+		//fsm.registerDefaultTransition(collect,goToHelp);
+		//fsm.registerDefaultTransition(goToHelp,collect);
 	    lb=new ArrayList<Behaviour>();
 		lb.add(fsm);
 	    /***

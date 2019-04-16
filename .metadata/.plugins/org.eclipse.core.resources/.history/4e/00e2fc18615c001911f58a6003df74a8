@@ -1,0 +1,83 @@
+package eu.su.mas.dedaleEtu.mas.behaviours;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import dataStructures.tuple.Couple;
+import eu.su.mas.dedale.env.Observation;
+import eu.su.mas.dedale.mas.AbstractDedaleAgent;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
+import eu.su.mas.dedaleEtu.mas.behaviours.communication.Triple;
+import jade.core.Agent;
+import jade.core.behaviours.OneShotBehaviour;
+
+public class CollectBehaviour extends OneShotBehaviour{
+
+	/**
+	 * 
+	 */
+	private Agent agent;
+	private String myPosition;
+	private static final long serialVersionUID = -4590903119174947799L;
+
+	public CollectBehaviour(Agent agent) {
+		super();
+		this.agent = agent;
+	}
+
+	@Override
+	public void action() {
+		List<String>  pathToTarget;
+		if(agent.getLocalName().equals("e1") ){
+			//Je suis l'agent c'est moi qui decide quel trésor chercher
+			System.out.println("Je suis lagent 1 ! "+agent.getLocalName());
+			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
+			pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
+			boolean suc=true;
+			int k=0;
+			while(suc==true && k<pathToTarget.size()) {
+				suc=((MyAgent)this.agent).moveTo(pathToTarget.get(k));
+				System.out.println("we go o o"+pathToTarget.get(k));
+				k++;
+			}
+			//Je suis arrivée sur mon target, je verifie qu'il est bien là
+			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.agent).observe();
+			int i=0;
+			boolean trConfirmed=true;
+			while(trConfirmed==true && i<lobs.size()) {
+				//lobs : les observations d'un agent 
+				//lobs.get(i) : j'accède a la i eme observation
+				//lobs.get(i).getLeft() : j'accède au type de la i eme observation
+				System.out.println(lobs);
+				System.out.println(lobs);
+				System.out.println(lobs);
+				if(lobs.get(i).getLeft().contentEquals(this.myPosition)) {
+					System.out.println("J'ai trouvé ma target");
+					if(!lobs.get(i).getRight().isEmpty()) {
+						System.out.println("On a du tresioooor!");
+					}
+				}
+				i++;
+			}
+			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
+			//I am on my goal
+			
+			//remove the obj if success: picking it
+			//check if I am pretty well in my target
+			
+		/*	if(this.myPosition==target)) {
+				//try to pick it
+				System.out.println("Im on my goal youhouu !");
+				//((ExploratorAgent)agent).removeObjectFound(target);
+			}
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+			
+		}		
+	}
+}

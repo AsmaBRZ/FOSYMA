@@ -266,6 +266,24 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	public List<Couple<String,List<Couple<Observation,Integer>>>> treasure_sorted(){
+		List<String> inter= new ArrayList<String>();
+		List<Couple<String,List<Couple<Observation,Integer>>>> tr_sorted = new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
+		for (int i=0;i<this.objetcsFound.size();i++){
+			inter.add(this.objetcsFound.get(i).getLeft());
+		}
+		Collections.sort(inter);
+		for (int j=0;j<inter.size();j++){
+			for (int i=0;i<this.objetcsFound.size();i++){
+				if(this.objetcsFound.get(i).getLeft().equals(inter.get(j))){
+					tr_sorted.add(this.objetcsFound.get(i));
+				}
+			}
+		}
+		//System.out.println(tr_sorted);
+		return tr_sorted;
+		
+	}
 	
 	
 }

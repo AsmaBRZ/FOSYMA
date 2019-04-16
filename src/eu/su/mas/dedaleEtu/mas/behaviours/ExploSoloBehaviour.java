@@ -3,6 +3,9 @@ import eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation;
 import jade.core.Agent;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import dataStructures.tuple.Couple;
@@ -60,7 +63,7 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 				}
 			}
 			try {
-				this.myAgent.doWait(2000);
+				this.myAgent.doWait(100);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -93,15 +96,16 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 			//3) while openNodes is not empty, continue.
 
 			if (((MyAgent)agent).isEmptyOpenedNodes()){
+				((MyAgent)agent).setObjetcsFound(((MyAgent)agent).treasure_sorted());
 				System.out.println("Exploration successufully done, behaviour removed.");
 				//only collector  moves from explo to collect
 				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
-					//System.out.println("I am "+ agent.getClass()+" I Move to collection");
+					System.out.println("I am "+ agent.getName()+" I Move to collection");
 					((MyAgent)agent).setType(2);
 				}
 				//only explo moves to randaom searching for the moment :D
 				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo) {
-					//System.out.println("I am "+ agent.getClass()+" I Move to random exploration");
+					System.out.println("I am "+ agent.getName()+" I Move to random exploration");
 					((MyAgent)agent).setType(1);
 				}
 				
@@ -122,6 +126,7 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 		//System.out.println("Finished=true");
 		//finished=true;
 	}
+	
 	/*@Override
 	public int onEnd() {
 		return this.exitValue;

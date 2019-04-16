@@ -301,7 +301,7 @@ public class Principal {
 //		ag=createNewDedaleAgent(c, agentName, DummyWumpusShift.class.getName(), entityParameters);
 //		agentList.add(ag);
 		
-		int nbAgents=4;
+		int nbAgents=2;
 		List<AbstractDedaleAgent> myAgents=new ArrayList<AbstractDedaleAgent>();
 		List<String> friends=new ArrayList<String>();
 		for(int j=1;j<=nbAgents;j++) {
