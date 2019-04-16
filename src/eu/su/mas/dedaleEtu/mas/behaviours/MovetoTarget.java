@@ -1,5 +1,6 @@
 package eu.su.mas.dedaleEtu.mas.behaviours;
 
+import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
@@ -7,24 +8,32 @@ import jade.core.behaviours.OneShotBehaviour;
 public class MovetoTarget extends OneShotBehaviour {
 	
 	private Agent agent;
-	private static int cpt=0;
 	private String targetposition;
-	private String myPosition;
 	private static final long serialVersionUID = -4590903119174947799L;
-	private boolean finished=false;
 	private int exitValue;
+	private boolean succ;
+	String myPosition;
 	public MovetoTarget(Agent agent,String targetposition) {
 		super();
 		this.targetposition=targetposition;
 		this.agent = agent;
+		this.exitValue=0;
 	}
 	
 	@Override
 	public void action() {
-		((MyAgent)this.agent).moveTo(this.targetposition);
+		myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
+		System.out.println(myPosition+"***************************************************move action"+this.targetposition);
+		succ=((MyAgent)this.agent).moveTo(this.targetposition);
+		if(succ) {
+			this.exitValue=1;
+		}
 	}
-	public boolean getmovevalue(){
-		return ((MyAgent)this.agent).moveTo(this.targetposition);
+
+	@Override
+	public int onEnd() {
+		System.out.println(myPosition+"***************************************************move end"+this.targetposition);
+		return this.exitValue;
 	}
 
 }

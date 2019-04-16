@@ -11,6 +11,7 @@ import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.Triple;
 import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 
@@ -34,24 +35,46 @@ public class CollectBehaviour extends OneShotBehaviour{
 	public void action() {
 			boolean probleme=false;
 			cpt++;
+			
+			
 			List<String>  pathToTarget;
 			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
-			pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
+			//pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
+			String target="init";
+			List<Couple<String,List<Couple<Observation,Integer>>>> trSorted=((MyAgent)this.agent).treasure_sorted();
+			int index_mod=((MyAgent)this.agent).getIndex_last_tr();
+			List<Couple<String,List<Couple<Observation,Integer>>>> myTr= new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
+			
+			for( int i=0; i<trSorted.size();i++) {
+				if(i % ((MyAgent)this.agent).getMyOrder()==0 ){
+					myTr.add(trSorted.get(i));
+					
+				}
+			}
+			//To ++ when tr collected
+			target=myTr.get(((MyAgent)this.agent).getIndex_last_tr()).getLeft();
+			
+			pathToTarget=((MyAgent)this.agent).getShortestPathMap(myPosition, target);
 			System.out.println(pathToTarget);
-			boolean suc=true;
+			int suc=1;
 			int k=0;
-			while(suc==true && k<pathToTarget.size()) {
-				suc=((MyAgent)this.agent).moveTo(pathToTarget.get(k));
-				System.out.println(this.myPosition);
-				if(suc==false){
+			while(suc== 1 && k<pathToTarget.size()) {
+				Behaviour b=new MovetoTarget(this.agent,pathToTarget.get(k));
+				b.action();
+				suc=b.onEnd();
+				
+				//suc=((MyAgent)this.agent).moveTo(pathToTarget.get(k));
+				//System.out.println(this.myPosition);
+				/*if(suc==false){
 					System.out.println("on ne peut pas accéder a la case :"+pathToTarget.get(k));
 					//gérer l'interblockage
 					probleme=true;
 				}else{
 					System.out.println(this.agent.getLocalName()+"je suis a la case "+this.myPosition);
 					((MyAgent)this.agent).moveTo(pathToTarget.get(k));
-				}
+				}*/
 				k++;
+				
 			}
 			if(this.myPosition.equals(pathToTarget)){
 				System.out.println("on est sur la bonne case ");
@@ -99,10 +122,6 @@ public class CollectBehaviour extends OneShotBehaviour{
 			}
 			
 	}
-	public int onEnd() {
-		return this.exitValue;
-	}
-			
 	
 	
 }

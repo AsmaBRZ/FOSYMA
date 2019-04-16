@@ -39,12 +39,17 @@ public class MyAgent extends AbstractDedaleAgent   {
 	protected List<Couple<String,List<Couple<Observation,Integer>>>> objetcsFound;
 	protected FSMBehaviour fsm ;
 	protected String role;
+	protected String nodeToVisit;
+	protected int index_last_tr;
 	protected void setup(){
 		super.setup();	
+		nodeToVisit="init";
+		this.index_last_tr=0;
 	}
-
+  
 	public MapRepresentation getMap() {
 		return map;
+
 	}
 
 	public void setMap(MapRepresentation myMap) {
@@ -284,6 +289,23 @@ public class MyAgent extends AbstractDedaleAgent   {
 		return tr_sorted;
 		
 	}
+	public String getNodeToVisit() {
+		return this.nodeToVisit;
+	}
+	public void setNodeToVisit(String s) {
+		this.nodeToVisit=s;
+	}
+
+	public int getIndex_last_tr() {
+		return index_last_tr;
+	}
+
+	public void setIndex_last_tr(int index_last_tr) {
+		this.index_last_tr = index_last_tr;
+	}
 	
-	
+	public Integer getMyOrder() {
+		String myName=this.getLocalName();
+		return Integer.parseInt(myName.substring(1,myName.length()));
+	}
 }
