@@ -33,29 +33,33 @@ public class CollectBehaviour extends OneShotBehaviour{
 
 	@Override
 	public void action() {
+			
 			boolean probleme=false;
-			cpt++;
 			
-			
-			List<String>  pathToTarget;
 			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
 			//pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
 			String target="init";
-			List<Couple<String,List<Couple<Observation,Integer>>>> trSorted=((MyAgent)this.agent).treasure_sorted();
-			int index_mod=((MyAgent)this.agent).getIndex_last_tr();
-			List<Couple<String,List<Couple<Observation,Integer>>>> myTr= new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
+			List<Couple<String,List<Couple<Observation,Integer>>>> myTr=((MyAgent)this.agent).getmyTr();
+			((MyAgent)this.agent).createmycurrentpath();
 			
-			for( int i=0; i<trSorted.size();i++) {
-				if(i % ((MyAgent)this.agent).getMyOrder()==0 ){
-					myTr.add(trSorted.get(i));
-					
-				}
+		
+			//pick up the treasor 
+			
+			//test if there is no treasor left:
+			if (myTr!=null){
+				System.out.println("il reste des trésors ");
+				this.exitValue=1;
 			}
-			//To ++ when tr collected
-			target=myTr.get(((MyAgent)this.agent).getIndex_last_tr()).getLeft();
+			else{
+				System.out.println("------------------------- ");
+				System.out.println("il reste plus des trésors ");
+				this.exitValue=2;
+			}
 			
-			pathToTarget=((MyAgent)this.agent).getShortestPathMap(myPosition, target);
-			System.out.println(pathToTarget);
+			
+			//application du behaviour move:
+			/*System.out.println(((MyAgent)this.agent).getmycurrentpath());
+			List<String> pathToTarget=((MyAgent)this.agent).getmycurrentpath();
 			int suc=1;
 			int k=0;
 			while(suc== 1 && k<pathToTarget.size()) {
@@ -65,14 +69,17 @@ public class CollectBehaviour extends OneShotBehaviour{
 				
 				//suc=((MyAgent)this.agent).moveTo(pathToTarget.get(k));
 				//System.out.println(this.myPosition);
-				/*if(suc==false){
+				
+				if(suc==0){
 					System.out.println("on ne peut pas accéder a la case :"+pathToTarget.get(k));
 					//gérer l'interblockage
 					probleme=true;
 				}else{
 					System.out.println(this.agent.getLocalName()+"je suis a la case "+this.myPosition);
 					((MyAgent)this.agent).moveTo(pathToTarget.get(k));
-				}*/
+				}
+				
+				
 				k++;
 				
 			}
@@ -108,7 +115,7 @@ public class CollectBehaviour extends OneShotBehaviour{
 				//remove the obj if success: picking it
 				//check if I am pretty well in my target
 				
-			/*	if(this.myPosition==target)) {
+				if(this.myPosition==target)) {
 					//try to pick it
 					System.out.println("Im on my goal youhouu !");
 					//((ExploratorAgent)agent).removeObjectFound(target);
@@ -118,9 +125,13 @@ public class CollectBehaviour extends OneShotBehaviour{
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}*/
-			}
+				}
+			}*/
 			
+	}
+	@Override
+	public int onEnd() {
+		return this.exitValue;
 	}
 	
 	

@@ -39,12 +39,21 @@ public class MyAgent extends AbstractDedaleAgent   {
 	protected List<Couple<String,List<Couple<Observation,Integer>>>> objetcsFound;
 	protected FSMBehaviour fsm ;
 	protected String role;
+	//node to visit in the current path
 	protected String nodeToVisit;
+	//to set when the treasor is collected 
 	protected int index_last_tr;
+	//si l'agent a reussi a atteindre nodetoVisit
+	protected boolean moved;
+	protected List<Couple<String,List<Couple<Observation,Integer>>>>  myTr;
+	protected List<String> pathToTarget;
 	protected void setup(){
 		super.setup();	
-		nodeToVisit="init";
+		//nodeToVisit="init";
 		this.index_last_tr=0;
+		//this.nodeToVisit=this.pathToTarget.get(0);
+
+
 	}
   
 	public MapRepresentation getMap() {
@@ -285,7 +294,6 @@ public class MyAgent extends AbstractDedaleAgent   {
 				}
 			}
 		}
-		//System.out.println(tr_sorted);
 		return tr_sorted;
 		
 	}
@@ -307,5 +315,53 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public Integer getMyOrder() {
 		String myName=this.getLocalName();
 		return Integer.parseInt(myName.substring(1,myName.length()));
+	}
+	public List<Couple<String,List<Couple<Observation,Integer>>>> getmyTr(){
+		//Tous les trésors existants triés:
+		List<Couple<String,List<Couple<Observation,Integer>>>> trSorted=this.treasure_sorted();
+		int index_mod=this.getIndex_last_tr();
+		
+		//les trésors de l'agent courant(modulo le numero de l'agent):
+		
+		List<Couple<String,List<Couple<Observation,Integer>>>> myTr= new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
+		for( int i=0; i<trSorted.size();i++) {
+			if(i % (this.getMyOrder()+1)==0 ){
+				myTr.add(trSorted.get(i));
+				
+			}
+		}
+		System.out.println(this.getLocalName()+" "+this.getMyOrder());
+		System.out.println(myTr);
+		this.myTr=myTr;
+		return this.myTr;
+	}
+
+	public void setmoved(boolean b){
+		this.moved=b;
+	}
+	public boolean getmoved(){
+		return this.moved;
+	}
+	public void setcurrentpath(){
+		if(this.moved==true){
+			this.pathToTarget.remove(this.pathToTarget.get(0));
+			if(this.pathToTarget!=null)
+				System.out.println(this.pathToTarget);
+				System.out.println(this.pathToTarget.get(0));
+				this.nodeToVisit=this.pathToTarget.get(0);
+		}
+	}
+	public void createmycurrentpath(){
+		//le premier trésor de la liste courante:
+		this.getmyTr();
+		List<String>  pathToTarget;
+		String target=this.myTr.get(this.getIndex_last_tr()).getLeft();
+		//le chemin le plus court vers ce trésor:
+		pathToTarget=(this).getShortestPathMap(this.getCurrentPosition(), target);
+		setNodeToVisit(pathToTarget.get(0));
+		this.pathToTarget=pathToTarget;
+	}
+	public List<String> getmycurrentpath(){
+		return this.pathToTarget;
 	}
 }

@@ -52,7 +52,7 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 			}
 		}
 		if(((MyAgent)this.myAgent).getType()==2) {
-			System.out.print(((MyAgent)this.myAgent).getLocalName());
+			System.out.println(((MyAgent)this.myAgent).getLocalName());
 			System.out.println("Je vais collecter :D");
 				this.exitValue=2;
 
