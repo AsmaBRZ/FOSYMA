@@ -316,7 +316,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 		String myName=this.getLocalName();
 		return Integer.parseInt(myName.substring(1,myName.length()));
 	}
-	public List<Couple<String,List<Couple<Observation,Integer>>>> getmyTr(){
+	public void createmyTr(){
 		//Tous les trésors existants triés:
 		List<Couple<String,List<Couple<Observation,Integer>>>> trSorted=this.treasure_sorted();
 		int index_mod=this.getIndex_last_tr();
@@ -324,15 +324,17 @@ public class MyAgent extends AbstractDedaleAgent   {
 		//les trésors de l'agent courant(modulo le numero de l'agent):
 		
 		List<Couple<String,List<Couple<Observation,Integer>>>> myTr= new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
-		for( int i=0; i<trSorted.size();i++) {
-			if(i % (this.getMyOrder()+1)==0 ){
-				myTr.add(trSorted.get(i));
-				
-			}
+		for( int i=this.getMyOrder()-1; i<trSorted.size();i=i+this.receivers.size()+1) {
+		
+			myTr.add(trSorted.get(i));
+			
+			
 		}
-		System.out.println(this.getLocalName()+" "+this.getMyOrder());
-		System.out.println(myTr);
+
 		this.myTr=myTr;
+
+	}
+	public List<Couple<String,List<Couple<Observation,Integer>>>> getmytr(){
 		return this.myTr;
 	}
 
@@ -345,15 +347,14 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public void setcurrentpath(){
 		if(this.moved==true){
 			this.pathToTarget.remove(this.pathToTarget.get(0));
-			if(this.pathToTarget!=null)
-				System.out.println(this.pathToTarget);
-				System.out.println(this.pathToTarget.get(0));
+			if(this.pathToTarget.size()>0){
 				this.nodeToVisit=this.pathToTarget.get(0);
+			}
 		}
 	}
 	public void createmycurrentpath(){
 		//le premier trésor de la liste courante:
-		this.getmyTr();
+		//this.getmyTr();
 		List<String>  pathToTarget;
 		String target=this.myTr.get(this.getIndex_last_tr()).getLeft();
 		//le chemin le plus court vers ce trésor:

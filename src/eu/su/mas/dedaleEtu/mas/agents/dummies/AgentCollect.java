@@ -62,7 +62,7 @@ public class AgentCollect  extends MyAgent {
 		fsm.registerState (new CollectBehaviour(this), collect);
 		fsm.registerState (new ReceiveHelpCollect(this), goToHelp);
 		fsm.registerLastState (new Donothing(), donothing);
-		fsm.registerLastState (new MovetoTarget(this), MovetoTarget);
+		fsm.registerState (new MovetoTarget(this), MovetoTarget);
 		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
 		fsm.registerDefaultTransition(explore,sendKnow);
@@ -71,8 +71,10 @@ public class AgentCollect  extends MyAgent {
 		fsm.registerTransition(receiveKnow,collect,2);
 		fsm.registerTransition(collect, MovetoTarget,1);
 		fsm.registerTransition(collect,donothing,2);
-		//fsm.registerTransition(MovetoTarget, collect,1);
-		fsm.registerDefaultTransition(MovetoTarget, MovetoTarget);
+		fsm.registerTransition(MovetoTarget, collect,1);
+		fsm.registerTransition(MovetoTarget, MovetoTarget,2);
+		fsm.registerTransition(MovetoTarget, donothing,3);
+
 
 		//fsm.registerDefaultTransition(collect,goToHelp);
 		//fsm.registerDefaultTransition(goToHelp,collect);

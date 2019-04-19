@@ -23,29 +23,32 @@ public class MovetoTarget extends OneShotBehaviour {
 	
 	@Override
 	public void action() {
-		if(((AbstractDedaleAgent)this.agent).getCurrentPosition()==((MyAgent)this.agent).getNodeToVisit()){
+		if(((AbstractDedaleAgent)this.agent).getCurrentPosition().equals(((MyAgent)this.agent).getNodeToVisit())){
 			((MyAgent)this.agent).setmoved(succ);
-			System.out.println("on va modifier le noeud a visiter");
 			((MyAgent)this.agent).setcurrentpath();
+
 			
 		}
-		myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
-		System.out.println("je vais vers la position "+((MyAgent)this.agent).getNodeToVisit());
-		System.out.println("je suis a la position :"+myPosition);
-		succ=((AbstractDedaleAgent)this.myAgent).moveTo(((MyAgent)this.agent).getNodeToVisit());
-		if(((MyAgent)this.agent).getmycurrentpath()==null){
-			System.out.println("on est arrivé au trésor");
-			this.exitValue=1;
-		}else{
-			System.out.println("Nous allons faire un 2 eme mouvement");
+
+		if (((MyAgent)this.agent).getmycurrentpath().size()>0){
+			myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
+			succ=((AbstractDedaleAgent)this.myAgent).moveTo(((MyAgent)this.agent).getNodeToVisit());
 			this.exitValue=2;
+		}
+		else{
+			System.out.println("on est arrivé au trésor");
+			//si on est passé par tout les trésors :
+			if(((MyAgent)this.agent).getmytr().size()==((MyAgent)this.agent).getIndex_last_tr()+1){
+				this.exitValue=3;
+			}else{
+				((MyAgent)this.agent).setIndex_last_tr(((MyAgent)this.agent).getIndex_last_tr()+1);
+				this.exitValue=1;
+			}
 		}
 	}
 
 	@Override
 	public int onEnd() {
-		System.out.println("je m'appelle "+((MyAgent)this.agent).getLocalName());
-		System.out.println(((AbstractDedaleAgent)this.agent).getCurrentPosition()+"***************************************************move end"+((MyAgent)this.agent).getNodeToVisit());
 		return this.exitValue;
 	}
 

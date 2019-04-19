@@ -39,7 +39,8 @@ public class CollectBehaviour extends OneShotBehaviour{
 			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
 			//pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
 			String target="init";
-			List<Couple<String,List<Couple<Observation,Integer>>>> myTr=((MyAgent)this.agent).getmyTr();
+			((MyAgent)this.agent).createmyTr();
+			List<Couple<String,List<Couple<Observation,Integer>>>> myTr=((MyAgent)this.agent).getmytr();
 			((MyAgent)this.agent).createmycurrentpath();
 			
 		
@@ -47,12 +48,10 @@ public class CollectBehaviour extends OneShotBehaviour{
 			
 			//test if there is no treasor left:
 			if (myTr!=null){
-				System.out.println("il reste des trésors ");
+				System.out.println(((MyAgent)this.agent).getmytr()+"-----------"+((MyAgent)this.agent).getIndex_last_tr());
 				this.exitValue=1;
 			}
 			else{
-				System.out.println("------------------------- ");
-				System.out.println("il reste plus des trésors ");
 				this.exitValue=2;
 			}
 			
