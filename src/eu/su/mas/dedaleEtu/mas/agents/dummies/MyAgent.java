@@ -47,11 +47,11 @@ public class MyAgent extends AbstractDedaleAgent   {
 	protected boolean moved;
 	protected List<Couple<String,List<Couple<Observation,Integer>>>>  myTr;
 	protected List<String> pathToTarget;
+	protected int cpt;
 	protected void setup(){
 		super.setup();	
-		//nodeToVisit="init";
 		this.index_last_tr=0;
-		//this.nodeToVisit=this.pathToTarget.get(0);
+		this.cpt=0;
 
 
 	}
@@ -359,10 +359,18 @@ public class MyAgent extends AbstractDedaleAgent   {
 		String target=this.myTr.get(this.getIndex_last_tr()).getLeft();
 		//le chemin le plus court vers ce trésor:
 		pathToTarget=(this).getShortestPathMap(this.getCurrentPosition(), target);
-		setNodeToVisit(pathToTarget.get(0));
+		if(pathToTarget.size()>0)
+			setNodeToVisit(pathToTarget.get(0));
 		this.pathToTarget=pathToTarget;
 	}
 	public List<String> getmycurrentpath(){
 		return this.pathToTarget;
+	}
+	
+	public int getcpt(){
+		return this.cpt;
+	}
+	public void setcpt(){
+		this.cpt=cpt+1;
 	}
 }

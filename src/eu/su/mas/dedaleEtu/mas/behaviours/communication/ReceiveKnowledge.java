@@ -52,14 +52,13 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 			}
 		}
 		if(((MyAgent)this.myAgent).getType()==2) {
-			System.out.println(((MyAgent)this.myAgent).getLocalName());
-			System.out.println("Je vais collecter :D");
+			System.out.println(((MyAgent)this.myAgent).getLocalName()+"--- Je vais collecter :D");
 				this.exitValue=2;
 
 		}
 		if(((MyAgent)this.myAgent).getType()==1) {
 			this.exitValue=1;
-			System.out.println("Je continue à explorer :D");
+			System.out.println(((MyAgent)this.myAgent).getLocalName()+"--- Je continue à explorer :D");
 		}
 	}
 	@Override

@@ -38,6 +38,8 @@ public class AgentCollect  extends MyAgent {
 	private static final String goToHelp="ReceiveHelpCollect ";
 	private static final String donothing="Donothing ";
 	private static final String MovetoTarget="MovetoTarget ";
+	private static final String Askforhelp="Askforhelp ";
+
 
 	private FSMBehaviour fsm ;
 	
@@ -63,6 +65,7 @@ public class AgentCollect  extends MyAgent {
 		fsm.registerState (new ReceiveHelpCollect(this), goToHelp);
 		fsm.registerLastState (new Donothing(), donothing);
 		fsm.registerState (new MovetoTarget(this), MovetoTarget);
+		fsm.registerState (new AskHelpCollect(this,receivers), Askforhelp);
 		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
 		fsm.registerDefaultTransition(explore,sendKnow);
@@ -71,6 +74,8 @@ public class AgentCollect  extends MyAgent {
 		fsm.registerTransition(receiveKnow,collect,2);
 		fsm.registerTransition(collect, MovetoTarget,1);
 		fsm.registerTransition(collect,donothing,2);
+		fsm.registerTransition(collect,Askforhelp,3);
+		fsm.registerDefaultTransition(Askforhelp,collect);
 		fsm.registerTransition(MovetoTarget, collect,1);
 		fsm.registerTransition(MovetoTarget, MovetoTarget,2);
 		fsm.registerTransition(MovetoTarget, donothing,3);

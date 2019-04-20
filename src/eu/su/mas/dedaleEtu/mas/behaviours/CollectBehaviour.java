@@ -21,7 +21,6 @@ public class CollectBehaviour extends OneShotBehaviour{
 	 * 
 	 */
 	private Agent agent;
-	private static int cpt=0;
 	private String myPosition;
 	private static final long serialVersionUID = -4590903119174947799L;
 	private boolean finished=false;
@@ -33,8 +32,29 @@ public class CollectBehaviour extends OneShotBehaviour{
 
 	@Override
 	public void action() {
-			
-			boolean probleme=false;
+			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
+
+		
+			//pick up the treasor 
+			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.agent).observe();
+			int i=0;
+			boolean trConfirmed=true;
+			if(lobs.get(0).getLeft().contentEquals(this.myPosition)) {
+				if(!lobs.get(i).getRight().isEmpty()) {
+					for (int j=0;j<lobs.get(i).getRight().size();j++){
+						Observation type=lobs.get(i).getRight().get(j).getLeft();
+						boolean bool=((AbstractDedaleAgent)this.agent).openLock(type);
+						if(bool==true){
+						}else{
+							if(((MyAgent)this.agent).getcpt()<3){
+								System.out.println("demande d'aide numéro "+((MyAgent)this.agent).getcpt());
+								this.exitValue=3;
+							}
+						}
+					}
+				}
+				
+			}
 			
 			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
 			//pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
@@ -44,11 +64,11 @@ public class CollectBehaviour extends OneShotBehaviour{
 			((MyAgent)this.agent).createmycurrentpath();
 			
 		
-			//pick up the treasor 
+			
 			
 			//test if there is no treasor left:
 			if (myTr!=null){
-				System.out.println(((MyAgent)this.agent).getmytr()+"-----------"+((MyAgent)this.agent).getIndex_last_tr());
+				System.out.println("je m'appelle "+((MyAgent)this.agent).getLocalName()+" Liste de mes trésors "+((MyAgent)this.agent).getmytr()+"-----------"+"je vais vers le trésor numéro: "+((MyAgent)this.agent).getIndex_last_tr());
 				this.exitValue=1;
 			}
 			else{

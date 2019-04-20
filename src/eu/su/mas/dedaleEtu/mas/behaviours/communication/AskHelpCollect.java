@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
@@ -42,6 +43,13 @@ public class AskHelpCollect extends OneShotBehaviour {
 				}
 				msg.addReceiver(new AID(this.receivers.get(i),AID.ISLOCALNAME));
 				((AbstractDedaleAgent)agent).sendMessage(msg);
+				
+			}
+			((MyAgent)this.agent).setcpt();
+			try {
+				this.myAgent.doWait(10000);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		
 		}

@@ -62,11 +62,11 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 					((MyAgent)this.myAgent).addObjectFound(element);
 				}
 			}
-			try {
+			/*try {
 				this.myAgent.doWait(100);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+			}*/
 
 			//1) remove the current node from openlist and add it to closedNodes.
 			((MyAgent)agent).addClosedNode(myPosition);

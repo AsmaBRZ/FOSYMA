@@ -32,11 +32,12 @@ public class MovetoTarget extends OneShotBehaviour {
 
 		if (((MyAgent)this.agent).getmycurrentpath().size()>0){
 			myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
+			System.out.println("je m'appelle "+((MyAgent)this.agent).getLocalName()+" je suis entrain de me déplacer vers le trésors: "+((MyAgent)this.agent).getmycurrentpath().get(((MyAgent)this.agent).getmycurrentpath().size()-1));
 			succ=((AbstractDedaleAgent)this.myAgent).moveTo(((MyAgent)this.agent).getNodeToVisit());
 			this.exitValue=2;
 		}
 		else{
-			System.out.println("on est arrivé au trésor");
+			System.out.println("Je suis sur le trésor");
 			//si on est passé par tout les trésors :
 			if(((MyAgent)this.agent).getmytr().size()==((MyAgent)this.agent).getIndex_last_tr()+1){
 				this.exitValue=3;
