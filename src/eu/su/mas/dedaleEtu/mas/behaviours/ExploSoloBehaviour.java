@@ -58,7 +58,7 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 			//If there are any observations, I add them to my list of objects found
 			for(int i=0;i<lobs.size();i++){
 				Couple<String,List<Couple<Observation,Integer>>> element=lobs.get(i);
-				if(!element.getRight().isEmpty()) {
+				if(element.getRight().size()>1) {
 					((MyAgent)this.myAgent).addObjectFound(element);
 				}
 			}
@@ -99,14 +99,14 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 				((MyAgent)agent).setObjetcsFound(((MyAgent)agent).treasure_sorted());
 				System.out.println("Exploration successufully done, behaviour removed.");
 				//only collector  moves from explo to collect
-				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
-					System.out.println("I am "+ agent.getName()+" I Move to collection");
-					((MyAgent)agent).setType(2);
+				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo) {
+					System.out.println("I am "+ agent.getLocalName()+" I Move to openLock car je suis un explorateur");
+					((MyAgent)agent).setType(1);
 				}
 				//only explo moves to randaom searching for the moment :D
-				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo) {
-					System.out.println("I am "+ agent.getName()+" I Move to random exploration");
-					((MyAgent)agent).setType(1);
+				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
+					System.out.println("I am "+ agent.getLocalName()+" I Move to random exploration car je suis un collecteur");
+					((MyAgent)agent).setType(2);
 				}
 				
 			}else{

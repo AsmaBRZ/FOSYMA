@@ -25,7 +25,7 @@ public class AskHelpCollect extends OneShotBehaviour {
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 		ACLMessage msg;
 		if (myPosition!=""){
-			System.out.println("Agent "+agent.getLocalName()+ " is trying to reach its friends");
+			System.out.println("Agent "+agent.getLocalName()+ " is trying to reach its friends to help him");
 			List<String> position=new ArrayList<String>();
 			position.add(myPosition);
 			//quand je suis arrivée à mon target, je demande de laide en envoyant ma position aux autres
@@ -51,6 +51,7 @@ public class AskHelpCollect extends OneShotBehaviour {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			System.out.println("je vais sortir de askhelp");
 		
 		}
 	}

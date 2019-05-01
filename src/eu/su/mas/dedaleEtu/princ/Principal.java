@@ -301,7 +301,7 @@ public class Principal {
 //		ag=createNewDedaleAgent(c, agentName, DummyWumpusShift.class.getName(), entityParameters);
 //		agentList.add(ag);
 		
-		int nbAgents=2;
+		int nbAgents=4;
 		List<AbstractDedaleAgent> myAgents=new ArrayList<AbstractDedaleAgent>();
 		List<String> friends=new ArrayList<String>();
 		for(int j=1;j<=nbAgents;j++) {
@@ -320,8 +320,8 @@ public class Principal {
 			//3) If you want to give specific parameters to your agent, add them here
 			Object [] entityParameters2={myFriends};
 			//4) Give the class name of your agent to let the system instantiate it
-			if(i>nbAgents) {
-				ag=createNewDedaleAgent(c, agentName, AgentCollect.class.getName(), entityParameters2);
+			if(i<=nbAgents/2) {
+				ag=createNewDedaleAgent(c, agentName, AgentExplo.class.getName(), entityParameters2);
 			}
 			else {
 				ag=createNewDedaleAgent(c, agentName, AgentCollect.class.getName(), entityParameters2);

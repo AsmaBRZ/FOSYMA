@@ -21,14 +21,14 @@ public class RandomSearchBehaviour extends OneShotBehaviour {
 
 	@Override
 	public void action() {
-
+		System.out.println("je m'appelle "+((AbstractDedaleAgent)this.myAgent).getLocalName()+" je suis dans le behaviour random search");
 		//Example to retrieve the current position
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 		System.out.println(this.myAgent.getLocalName()+" -- myCurrentPosition is: "+myPosition);
 		if (myPosition!=null){
 			//List of observable from the agent's current position
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
-			System.out.println(this.myAgent.getLocalName()+" -- list of observables: "+lobs);
+			/*System.out.println(this.myAgent.getLocalName()+" -- list of observables: "+lobs);
 			//list of observations associated to the currentPosition
 			List<Couple<Observation,Integer>> lObservations= lobs.get(0).getRight();
 
@@ -41,7 +41,7 @@ public class RandomSearchBehaviour extends OneShotBehaviour {
 					System.out.println(this.myAgent.getLocalName()+" - My treasure type is : "+((AbstractDedaleAgent) this.myAgent).getMyTreasureType());
 					System.out.println(this.myAgent.getLocalName()+" - My current backpack capacity is:"+ ((AbstractDedaleAgent) this.myAgent).getBackPackFreeSpace());
 					System.out.println(this.myAgent.getLocalName()+" - Value of the treasure on the current position: "+o.getLeft() +": "+ o.getRight());
-					System.out.println(this.myAgent.getLocalName()+" - The agent grabbed :"+((AbstractDedaleAgent) this.myAgent).pick());
+					//System.out.println(this.myAgent.getLocalName()+" - The agent grabbed :"+((AbstractDedaleAgent) this.myAgent).pi());
 					System.out.println(this.myAgent.getLocalName()+" - the remaining backpack capacity is: "+ ((AbstractDedaleAgent) this.myAgent).getBackPackFreeSpace());
 					b=true;
 					break;
@@ -54,7 +54,7 @@ public class RandomSearchBehaviour extends OneShotBehaviour {
 			if (b){
 				List<Couple<String,List<Couple<Observation,Integer>>>> lobs2=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
 				System.out.println(this.myAgent.getLocalName()+" - State of the observations after trying to pick something "+lobs2);
-			}
+			}*/
 			try {
 				Thread.sleep(1000);
 				System.out.println("I am sleeeping");
@@ -72,4 +72,4 @@ public class RandomSearchBehaviour extends OneShotBehaviour {
 			((AbstractDedaleAgent)this.myAgent).moveTo(lobs.get(moveId).getLeft());
 	}
 }
-	}
+}

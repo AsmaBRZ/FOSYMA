@@ -1,0 +1,61 @@
+DGS004
+null 0 0
+an 0	label: 0
+an 1	label: 1
+an 2    label: 2
+an 3	label: 3
+an 4	label: 4
+an 5	label: 5
+an 6    label: 6
+an 7	label: 7
+an 8	label: 8
+an 9	label: 9
+an 10    label: 10
+an 11	label: 11
+an 12	label: 12
+an 13	label: 13
+an 14    label: 14
+an 15	label: 15
+ae e2	0 1
+ae e3	2 3
+ae e4   1 2
+ae e5   4 5
+ae e6   5 6
+ae e7   6 7
+ae e8   8 9
+ae e9   9 10
+ae e10   10 11
+ae e11   12 13
+ae e12   13 14
+ae e13   14 15
+ae e14   0 4
+ae e15   4 8
+ae e16   8 12
+ae e17   1 5
+ae e18   5 9
+ae e19   9 13
+ae e20   2 6
+ae e21   6 10
+ae e22   10 14
+ae e23   3 7
+ae e24   7 11
+ae e25   11 15
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

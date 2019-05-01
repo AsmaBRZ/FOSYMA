@@ -4,6 +4,7 @@ import java.util.Set;
 
 import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;
+import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
@@ -23,6 +24,8 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 	}
 	@Override
 	public void action() {	
+		System.out.println("je m'appelle "+((AbstractDedaleAgent)this.myAgent).getLocalName()+" je suis dans le behaviour receive knowledge");
+
 		final MessageTemplate msgTemplate = MessageTemplate.MatchPerformative(ACLMessage.INFORM);			
 		final ACLMessage msg = myAgent.receive(msgTemplate);
 		
@@ -51,15 +54,20 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 				e.printStackTrace();
 			}
 		}
-		if(((MyAgent)this.myAgent).getType()==2) {
-			System.out.println(((MyAgent)this.myAgent).getLocalName()+"--- Je vais collecter :D");
+		if(((MyAgent)this.myAgent).getType()==1) {
+			System.out.println(((MyAgent)this.myAgent).getLocalName()+"--- Je vais ouvrir les trésors :D");
 				this.exitValue=2;
 
 		}
-		if(((MyAgent)this.myAgent).getType()==1) {
-			this.exitValue=1;
+		else{
+			if(((MyAgent)this.myAgent).getType()==2) {
+			this.exitValue=3;
 			System.out.println(((MyAgent)this.myAgent).getLocalName()+"--- Je continue à explorer :D");
+			}
+			else{
+				this.exitValue=1;
 		}
+	}
 	}
 	@Override
 	public int onEnd() {

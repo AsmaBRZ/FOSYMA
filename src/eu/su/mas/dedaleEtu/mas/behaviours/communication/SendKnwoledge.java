@@ -46,7 +46,7 @@ public class SendKnwoledge extends OneShotBehaviour{
 		//A message is defined by : a performative, a sender, a set of receivers, (a protocol),(a content (and/or contentOBject))
 		ACLMessage msg;
 		if (myPosition!=""){
-			System.out.println("Agent "+agent.getLocalName()+ " is trying to reach its friends");
+			System.out.println("Agent "+agent.getLocalName()+ " is trying to reach its friends to send the map");
 			try {
 				//Creation of message's content
 				//MessageKnowledge mk=new MessageKnowledge(myMap,openNodes,closedNodes);

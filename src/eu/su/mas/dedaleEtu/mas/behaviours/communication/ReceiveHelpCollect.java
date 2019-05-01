@@ -28,7 +28,8 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 
 	@Override
 	public void action() {
-		
+		System.out.println("je m'appelle "+((AbstractDedaleAgent)this.myAgent).getLocalName()+" je suis dans le behaviour help collect");
+
 		final MessageTemplate msgTemplate = MessageTemplate.MatchPerformative(ACLMessage.INFORM);			
 		final ACLMessage msg = myAgent.receive(msgTemplate);
 		
@@ -46,23 +47,26 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 				Object[] content=(Object[]) msg.getContentObject();
 				//la position de l agent qui demande de l'aide
 				String positionTarget=(String) content[0];
+				System.out.println(positionTarget);
 				//si je suis explorator ou collector moins prioritire , j y vais sans me poser de questions
-				if(this.myAgent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo) {
+				if(this.myAgent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
 					List<String>  pathToTarget=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget); 
-					for(int k=0;k<pathToTarget.size();k++) {
+					for(int k=0;k<pathToTarget.size()-1;k++) {
+						System.out.println("je vais vers la position "+positionTarget);
 						((MyAgent)this.myAgent).moveTo(pathToTarget.get(k));
 					}
+					System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+" my Expertise "+((MyAgent)this.myAgent).getMyExpertise());
+					//List<String>  pathToTarget2=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget);
+					try {
+						Thread.sleep(10000);
+						System.out.println("I am sleeeping");
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
+					//si j'arrive a l'endroit */
 				}
-				//si je suis collecteur dont le nom est < au sender
-				/*else{
-					if(this.myAgent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo && myOrder<senderOrder) {
-						List<String>  pathToTarget=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget); 
-						for(int k=0;k<pathToTarget.size();k++) {
-							((MyAgent)this.myAgent).moveTo(pathToTarget.get(k));
-						}
-				}
-			}
-*/
+				
 				
 			} catch (UnreadableException e) {
 				// TODO Auto-generated catch block

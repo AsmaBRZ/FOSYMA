@@ -35,7 +35,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 	protected List<String> myHistory=new ArrayList<String>();
 	protected List<Behaviour> lb;
 	//type 1:Explore 2:collect 3: explore
-	protected int type=1;
+	protected int type=5;
 	protected List<Couple<String,List<Couple<Observation,Integer>>>> objetcsFound;
 	protected FSMBehaviour fsm ;
 	protected String role;
@@ -290,6 +290,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 		for (int j=0;j<inter.size();j++){
 			for (int i=0;i<this.objetcsFound.size();i++){
 				if(this.objetcsFound.get(i).getLeft().equals(inter.get(j))){
+					//System.out.println(this.objetcsFound.get(i));
 					tr_sorted.add(this.objetcsFound.get(i));
 				}
 			}
