@@ -77,7 +77,7 @@ public class AgentExplo extends MyAgent{
 			fsm.registerTransition(receiveKnow,openlock,2);
 			fsm.registerTransition(openlock, MovetoTarget,1);
 			fsm.registerTransition(openlock,donothing,2);
-			fsm.registerTransition(openlock,Askforhelp,3);
+			fsm.registerTransition(openlock,openlock,3);
 			fsm.registerDefaultTransition(Askforhelp,openlock);
 			fsm.registerTransition(MovetoTarget, openlock,1);
 			fsm.registerTransition(MovetoTarget, MovetoTarget,2);

@@ -320,7 +320,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public void createmyTr(){
 		//Tous les trésors existants triés:
 		List<Couple<String,List<Couple<Observation,Integer>>>> trSorted=this.treasure_sorted();
-		int index_mod=this.getIndex_last_tr();
+		/*int index_mod=this.getIndex_last_tr();
 		
 		//les trésors de l'agent courant(modulo le numero de l'agent):
 		
@@ -330,9 +330,9 @@ public class MyAgent extends AbstractDedaleAgent   {
 			myTr.add(trSorted.get(i));
 			
 			
-		}
+		}*/
 
-		this.myTr=myTr;
+		this.myTr=trSorted;
 
 	}
 	public List<Couple<String,List<Couple<Observation,Integer>>>> getmytr(){

@@ -66,8 +66,8 @@ public class AgentCollect  extends MyAgent {
 		fsm.registerDefaultTransition(sendKnow,receiveKnow);
 		fsm.registerTransition(receiveKnow,explore,1);
 		fsm.registerTransition(receiveKnow,randomSearch,3);
-		fsm.registerDefaultTransition(randomSearch,goToHelp);
-		fsm.registerDefaultTransition(goToHelp,randomSearch);
+		//fsm.registerDefaultTransition(randomSearch,goToHelp);
+		//fsm.registerDefaultTransition(goToHelp,randomSearch);
 		lb=new ArrayList<Behaviour>();
 		lb.add(fsm);
 		/***

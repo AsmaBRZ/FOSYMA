@@ -31,6 +31,25 @@ public class MovetoTarget extends OneShotBehaviour {
 
 			
 		}
+		try {
+			Thread.sleep(1000);
+			System.out.println("I am sleeeping");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
+		
+		if( ((MyAgent)this.agent).getmycurrentpath().size()==1) {
+			try {
+				Thread.sleep(5000);
+				System.out.println("I am sleeeping to help");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
+			
+		
+		}
 		
 		if (((MyAgent)this.agent).getmycurrentpath().size()>0){
 			myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
@@ -38,14 +57,11 @@ public class MovetoTarget extends OneShotBehaviour {
 			succ=((AbstractDedaleAgent)this.myAgent).moveTo(((MyAgent)this.agent).getNodeToVisit());
 			this.exitValue=2;
 		}
-		else{
-			System.out.println("Je suis sur le trésor");
-			//si on est passé par tous les trésors :
 			
-				((MyAgent)this.agent).setIndex_last_tr(((MyAgent)this.agent).getIndex_last_tr()+1);
-				this.exitValue=1;
+		System.out.println("Je suis sur le trésor");
+		this.exitValue=1;
 			
-		}
+		
 	}
 
 	@Override
