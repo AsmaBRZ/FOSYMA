@@ -33,6 +33,7 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 	 * Current knowledge of the agent regarding the environment
 	 */
 	private Agent agent;
+	private int exitValue;
 	public ExploSoloBehaviour(final AbstractDedaleAgent myagent) {
 		this.agent=myagent;
 	}
@@ -62,11 +63,11 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 					((MyAgent)this.myAgent).addObjectFound(element);
 				}
 			}
-			/*try {
-				this.myAgent.doWait(100);
+			try {
+				this.myAgent.doWait(1000);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}*/
+			}
 
 			//1) remove the current node from openlist and add it to closedNodes.
 			((MyAgent)agent).addClosedNode(myPosition);
@@ -94,22 +95,40 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 			}
 
 			//3) while openNodes is not empty, continue.
+			System.out.println(agent.getLocalName()+" my list stat ag "+((MyAgent)this.agent).getStatAgents().toString());
+			if (((MyAgent)agent).isEmptyOpenedNodes()){	
+				((MyAgent)this.agent).setMYStatAgent();
+				System.out.println("MYYYY Exploration  successufully done");
 
-			if (((MyAgent)agent).isEmptyOpenedNodes()){
-				((MyAgent)agent).setObjetcsFound(((MyAgent)agent).treasure_sorted());
-				System.out.println("Exploration successufully done, behaviour removed.");
-				//only collector  moves from explo to collect
-				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo) {
-					System.out.println("I am "+ agent.getLocalName()+" I Move to openLock car je suis un explorateur");
-					((MyAgent)agent).setType(1);
+				if(((MyAgent)this.agent).exploGlobalDone()){
+					
+					
+					((MyAgent)agent).setObjetcsFound(((MyAgent)agent).treasure_sorted());
+					System.out.println("Exploration GLOBALLLLLLE successufully done, behaviour removed.");
+					
+					
+					//only collector  moves from explo to collect
+					if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo) {
+						System.out.println("I am "+ agent.getLocalName()+" I Move to openLock car je suis un explorateur");
+						this.exitValue=2;
+					}
+					//only explo moves to randaom searching for the moment :D
+					if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
+						System.out.println("I am "+ agent.getLocalName()+" I Move to random exploration car je suis un collecteur");
+						this.exitValue=3;
+					}
+					if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentTanker) {
+						System.out.println("I am "+ agent.getLocalName()+" I m Silo I wait for Ti");
+						this.exitValue=7;
+					}
 				}
-				//only explo moves to randaom searching for the moment :D
-				if(agent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
-					System.out.println("I am "+ agent.getLocalName()+" I Move to random exploration car je suis un collecteur");
-					((MyAgent)agent).setType(2);
+				//si tous le monde n'a pas fini
+				else{
+					this.exitValue=1;
 				}
-				
+			//si je n'ai pas fini
 			}else{
+				this.exitValue=1;
 				//4) select next move.
 				//4.1 If there exist one open node directly reachable, go for it,
 				//	 otherwise choose one from the openNode list, compute the shortestPath and go for it
@@ -127,10 +146,10 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 		//finished=true;
 	}
 	
-	/*@Override
+	@Override
 	public int onEnd() {
 		return this.exitValue;
-	}*/
+	}
 /*
 	@Override
 	public boolean done() {

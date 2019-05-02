@@ -23,6 +23,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 	//detectionRadius
 	//strengthExpertise
 	//LockPickingExpertise
+	private List<Boolean> statAgents=new ArrayList<Boolean>();
 	private static final long serialVersionUID = 2384524762066236260L;
     //Current knowledge of the agent regarding the environment
 	protected MapRepresentation map;
@@ -52,13 +53,41 @@ public class MyAgent extends AbstractDedaleAgent   {
 		super.setup();	
 		this.index_last_tr=0;
 		this.cpt=0;
-
+		
 
 	}
-  
+	public void initStatAgents(int n){
+		for(int i=0;i<n+1;i++){
+			this.statAgents.add(false);
+		}
+	}
+    public boolean exploGlobalDone(){
+    	for(int i=0;i<this.statAgents.size();i++){
+    		if(this.statAgents.get(i)==false){
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    }
 	public MapRepresentation getMap() {
 		return map;
 
+	}
+	public void updateStatAgents(List<Boolean> l){
+		System.out.println("update state ag");
+		for(int i=0;i<l.size();i++){
+			if(l.get(i)==true){
+				this.statAgents.set(i,true);
+			}
+		}
+	}
+	public List<Boolean> getStatAgents() {
+		return statAgents;
+	}
+
+	public void setStatAgents(List<Boolean> statAgents) {
+		this.statAgents = statAgents;
 	}
 
 	public void setMap(MapRepresentation myMap) {
@@ -312,7 +341,9 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public void setIndex_last_tr(int index_last_tr) {
 		this.index_last_tr = index_last_tr;
 	}
-	
+	public void setMYStatAgent(){
+		this.statAgents.set(getMyOrder(), true);
+	}
 	public Integer getMyOrder() {
 		String myName=this.getLocalName();
 		return Integer.parseInt(myName.substring(1,myName.length()));

@@ -5,62 +5,49 @@ import java.util.List;
 import java.util.Set;
 
 import dataStructures.tuple.Couple;
-import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
-import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
+
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
-
 import jade.lang.acl.ACLMessage;
 
-/**
- * This example behaviour try to send a hello message (every 3s maximum) to agents Collect2 Collect1
- * @author hc
- *
- */
-public class SendKnwoledge extends OneShotBehaviour{
+public class SendStatAgents extends OneShotBehaviour {
 
-	private static final long serialVersionUID = -2058134622078521998L;
-	private MapRepresentation myMap;
-	private Agent agent;
-	//Nodes known but not yet visited
-	private List<String> openNodes;
-	//Visited nodes
-	private Set<String> closedNodes;
-	private List<String[]> edges;
-	private boolean finished= false;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5569462208192636013L;
+	private Agent myAgent;
 	//private String receiver;
 	private List<String> receivers;
-	public SendKnwoledge (final Agent myagent,List<String> r ,List<String> openNodes ,Set<String> closedNodes) {
+	
+	public SendStatAgents(Agent agent, List<String> receivers) {
 		super();
-		this.agent=myagent;
-		this.receivers=r;
-		this.openNodes=openNodes;
-		this.closedNodes=closedNodes;
+		this.myAgent = agent;
+		this.receivers = receivers;
 	}
+
 	@Override
-	public void action() {	
+	public void action() {
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 		//A message is defined by : a performative, a sender, a set of receivers, (a protocol),(a content (and/or contentOBject))
 		ACLMessage msg;
 		if (myPosition!=""){
-			System.out.println("Agent "+agent.getLocalName()+ " is trying to reach its friends to send the map");
+			System.out.println("Agent "+this.myAgent.getLocalName()+ " is trying to reach its friends to send the stat of agents");
 			try {
 				//Creation of message's content
 				//MessageKnowledge mk=new MessageKnowledge(myMap,openNodes,closedNodes);
-				List<Couple<String,List<Couple<Observation,Integer>>>>  objectsFound=((MyAgent)this.agent).getObjetcsFound();
-				this.edges=((MyAgent)agent).getMap().getEdges();
-				Object[] mk= {1,myPosition,openNodes,closedNodes,edges,objectsFound};
+				Object[] mk= {2,((MyAgent)this.myAgent).getStatAgents()};
 				for(int i=0;i<this.receivers.size();i++) {
-					//System.out.println("Agent "+agent.getLocalName()+ " message send to"+this.receivers.get(i));
 					msg=new ACLMessage(ACLMessage.INFORM);
 					msg.setSender(this.myAgent.getAID());
 					msg.setProtocol("UselessProtocol");
 					msg.setContentObject(mk);
 					msg.addReceiver(new AID(this.receivers.get(i),AID.ISLOCALNAME));
-					((AbstractDedaleAgent)agent).sendMessage(msg);
+					((AbstractDedaleAgent)this.myAgent).sendMessage(msg);
 				}
 				
 				/*System.out.println("*******************ENVOI***************************");	
@@ -88,15 +75,8 @@ public class SendKnwoledge extends OneShotBehaviour{
 			//System.out.println("Agent "+agent.getLocalName()+ "After send");
 			//finished=true;
 		}
+
+		
 	}
-	@Override
-	 public int onEnd() {
-	      return 0;
-	 } 
-/*
-	@Override
-	public boolean done() {
-		// TODO Auto-generated method stub
-		return finished;
-	}*/
+
 }

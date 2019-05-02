@@ -40,7 +40,14 @@ public class ExploreSoloAgent extends AbstractDedaleAgent {
 	protected void setup(){
 
 		super.setup();
-
+		try {
+			Thread.sleep(1000);
+			System.out.println("I am sleeeping");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
+	
 		//get the parameters given into the object[]
 		final Object[] args = getArguments();
 		if(args[0]!=null){

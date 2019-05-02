@@ -16,6 +16,7 @@ import eu.su.mas.dedaleEtu.mas.behaviours.communication.AskHelpCollect;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.ReceiveHelpCollect;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.ReceiveKnowledge;
 import eu.su.mas.dedaleEtu.mas.behaviours.communication.SendKnwoledge;
+import eu.su.mas.dedaleEtu.mas.behaviours.communication.SendStatAgents;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.FSMBehaviour;
 
@@ -33,6 +34,8 @@ public class AgentExplo extends MyAgent{
 		
 		//Definition of states
 		private static final String explore="ExploSoloBehaviour";
+		private static final String receiveStatAgents="ReceiveStatAgents";
+		private static final String sendStatAgents="SendStatAgents";
 		private static final String openlock="LocksmithBehaviour";
 		private static final String sendKnow="SendKnowledge";
 		private static final String receiveKnow="ReceiveKnowledge";
@@ -49,6 +52,7 @@ public class AgentExplo extends MyAgent{
 		@SuppressWarnings("unchecked")
 		protected void setup(){
 			super.setup();	
+			
 			this.objetcsFound=new ArrayList<Couple<String,List<Couple<Observation,Integer>>>> ();
 			this.openedNodes=new ArrayList<String>();
 			this.closedNodes=new HashSet<String>();
@@ -56,6 +60,7 @@ public class AgentExplo extends MyAgent{
 			final Object[] args = getArguments();
 			if(args[0]!=null){
 				receivers = (List<String>) args[2];
+				((MyAgent)this).initStatAgents(receivers.size());
 				//these data are currently not used by the agent, its just to show you how to get them if you need it 
 			}else{
 				System.out.println("Erreur lors du tranfert des parametres");
@@ -63,6 +68,8 @@ public class AgentExplo extends MyAgent{
 			fsm = new FSMBehaviour(this);
 			// Define the different states and behaviours
 			fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
+			fsm.registerState(new SendStatAgents(this,this.receivers), sendStatAgents);
+			
 			fsm.registerState (new RandomSearchBehaviour(this), randomSearch);
 			fsm.registerState (new LocksmithBehaviour(this), openlock);
 			fsm.registerState (new ReceiveHelpCollect(this), goToHelp);
@@ -71,10 +78,15 @@ public class AgentExplo extends MyAgent{
 			fsm.registerState (new AskHelpCollect(this,receivers), Askforhelp);
 			fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 			fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
-			fsm.registerDefaultTransition(explore,sendKnow);
-			fsm.registerDefaultTransition(sendKnow,receiveKnow);
-			fsm.registerTransition(receiveKnow,explore,1);
-			fsm.registerTransition(receiveKnow,openlock,2);
+			
+			fsm.registerTransition(explore,sendKnow,1);
+			fsm.registerTransition(explore,openlock,2);
+			
+			fsm.registerDefaultTransition(sendKnow,sendStatAgents);
+			fsm.registerDefaultTransition(sendStatAgents,receiveKnow);
+			fsm.registerDefaultTransition(receiveKnow,explore);
+			
+			
 			fsm.registerTransition(openlock, MovetoTarget,1);
 			fsm.registerTransition(openlock,donothing,2);
 			fsm.registerTransition(openlock,openlock,3);

@@ -12,13 +12,13 @@ import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
-public class ReceiveKnowledge extends OneShotBehaviour{
+public class ReceiveState extends OneShotBehaviour{
 
 	private static final long serialVersionUID = -4404490189062055618L;
 	private boolean finished=false;
 	private Agent myAgent;
 	private int exitValue;
-	public ReceiveKnowledge(Agent agent) {
+	public ReceiveState(Agent agent) {
 		super();
 		this.myAgent = agent;
 	}
