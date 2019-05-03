@@ -387,7 +387,7 @@ public class Principal {
 		Object[] objtab=AbstractDedaleAgent.loadEntityCaracteristics(agentName,ConfigurationFile.INSTANCE_CONFIGURATION_ENTITIES);
 		Object []res2=merge(objtab,additionnalParameters);
 
-		AgentController ag=null;
+		AgentController ag=null; 
 		try {
 			ag = initialContainer.createNewAgent(agentName,className,res2);
 		} catch (StaleProxyException e) {
