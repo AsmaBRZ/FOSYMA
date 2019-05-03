@@ -23,11 +23,20 @@ public class MovetoTarget extends OneShotBehaviour {
 	
 	@Override
 	public void action() {
+		try {
+			Thread.sleep(1000);
+			System.out.println("I am sleeeping");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
+	
 		if(((AbstractDedaleAgent)this.agent).getCurrentPosition().equals(((MyAgent)this.agent).getNodeToVisit())){
 			((MyAgent)this.agent).setmoved(succ);
 			
 			System.out.println(((MyAgent)this.agent).getLocalName()+"---------"+((AbstractDedaleAgent)this.agent).getCurrentPosition()+"    "+((MyAgent)this.agent).getmycurrentpath());
-			((MyAgent)this.agent).setcurrentpath();
+			if(((MyAgent)this.agent).getmycurrentpath().size()>0)
+				((MyAgent)this.agent).setcurrentpath();
 
 			
 		}
@@ -42,8 +51,7 @@ public class MovetoTarget extends OneShotBehaviour {
 			System.out.println("Je suis sur le trésor");
 			//si on est passé par tous les trésors :
 			
-				((MyAgent)this.agent).setIndex_last_tr(((MyAgent)this.agent).getIndex_last_tr()+1);
-				this.exitValue=1;
+			this.exitValue=1;
 			
 		}
 	}

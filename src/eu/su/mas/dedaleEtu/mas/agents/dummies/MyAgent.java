@@ -48,6 +48,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 	protected List<Couple<String,List<Couple<Observation,Integer>>>>  myTr;
 	protected List<String> pathToTarget;
 	protected int cpt;
+	protected int nbAgentexplo ;
 	protected void setup(){
 		super.setup();	
 		this.index_last_tr=0;
@@ -193,6 +194,9 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public void removeObjectsFound(Couple<String,List<Couple<Observation,Integer>>>  e) {
 		this.objetcsFound.remove(e);
 	}
+	public Integer getnbedge(){
+		return this.map.getnbedge();
+	}
 	//remove observation from my list if I succeed picking it
 	public void removeObjectFound(Triple<String,Observation,Integer> e) {
 		String node=e.getLeft();
@@ -226,6 +230,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 			}
 		}
 	}
+	
 	public List<String>getTheNearestTrs(String myPosition) {
 		List<String>  pathToTarget;
 		List<Couple<String,List<Couple<Observation,Integer>>>> obj=this.objetcsFound;
@@ -281,19 +286,20 @@ public class MyAgent extends AbstractDedaleAgent   {
 		this.role = role;
 	}
 	public List<Couple<String,List<Couple<Observation,Integer>>>> treasure_sorted(){
-		List<String> inter= new ArrayList<String>();
+		ArrayList<String> inter= new ArrayList<String>();
 		List<Couple<String,List<Couple<Observation,Integer>>>> tr_sorted = new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
 		for (int i=0;i<this.objetcsFound.size();i++){
 			inter.add(this.objetcsFound.get(i).getLeft());
 		}
 		Collections.sort(inter);
-		for (int j=0;j<inter.size();j++){
+		int k =0;
 			for (int i=0;i<this.objetcsFound.size();i++){
-				if(this.objetcsFound.get(i).getLeft().equals(inter.get(j))){
+				if(this.objetcsFound.get(i).getLeft().equals(inter.get(k))){
 					//System.out.println(this.objetcsFound.get(i));
 					tr_sorted.add(this.objetcsFound.get(i));
+					k+=1;
 				}
-			}
+			
 		}
 		return tr_sorted;
 		
@@ -320,13 +326,13 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public void createmyTr(){
 		//Tous les trésors existants triés:
 		List<Couple<String,List<Couple<Observation,Integer>>>> trSorted=this.treasure_sorted();
-		int index_mod=this.getIndex_last_tr();
 		
 		//les trésors de l'agent courant(modulo le numero de l'agent):
 		
 		List<Couple<String,List<Couple<Observation,Integer>>>> myTr= new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
-		for( int i=this.getMyOrder()-1; i<trSorted.size();i=i+this.receivers.size()+1) {
 		
+		for( int i=this.getMyOrder()-1;i<trSorted.size();i=i+this.nbAgentexplo) {
+	
 			myTr.add(trSorted.get(i));
 			
 			

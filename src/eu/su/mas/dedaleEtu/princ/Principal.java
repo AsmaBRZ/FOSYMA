@@ -301,13 +301,14 @@ public class Principal {
 //		ag=createNewDedaleAgent(c, agentName, DummyWumpusShift.class.getName(), entityParameters);
 //		agentList.add(ag);
 		
-		int nbAgents=4;
+		int nbAgents=3;
 		List<AbstractDedaleAgent> myAgents=new ArrayList<AbstractDedaleAgent>();
 		List<String> friends=new ArrayList<String>();
 		for(int j=1;j<=nbAgents;j++) {
 			friends.add("e"+j);
 		}
 		System.out.println("*-******************************"+ConfigurationFile.INSTANCE_CONFIGURATION_ENTITIES);
+		int nbAgentExplo=1;
 		for(int i=1;i<=nbAgents;i++) {
 			//1) Get the container where the agent will appear
 			c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
@@ -318,9 +319,9 @@ public class Principal {
 			myFriends.remove("e"+i);
 			//System.out.println("friend of "+agentName+" are:"+myFriends.toString());
 			//3) If you want to give specific parameters to your agent, add them here
-			Object [] entityParameters2={myFriends};
+			Object [] entityParameters2={myFriends,nbAgentExplo};
 			//4) Give the class name of your agent to let the system instantiate it
-			if(i<=nbAgents/2) {
+			if(i<=nbAgentExplo) {
 				ag=createNewDedaleAgent(c, agentName, AgentExplo.class.getName(), entityParameters2);
 			}
 			else {

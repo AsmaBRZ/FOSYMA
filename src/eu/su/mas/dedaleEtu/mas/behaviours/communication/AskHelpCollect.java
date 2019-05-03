@@ -47,10 +47,13 @@ public class AskHelpCollect extends OneShotBehaviour {
 			}
 			((MyAgent)this.agent).setcpt();
 			try {
-				this.myAgent.doWait(10000);
-			} catch (Exception e) {
+				Thread.sleep(5);
+				System.out.println("I am sleeeping");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
+		
 			System.out.println("je vais sortir de askhelp");
 		
 		}

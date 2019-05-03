@@ -56,7 +56,9 @@ public class MapRepresentation implements Serializable {
 	 * @param id
 	 * @param mapAttribute
 	 */
-	
+	public Integer getnbedge(){
+		return this.nbEdges;
+	}
 	public void removeNode(String id) {
 		this.g.removeNode(id);
 	}

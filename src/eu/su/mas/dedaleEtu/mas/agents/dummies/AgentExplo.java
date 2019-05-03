@@ -56,6 +56,7 @@ public class AgentExplo extends MyAgent{
 			final Object[] args = getArguments();
 			if(args[0]!=null){
 				receivers = (List<String>) args[2];
+				nbAgentexplo = (Integer) args[3];
 				//these data are currently not used by the agent, its just to show you how to get them if you need it 
 			}else{
 				System.out.println("Erreur lors du tranfert des parametres");

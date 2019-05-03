@@ -1,6 +1,7 @@
 package eu.su.mas.dedaleEtu.mas.behaviours.communication;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import dataStructures.tuple.Couple;
@@ -43,22 +44,36 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 			String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 			//System.out.println("Agent \"+agent.getLocalName()"+ "in testing msg!=null");
 			//System.out.println(agent.getLocalName()+"<----Result received from "+msg.getSender().getLocalName());
+			int cpt=0;
 			try {
 				Object[] content=(Object[]) msg.getContentObject();
 				//la position de l agent qui demande de l'aide
 				String positionTarget=(String) content[0];
-				System.out.println(positionTarget);
 				//si je suis explorator ou collector moins prioritire , j y vais sans me poser de questions
 				if(this.myAgent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
 					List<String>  pathToTarget=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget); 
-					for(int k=0;k<pathToTarget.size()-1;k++) {
-						System.out.println("je vais vers la position "+positionTarget);
-						((MyAgent)this.myAgent).moveTo(pathToTarget.get(k));
+					if(pathToTarget.size()>0){
+						for(int k=0;k<pathToTarget.size()-1;k++) {
+							System.out.println(((MyAgent)this.myAgent).getLocalName()+" je vais vers la position "+positionTarget+" chemin a suivre "+pathToTarget+" je suis a la position "+((MyAgent)this.myAgent).getCurrentPosition());
+							boolean succ=((MyAgent)this.myAgent).moveTo(pathToTarget.get(k));
+							if(succ==false ){
+								cpt+=1;
+								k=k-1;
+							}
+							if(cpt>5){
+								Random r= new Random();
+								int moveId=1+r.nextInt(((MyAgent) this.myAgent).getnbedge());
+								System.out.println("dizzzzzzzzzzzzzaaaaaaaaaaaaaaaaaaaaaaaaaaaaan"+moveId);
+								String pos = ((Integer)moveId).toString();
+								pathToTarget=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget);
+							}
+						}
 					}
+					
 					System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+" my Expertise "+((MyAgent)this.myAgent).getMyExpertise());
 					//List<String>  pathToTarget2=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget);
 					try {
-						Thread.sleep(10000);
+						Thread.sleep(1000);
 						System.out.println("I am sleeeping");
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block

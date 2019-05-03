@@ -33,16 +33,18 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 	@Override
 	public void action() {
 			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
+			//pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
+			
+			this.exitValue=30;
+			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
 			System.out.println(((AbstractDedaleAgent)this.agent).getLocalName()+" je suis dans le behaviour locksmith");
 			//open the lock
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((MyAgent)this.agent).observe();
 			List<Couple<Observation,Integer>> lObservations= lobs.get(0).getRight();
 			System.out.println("observe "+lobs);
 			int i=0;
-			boolean trConfirmed=true;
 			if(lobs.get(0).getLeft().contentEquals(this.myPosition)) {
 				if(!lobs.get(i).getRight().isEmpty()) {
-					Boolean b=false;
 					for(Couple<Observation,Integer> o:lObservations){
 						switch (o.getLeft()) {
 						case DIAMOND:case GOLD:
@@ -51,43 +53,33 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 							System.out.println(type+" tyeeeee");
 							boolean bool=((AbstractDedaleAgent)this.agent).openLock(type);
 							if(bool==true){
-								System.out.println("myExpertise");
-								System.out.println(((MyAgent)this.agent).getMyExpertise());
-								System.out.println("je suis "+((MyAgent)this.agent).getLocalName()+"  j'ai reussi a ouvrir le trésor ");
+								System.out.println("je suis "+((MyAgent)this.agent).getLocalName()+"  j'ai reussi a ouvrir le trésor. la liste des trésors "+((MyAgent)this.agent).getmytr()+" index du dernier tresor "+((MyAgent)this.agent).getIndex_last_tr());
 								System.out.println("-------------------");
+								((MyAgent)this.agent).setIndex_last_tr(((MyAgent)this.agent).getIndex_last_tr()+1);
+								
 								//j'appelle mes potes collecteurs pour collecter 
-								//this.exitValue=3;
 							}else{
 								System.out.println(((AbstractDedaleAgent)this.agent).getLocalName()+" j'ai besoin d'aide ");
-								System.out.println(((AbstractDedaleAgent)this.agent).getLocalName()+" my Expertise "+((MyAgent)this.agent).getMyExpertise());
 								//Je vais appeler mes potes collecteur pour m'aider a ouvrir
 								this.exitValue=3;
 							}
-							b=true;
+
 							break;
 						default:
 							break;
 						}
 					}
-					//les trois dernières elements sont : lochisOpen, LockPicking et strengths
-					for (int j=0;j<lobs.get(i).getRight().size()-3;j++){
-						
-						//Dans les deux cas il faut que j'appelle les collecteurs 
-						//soit pour ramasser le trésor ou bien pour m'aider a ouvrir 
-					}
+					
 				}
 				
 			}
-			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
-			//pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
-			String target="init";
-			((MyAgent)this.agent).createmyTr();
+			
 
-			//System.out.println(((MyAgent)this.agent).getLocalName()+"mmmmmmmm "+((MyAgent)this.agent).getmytr())	;		
 		
 			
 			
 			//test if there is no treasor left:
+			
 			if (((MyAgent)this.agent).getmytr().size()!=((MyAgent)this.agent).getIndex_last_tr() && this.exitValue!=3){
 				((MyAgent)this.agent).createmycurrentpath();
 				System.out.println("je m'appelle "+((MyAgent)this.agent).getLocalName()+" Liste de mes trésors "+((MyAgent)this.agent).getmytr()+"-----------"+"je vais vers le trésor numéro: "+((MyAgent)this.agent).getIndex_last_tr());
@@ -98,77 +90,6 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 				this.exitValue=2;
 			}
 			
-			
-			//application du behaviour move:
-			/*System.out.println(((MyAgent)this.agent).getmycurrentpath());
-			List<String> pathToTarget=((MyAgent)this.agent).getmycurrentpath();
-			int suc=1;
-			int k=0;
-			while(suc== 1 && k<pathToTarget.size()) {
-				Behaviour b=new MovetoTarget(this.agent,pathToTarget.get(k));
-				b.action();
-				suc=b.onEnd();
-				
-				//suc=((MyAgent)this.agent).moveTo(pathToTarget.get(k));
-				//System.out.println(this.myPosition);
-				
-				if(suc==0){
-					System.out.println("on ne peut pas accéder a la case :"+pathToTarget.get(k));
-					//gérer l'interblockage
-					probleme=true;
-				}else{
-					System.out.println(this.agent.getLocalName()+"je suis a la case "+this.myPosition);
-					((MyAgent)this.agent).moveTo(pathToTarget.get(k));
-				}
-				
-				
-				k++;
-				
-			}
-			if(this.myPosition.equals(pathToTarget)){
-				System.out.println("on est sur la bonne case ");
-			}
-			//System.out.println("je m'appelle "+this.agent.getLocalName());
-			//System.out.println("ma destination est "+((MyAgent)this.agent).getTheNearestTrs(this.myPosition));
-			//System.out.println("je suis à "+this.myPosition);
-			//Je suis arrivée sur mon target, je verifie qu'il est bien là
-			if(probleme==false){
-			
-				List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.agent).observe();
-				int i=0;
-				boolean trConfirmed=true;
-				while(trConfirmed==true && i<lobs.size()) {
-					System.out.println(lobs);
-					System.out.println(lobs.get(i).getLeft().contentEquals(this.myPosition));
-					if(lobs.get(i).getLeft().contentEquals(this.myPosition)) {
-						System.out.println();
-						if(!lobs.get(i).getRight().isEmpty()) {
-							Observation type=((AbstractDedaleAgent)this.agent).getMyTreasureType();
-							System.out.println("we have the treasor "+lobs.get(i)+ " "+type);
-						}else{
-							System.out.println("there is no treasor here");
-						}
-					}
-					i++;
-				}
-				this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
-				//I am on my goal
-				
-				//remove the obj if success: picking it
-				//check if I am pretty well in my target
-				
-				if(this.myPosition==target)) {
-					//try to pick it
-					System.out.println("Im on my goal youhouu !");
-					//((ExploratorAgent)agent).removeObjectFound(target);
-				}
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}*/
 			
 	}
 	@Override
