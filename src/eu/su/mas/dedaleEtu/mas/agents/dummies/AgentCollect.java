@@ -1,6 +1,7 @@
 package eu.su.mas.dedaleEtu.mas.agents.dummies;
 import eu.su.mas.dedaleEtu.mas.behaviours.LocksmithBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.ExploSoloBehaviour;
+
 import eu.su.mas.dedaleEtu.mas.behaviours.MovetoTarget;
 import eu.su.mas.dedaleEtu.mas.behaviours.RandomSearchBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.Donothing;
