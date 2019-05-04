@@ -301,14 +301,14 @@ public class Principal {
 //		ag=createNewDedaleAgent(c, agentName, DummyWumpusShift.class.getName(), entityParameters);
 //		agentList.add(ag);
 		
-		int nbAgents=3;
+		int nbAgents=4;
 		List<AbstractDedaleAgent> myAgents=new ArrayList<AbstractDedaleAgent>();
 		List<String> friends=new ArrayList<String>();
 		for(int j=1;j<=nbAgents;j++) {
 			friends.add("e"+j);
 		}
 		System.out.println("*-******************************"+ConfigurationFile.INSTANCE_CONFIGURATION_ENTITIES);
-		int nbAgentExplo=1;
+		int nbAgentExplo=2;
 		for(int i=1;i<=nbAgents;i++) {
 			//1) Get the container where the agent will appear
 			c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);

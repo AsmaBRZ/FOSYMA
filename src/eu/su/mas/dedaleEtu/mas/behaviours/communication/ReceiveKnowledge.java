@@ -54,7 +54,9 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 				e.printStackTrace();
 			}
 		}
+
 		if(((MyAgent)this.myAgent).getType()==1) {
+
 			((MyAgent)this.myAgent).createmyTr();
 			System.out.println(((MyAgent)this.myAgent).getLocalName()+"--- Je vais ouvrir les trésors :D");
 				this.exitValue=2;

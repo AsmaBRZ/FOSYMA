@@ -68,6 +68,9 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 						}
 					}
 					
+				}else{
+					((MyAgent)this.agent).setIndex_last_tr(((MyAgent)this.agent).getIndex_last_tr()+1);
+
 				}
 				
 			

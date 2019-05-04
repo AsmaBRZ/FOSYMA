@@ -288,19 +288,25 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public List<Couple<String,List<Couple<Observation,Integer>>>> treasure_sorted(){
 		ArrayList<String> inter= new ArrayList<String>();
 		List<Couple<String,List<Couple<Observation,Integer>>>> tr_sorted = new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
+		
 		for (int i=0;i<this.objetcsFound.size();i++){
-			inter.add(this.objetcsFound.get(i).getLeft());
+			if(inter.contains(this.objetcsFound.get(i).getLeft())==false){
+				inter.add(this.objetcsFound.get(i).getLeft());
+			}
 		}
 		Collections.sort(inter);
-		int k =0;
+		
+		for (int k=0; k<inter.size();k++){
 			for (int i=0;i<this.objetcsFound.size();i++){
+				System.out.println("--------------------------k "+k);
 				if(this.objetcsFound.get(i).getLeft().equals(inter.get(k))){
 					//System.out.println(this.objetcsFound.get(i));
 					tr_sorted.add(this.objetcsFound.get(i));
-					k+=1;
+					break;
 				}
-			
+			}
 		}
+			
 		return tr_sorted;
 		
 	}
@@ -326,7 +332,6 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public void createmyTr(){
 		//Tous les trésors existants triés:
 		List<Couple<String,List<Couple<Observation,Integer>>>> trSorted=this.treasure_sorted();
-		
 		//les trésors de l'agent courant(modulo le numero de l'agent):
 		
 		List<Couple<String,List<Couple<Observation,Integer>>>> myTr= new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
@@ -337,7 +342,9 @@ public class MyAgent extends AbstractDedaleAgent   {
 			
 			
 		}
-
+		System.out.println(this.getLocalName()+"-----------------------------trésors trouvé  "+this.objetcsFound);
+		System.out.println(this.getLocalName()+"-----------------------------trésors "+trSorted);
+		System.out.println("-----------------------------mes trésors "+myTr);
 		this.myTr=myTr;
 
 	}

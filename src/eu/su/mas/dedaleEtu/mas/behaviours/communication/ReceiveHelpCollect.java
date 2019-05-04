@@ -72,6 +72,7 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 								myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 								pathToTarget=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget);
 								k=0;
+								cpt=0;
 							}
 						}
 					}
