@@ -49,23 +49,29 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 				Object[] content=(Object[]) msg.getContentObject();
 				//la position de l agent qui demande de l'aide
 				String positionTarget=(String) content[0];
-				//si je suis explorator ou collector moins prioritire , j y vais sans me poser de questions
 				if(this.myAgent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect) {
 					List<String>  pathToTarget=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget); 
 					if(pathToTarget.size()>0){
 						for(int k=0;k<pathToTarget.size()-1;k++) {
-							System.out.println(((MyAgent)this.myAgent).getLocalName()+" je vais vers la position "+positionTarget+" chemin a suivre "+pathToTarget+" je suis a la position "+((MyAgent)this.myAgent).getCurrentPosition());
+							myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
+							pathToTarget=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget);
+							k=0;
+							System.out.println(((MyAgent)this.myAgent).getLocalName()+" je vais vers la position "+positionTarget+" chemin a suivre "+pathToTarget+" je suis a la position "+((MyAgent)this.myAgent).getCurrentPosition()+"index "+k);
 							boolean succ=((MyAgent)this.myAgent).moveTo(pathToTarget.get(k));
 							if(succ==false ){
 								cpt+=1;
 								k=k-1;
 							}
-							if(cpt>5){
+							if(cpt>2){
 								Random r= new Random();
-								int moveId=1+r.nextInt(((MyAgent) this.myAgent).getnbedge());
+								List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
+								
+								int moveId=1+r.nextInt(lobs.size()-1);
 								System.out.println("dizzzzzzzzzzzzzaaaaaaaaaaaaaaaaaaaaaaaaaaaaan"+moveId);
-								String pos = ((Integer)moveId).toString();
+								((MyAgent)this.myAgent).moveTo(lobs.get(moveId).getLeft());
+								myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 								pathToTarget=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget);
+								k=0;
 							}
 						}
 					}
@@ -74,7 +80,7 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 					//List<String>  pathToTarget2=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget);
 					try {
 						Thread.sleep(1000);
-						System.out.println("I am sleeeping");
+						System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+"I am sleeeping");
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

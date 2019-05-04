@@ -48,7 +48,7 @@ public class AskHelpCollect extends OneShotBehaviour {
 			((MyAgent)this.agent).setcpt();
 			try {
 				Thread.sleep(5);
-				System.out.println("I am sleeeping");
+				System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+"I am sleeeping in ask help");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

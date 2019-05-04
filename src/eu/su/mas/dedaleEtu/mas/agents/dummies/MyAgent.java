@@ -341,6 +341,11 @@ public class MyAgent extends AbstractDedaleAgent   {
 		this.myTr=myTr;
 
 	}
+	public void createmyTr2(Couple<String,List<Couple<Observation,Integer>>> tresor){
+		List<Couple<String,List<Couple<Observation,Integer>>>> myTr= new ArrayList<Couple<String,List<Couple<Observation,Integer>>>>();
+		myTr.add(tresor);
+		this.myTr=myTr;
+	}
 	public List<Couple<String,List<Couple<Observation,Integer>>>> getmytr(){
 		return this.myTr;
 	}

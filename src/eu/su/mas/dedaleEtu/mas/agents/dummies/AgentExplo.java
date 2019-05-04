@@ -77,11 +77,15 @@ public class AgentExplo extends MyAgent{
 			fsm.registerTransition(receiveKnow,explore,1);
 			fsm.registerTransition(receiveKnow,openlock,2);
 			fsm.registerTransition(openlock, MovetoTarget,1);
-			fsm.registerTransition(openlock,donothing,2);
+			fsm.registerTransition(openlock,randomSearch,2);
 			fsm.registerTransition(openlock,Askforhelp,3);
 			fsm.registerDefaultTransition(Askforhelp,openlock);
 			fsm.registerTransition(MovetoTarget, openlock,1);
 			fsm.registerTransition(MovetoTarget, MovetoTarget,2);
+			fsm.registerTransition(randomSearch,randomSearch,1);
+			fsm.registerTransition(randomSearch,openlock,2);
+
+
 			//fsm.registerTransition(MovetoTarget, donothing,3);
 
 

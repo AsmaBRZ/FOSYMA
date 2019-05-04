@@ -25,7 +25,7 @@ public class MovetoTarget extends OneShotBehaviour {
 	public void action() {
 		try {
 			Thread.sleep(1000);
-			System.out.println("I am sleeeping");
+			System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+"I am sleeeping in move to");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

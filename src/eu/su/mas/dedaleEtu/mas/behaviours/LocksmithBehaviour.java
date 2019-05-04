@@ -32,7 +32,6 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 
 	@Override
 	public void action() {
-			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
 			//pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
 			
 			this.exitValue=30;
@@ -42,9 +41,8 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((MyAgent)this.agent).observe();
 			List<Couple<Observation,Integer>> lObservations= lobs.get(0).getRight();
 			System.out.println("observe "+lobs);
-			int i=0;
-			if(lobs.get(0).getLeft().contentEquals(this.myPosition)) {
-				if(!lobs.get(i).getRight().isEmpty()) {
+			
+				if(!lobs.get(0).getRight().isEmpty()) {
 					for(Couple<Observation,Integer> o:lObservations){
 						switch (o.getLeft()) {
 						case DIAMOND:case GOLD:
@@ -59,7 +57,7 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 								
 								//j'appelle mes potes collecteurs pour collecter 
 							}else{
-								System.out.println(((AbstractDedaleAgent)this.agent).getLocalName()+" j'ai besoin d'aide ");
+								System.out.println(((AbstractDedaleAgent)this.agent).getLocalName()+" j'ai besoin d'aide yaaa");
 								//Je vais appeler mes potes collecteur pour m'aider a ouvrir
 								this.exitValue=3;
 							}
@@ -72,7 +70,7 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 					
 				}
 				
-			}
+			
 			
 
 		
@@ -86,8 +84,10 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 				this.exitValue=1;
 			}
 			else{
-				if(this.exitValue!=3)
-				this.exitValue=2;
+				if(this.exitValue!=3){
+					System.out.println("je vais faire un random search");
+					this.exitValue=2;
+				}
 			}
 			
 			
