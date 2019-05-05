@@ -28,7 +28,7 @@ public class RandomSearchBehaviour extends OneShotBehaviour {
 		if (myPosition!=null){
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 				System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+"I am sleeeping in random search");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -59,6 +59,16 @@ public class RandomSearchBehaviour extends OneShotBehaviour {
 						((MyAgent) this.myAgent).setIndex_last_tr(0);
 						System.out.println("je rentre dans open lock a partir de random search");
 						this.exitValue=2;
+					}
+				}else{
+					if(myAgent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect){
+						for(Couple<Observation,Integer> o:lObservations){
+							if (o.getLeft()==Observation.LOCKSTATUS && o.getRight()==(1) ) 
+								System.out.println("je suis un collecteur ");
+								//Nous allons collecter 
+								this.exitValue=2;
+						}
+						
 					}
 				}
 			}else{

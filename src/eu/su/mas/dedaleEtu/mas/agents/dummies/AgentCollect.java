@@ -2,6 +2,7 @@ package eu.su.mas.dedaleEtu.mas.agents.dummies;
 import eu.su.mas.dedaleEtu.mas.behaviours.LocksmithBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.ExploSoloBehaviour;
 
+import eu.su.mas.dedaleEtu.mas.behaviours.CollectBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.MovetoTarget;
 import eu.su.mas.dedaleEtu.mas.behaviours.RandomSearchBehaviour;
 import eu.su.mas.dedaleEtu.mas.behaviours.Donothing;
@@ -39,6 +40,10 @@ public class AgentCollect  extends MyAgent {
 	private static final String receiveKnow="ReceiveKnowledge";
 	private static final String goToHelp="ReceiveHelpCollect ";
 	private static final String mandatory="startMyBehaviours";
+	private static final String collect="collectBehaviour";
+	private static final String donothing="Donothing ";
+
+
 	
 	private FSMBehaviour fsm ;
 	
@@ -60,14 +65,20 @@ public class AgentCollect  extends MyAgent {
 		// Define the different states and behaviours
 		fsm.registerFirstState (new ExploSoloBehaviour(this), explore);
 		fsm.registerState (new RandomSearchBehaviour(this), randomSearch);
+		fsm.registerState (new CollectBehaviour(this), collect);
 		fsm.registerState (new ReceiveHelpCollect(this), goToHelp);
 		fsm.registerState (new SendKnwoledge(this,receivers,this.openedNodes,this.closedNodes),sendKnow);
 		fsm.registerState (new ReceiveKnowledge(this),receiveKnow);
+		fsm.registerLastState (new Donothing(), donothing);
 		fsm.registerDefaultTransition(explore,sendKnow);
 		fsm.registerDefaultTransition(sendKnow,receiveKnow);
 		fsm.registerTransition(receiveKnow,explore,1);
 		fsm.registerTransition(receiveKnow,randomSearch,3);
-		fsm.registerDefaultTransition(randomSearch,goToHelp);
+		fsm.registerTransition(randomSearch,goToHelp,1);
+		fsm.registerTransition(randomSearch,collect,2);
+		fsm.registerTransition(collect,randomSearch,1);
+		fsm.registerTransition(collect,donothing,2);
+		
 		fsm.registerDefaultTransition(goToHelp,randomSearch);
 		lb=new ArrayList<Behaviour>();
 		lb.add(fsm);

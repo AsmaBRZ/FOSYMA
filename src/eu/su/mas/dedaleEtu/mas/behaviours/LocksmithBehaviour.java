@@ -80,14 +80,17 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 			
 			
 			//test if there is no treasor left:
-			
-			if (((MyAgent)this.agent).getmytr().size()!=((MyAgent)this.agent).getIndex_last_tr() && this.exitValue!=3){
+			int somA = (Integer)((MyAgent)this.agent).getIndex_last_tr();
+			int somB = (Integer)1;
+			if (((MyAgent)this.agent).getmytr().size()!=((Integer)somA) && this.exitValue!=3){
+				System.out.println("taille"+((MyAgent)this.agent).getmytr().size()+"index"+((Integer)somA+somB));
 				((MyAgent)this.agent).createmycurrentpath();
 				System.out.println("je m'appelle "+((MyAgent)this.agent).getLocalName()+" Liste de mes trésors "+((MyAgent)this.agent).getmytr()+"-----------"+"je vais vers le trésor numéro: "+((MyAgent)this.agent).getIndex_last_tr());
 				this.exitValue=1;
 			}
 			else{
 				if(this.exitValue!=3){
+					((MyAgent)this.agent).setIndex_last_tr(0);
 					System.out.println("je vais faire un random search");
 					this.exitValue=2;
 				}

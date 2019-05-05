@@ -313,6 +313,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public String getNodeToVisit() {
 		return this.nodeToVisit;
 	}
+	
 	public void setNodeToVisit(String s) {
 		this.nodeToVisit=s;
 	}
@@ -338,14 +339,11 @@ public class MyAgent extends AbstractDedaleAgent   {
 		
 		for( int i=this.getMyOrder()-1;i<trSorted.size();i=i+this.nbAgentexplo) {
 	
-			myTr.add(trSorted.get(i));
+			//myTr.add(trSorted.get(i));
 			
 			
 		}
-		System.out.println(this.getLocalName()+"-----------------------------trésors trouvé  "+this.objetcsFound);
-		System.out.println(this.getLocalName()+"-----------------------------trésors "+trSorted);
-		System.out.println("-----------------------------mes trésors "+myTr);
-		this.myTr=myTr;
+		this.myTr=trSorted;
 
 	}
 	public void createmyTr2(Couple<String,List<Couple<Observation,Integer>>> tresor){
@@ -371,6 +369,13 @@ public class MyAgent extends AbstractDedaleAgent   {
 			}
 		}
 	}
+	public void setcurrentpathh(List<String> newpath){
+		this.pathToTarget=newpath;
+		if(this.pathToTarget.size()>0){
+			this.nodeToVisit=this.pathToTarget.get(0);
+		}
+	}
+	
 	public void createmycurrentpath(){
 		//le premier trésor de la liste courante:
 		//this.getmyTr();

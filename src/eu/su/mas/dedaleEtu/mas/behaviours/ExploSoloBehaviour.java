@@ -38,7 +38,7 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 	}
 	@Override
 	public void action() {
-		System.out.println(agent.getLocalName()+" I am exploring "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
+		System.out.println(agent.getLocalName()+" I am exploring "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition()+" observation "+((AbstractDedaleAgent)this.myAgent).observe());
 		//System.out.println(agent.getLocalName()+" My list of open nodes"+((MyAgent)this.myAgent).getOpenedNodes().toString());
 		((MyAgent) agent).addHist(((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
 		List<String> hist=((MyAgent) agent).getHist();

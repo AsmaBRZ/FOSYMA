@@ -1,4 +1,4 @@
 mapname:mapInterlocking1
-agentCollect:Collect1:3:0:10:-1:0
-agentCollect:Collect2:3:1:10:-1:0
-agentCollect:Collect3:3:3:10:-1:0
+agentCollect:e1:3:0:10:-1:0
+agentCollect:e2:3:1:10:-1:0
+agentCollect:e3:3:3:10:-1:0

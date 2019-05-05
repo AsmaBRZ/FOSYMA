@@ -62,7 +62,7 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 								cpt+=1;
 								k=k-1;
 							}
-							if(cpt>2){
+							if(cpt>1){
 								Random r= new Random();
 								List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
 								
@@ -79,13 +79,6 @@ public class ReceiveHelpCollect  extends OneShotBehaviour{
 					
 					System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+" my Expertise "+((MyAgent)this.myAgent).getMyExpertise());
 					//List<String>  pathToTarget2=((MyAgent)this.myAgent).getShortestPath(myPosition,positionTarget);
-					try {
-						Thread.sleep(1000);
-						System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+"I am sleeeping");
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
 					//si j'arrive a l'endroit */
 				}
 				

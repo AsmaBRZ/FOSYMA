@@ -1,5 +1,10 @@
 package eu.su.mas.dedaleEtu.mas.behaviours;
 
+import java.util.List;
+import java.util.Random;
+
+import dataStructures.tuple.Couple;
+import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import jade.core.Agent;
@@ -15,10 +20,12 @@ public class MovetoTarget extends OneShotBehaviour {
 	private boolean succ;
 	String myPosition;
 	String myPos;
+	private static int cpt;
 	public MovetoTarget(Agent agent) {
 		super();
 		//this.targetposition="init";
 		this.agent = agent;
+		this.cpt=0;
 	}
 	
 	@Override
@@ -45,6 +52,20 @@ public class MovetoTarget extends OneShotBehaviour {
 			myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
 			System.out.println("je m'appelle "+((MyAgent)this.agent).getLocalName()+" je suis entrain de me déplacer vers le trésors: "+((MyAgent)this.agent).getmycurrentpath().get(((MyAgent)this.agent).getmycurrentpath().size()-1));
 			succ=((AbstractDedaleAgent)this.myAgent).moveTo(((MyAgent)this.agent).getNodeToVisit());
+			if(succ==false ){
+				cpt+=1;
+			}
+			if(cpt>1){
+				Random r= new Random();
+				List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
+				
+				int moveId=1+r.nextInt(lobs.size()-1);
+				System.out.println("mmmmmmmmmmmmmmiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiimmmmmmmmmmmmmmiiiiiiiiiiiiiine"+moveId);
+				((MyAgent)this.myAgent).moveTo(lobs.get(moveId).getLeft());
+				myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
+				((MyAgent)this.myAgent).setcurrentpathh(((MyAgent)this.myAgent).getShortestPath(myPosition,((MyAgent)this.agent).getNodeToVisit()));
+				cpt=0;
+			}
 			this.exitValue=2;
 		}
 		else{

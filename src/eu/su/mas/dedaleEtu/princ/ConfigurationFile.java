@@ -60,7 +60,7 @@ public final class ConfigurationFile {
 	 * Not null when the environment is loaded; should be null if the environment is generated or already online
 	 */
 	//public static String INSTANCE_TOPOLOGY="resources/map2018-topology";
-	//public static String INSTANCE_TOPOLOGY="resources/mapExamples/mapInterlocking1-topology";
+	//public static String INSTANCE_TOPOLOGY="resources/mapExamples/mapInterlocking2-topology";
 	//public static String INSTANCE_TOPOLOGY=null;
 	public static String INSTANCE_TOPOLOGY="resources/mapExamples/map2018-topology1";
 
@@ -68,7 +68,7 @@ public final class ConfigurationFile {
 	/**
 	 * Not null when the environment is loaded; should be null if the environment is generated or already online
 	 */
-	//public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/mapExamples/mapInterlocking1-elements";
+	//public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/mapExamples/mapInterlocking2-elements";
 	//public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/map2018-elements";
 	//public static String INSTANCE_CONFIGURATION_ELEMENTS=null;
 	public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/mapExamples/map2018-elements1";
@@ -76,7 +76,7 @@ public final class ConfigurationFile {
 	/**
 	 * Must'nt be null as it describes the agents capabilities on the map
 	 */
-	//public static String INSTANCE_CONFIGURATION_ENTITIES="resources/mapExamples/mapInterlocking1-entities";
+	//public static String INSTANCE_CONFIGURATION_ENTITIES="resources/mapExamples/mapInterlocking2-entities";
 	//public static String INSTANCE_CONFIGURATION_ENTITIES="resources/monoAgent-entities2";
 	//public static String INSTANCE_CONFIGURATION_ENTITIES="resources/mapExamples/mapInterlocking1-entities";
 	public static String INSTANCE_CONFIGURATION_ENTITIES="resources/mapExamples/map2018-entities1";
