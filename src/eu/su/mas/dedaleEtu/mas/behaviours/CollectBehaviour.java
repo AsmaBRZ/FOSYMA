@@ -36,28 +36,20 @@ public class CollectBehaviour extends OneShotBehaviour {
 					int pick=((AbstractDedaleAgent)this.myAgent).pick();
 					if(pick==0){
 						System.out.println();
-						System.out.println();
-						System.out.println();
-
 						System.out.println("je n'ai pas reussi a prendre une partie du trésor ----------------- "+pick);
 						System.out.println();
-						System.out.println();
-
 						this.exitValue=1;
 					}else{
 						System.out.println();
-						System.out.println();
-						System.out.println();
-
 						System.out.println("j'ai reussi a prendre une partie du trésor ----------------- "+pick);
-						System.out.println();
 						System.out.println();
 
 						this.exitValue=2;
 					}
 				}
 				else{
-					System.out.println("je nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn'aaaaaaaaaaaaaaaaaaiiiiiiiiiiiiii passsssssssssssss d'espace"+((AbstractDedaleAgent)this.myAgent).getBackPackFreeSpace());
+					System.out.println("je n'ai pas d'espace "+((AbstractDedaleAgent)this.myAgent).getBackPackFreeSpace()+" je dois aller vers le silo");
+					this.exitValue=2;
 				}
 			}else{
 				this.exitValue=1;

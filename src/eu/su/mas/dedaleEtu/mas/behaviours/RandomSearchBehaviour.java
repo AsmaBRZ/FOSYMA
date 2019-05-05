@@ -27,56 +27,53 @@ public class RandomSearchBehaviour extends OneShotBehaviour {
 		String myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 		if (myPosition!=null){
 			List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
-			try {
-				Thread.sleep(1000);
-				System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+"I am sleeeping in random search");
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
-		
+			
 			//Random move from the current position
 			
 			Random r= new Random();
 			int moveId=1+r.nextInt(lobs.size()-1);//removing the current position from the list of target, not necessary as to stay is an action but allow quicker random move
-			System.out.println(this.myAgent.getLocalName()+" I move to "+moveId+" ma position "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition()+"youhhhouuu");
 			
 			//The move action (if any) should be the last action of your behaviour
 			((AbstractDedaleAgent)this.myAgent).moveTo(lobs.get(moveId).getLeft());
 			 lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
 			List<Couple<Observation,Integer>> lObservations= lobs.get(0).getRight();
-			System.out.println(this.myAgent.getLocalName()+" observation "+lobs);
 			//Si je suis sur un trésor 
 			if(!lobs.get(0).getRight().isEmpty()) {
 				//Si je suis un explorateur et que je trouve un trésor je dois l'ouvrir 
 				if(myAgent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo){
 					for(Couple<Observation,Integer> o:lObservations){
+						//si le trésor est ouvert on n'a rien a faire
 						if (o.getLeft()==Observation.LOCKSTATUS && o.getRight()==(1) ) 
 							this.exitValue=1;
 					}
 					if(this.exitValue!=1){
 						((MyAgent) this.myAgent).createmyTr2(lobs.get(0));
 						((MyAgent) this.myAgent).setIndex_last_tr(0);
-						System.out.println("je rentre dans open lock a partir de random search");
 						this.exitValue=2;
 					}
 				}else{
 					if(myAgent instanceof eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect){
 						for(Couple<Observation,Integer> o:lObservations){
-							if (o.getLeft()==Observation.LOCKSTATUS && o.getRight()==(1) ) 
-								System.out.println("je suis un collecteur ");
+							if (o.getLeft()==Observation.LOCKSTATUS && o.getRight()==(1) ) {
+								System.out.println("yyyyyyyyyyyyyyyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 								//Nous allons collecter 
 								this.exitValue=2;
+							}
+						}
+						if(this.exitValue!=2){
+							//Nous allons verifier si un explorateur a besoin d'aide 
+							this.exitValue=1;
+							
 						}
 						
 					}
 				}
-			}else{
+			}
+			else{
 				
 				this.exitValue=1;
 			}
 				
-			
 			
 			
 		

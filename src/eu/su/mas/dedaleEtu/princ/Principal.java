@@ -300,22 +300,35 @@ public class Principal {
 //		agentList.add(ag);
 		
 		int nbAgents=5;
+		int nbAgentExplo=2;
+
 		@SuppressWarnings("unused")
 		List<AbstractDedaleAgent> myAgents=new ArrayList<AbstractDedaleAgent>();
 		List<String> friends=new ArrayList<String>();
-		for(int j=1;j<=nbAgents;j++) {
-			friends.add("e"+j);
+		for(int j=1;j<=nbAgentExplo;j++) {
+			friends.add("Explo"+j);
+		}
+		for(int j=1;j<=3;j++) {
+			friends.add("Collect"+j);
 		}
 		System.out.println("*-******************************"+ConfigurationFile.INSTANCE_CONFIGURATION_ENTITIES);
-		int nbAgentExplo=2;
 		for(int i=1;i<nbAgents;i++) {
 			//1) Get the container where the agent will appear
 			c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
 			Assert.assertNotNull("This container does not exist",c);
 			//2) Give the name of your agent, MUST be the same as the one given in the entities file.
-			agentName="e"+i;
+			if(i<=2){
+				agentName="Explo"+i;
+			}else{
+				agentName="Collect"+(i-2);
+			}
 			List<String> myFriends=new ArrayList<String>(friends);
-			myFriends.remove("e"+i);
+			if(i<=2){
+				myFriends.remove("Explo"+i);
+			}else{
+				myFriends.remove("Collect"+(i-2));
+			}
+
 			//System.out.println("friend of "+agentName+" are:"+myFriends.toString());
 			//3) If you want to give specific parameters to your agent, add them here
 			Object [] entityParameters2={myFriends,nbAgentExplo};
@@ -342,11 +355,11 @@ public class Principal {
 		Assert.assertNotNull("This container does not exist",c);
 //		
 //		//2) Give the name of your agent, MUST be the same as the one given in the entities file.
-		agentName="e"+nbAgents;
+		agentName="Silo";
 //		
 //		//3) If you want to give specific parameters to your agent, add them here
 		List<String> myFriends=new ArrayList<String>(friends);
-		myFriends.remove("e"+nbAgents);
+		myFriends.remove("Silo");
 		//System.out.println("friend of "+agentName+" are:"+myFriends.toString());
 		//3) If you want to give specific parameters to your agent, add them here
 		Object [] entityParameters2={myFriends,nbAgentExplo};

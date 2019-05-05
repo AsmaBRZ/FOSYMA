@@ -62,7 +62,7 @@ public final class ConfigurationFile {
 	//public static String INSTANCE_TOPOLOGY="resources/map2018-topology";
 	//public static String INSTANCE_TOPOLOGY="resources/mapExamples/mapInterlocking2-topology";
 	//public static String INSTANCE_TOPOLOGY=null;
-	public static String INSTANCE_TOPOLOGY="resources/mapExamples/map2018-topology1";
+	public static String INSTANCE_TOPOLOGY="resources/map2018-topologyExam1";
 
 	
 	/**
@@ -71,7 +71,7 @@ public final class ConfigurationFile {
 	//public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/mapExamples/mapInterlocking2-elements";
 	//public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/map2018-elements";
 	//public static String INSTANCE_CONFIGURATION_ELEMENTS=null;
-	public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/mapExamples/map2018-elements1";
+	public static String INSTANCE_CONFIGURATION_ELEMENTS="resources/map2018-elementsExam1";
 
 	/**
 	 * Must'nt be null as it describes the agents capabilities on the map
@@ -79,7 +79,7 @@ public final class ConfigurationFile {
 	//public static String INSTANCE_CONFIGURATION_ENTITIES="resources/mapExamples/mapInterlocking2-entities";
 	//public static String INSTANCE_CONFIGURATION_ENTITIES="resources/monoAgent-entities2";
 	//public static String INSTANCE_CONFIGURATION_ENTITIES="resources/mapExamples/mapInterlocking1-entities";
-	public static String INSTANCE_CONFIGURATION_ENTITIES="resources/mapExamples/map2018-entities1";
+	public static String INSTANCE_CONFIGURATION_ENTITIES="resources/map2019-entitiesExam1";
 
 	/************************************
 	 * 

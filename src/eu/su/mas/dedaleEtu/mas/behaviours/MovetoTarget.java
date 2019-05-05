@@ -30,18 +30,10 @@ public class MovetoTarget extends OneShotBehaviour {
 	
 	@Override
 	public void action() {
-		try {
-			Thread.sleep(1000);
-			System.out.println(((AbstractDedaleAgent)this.myAgent).getLocalName()+"I am sleeeping in move to");
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}// the behaviour goes to sleep until the arrival of a new message in the agent's Inbox.
 	
 		if(((AbstractDedaleAgent)this.agent).getCurrentPosition().equals(((MyAgent)this.agent).getNodeToVisit())){
 			((MyAgent)this.agent).setmoved(succ);
 			
-			System.out.println(((MyAgent)this.agent).getLocalName()+"---------"+((AbstractDedaleAgent)this.agent).getCurrentPosition()+"    "+((MyAgent)this.agent).getmycurrentpath());
 			if(((MyAgent)this.agent).getmycurrentpath().size()>0)
 				((MyAgent)this.agent).setcurrentpath();
 
@@ -50,7 +42,6 @@ public class MovetoTarget extends OneShotBehaviour {
 		
 		if (((MyAgent)this.agent).getmycurrentpath().size()>0){
 			myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
-			System.out.println("je m'appelle "+((MyAgent)this.agent).getLocalName()+" je suis entrain de me déplacer vers le trésors: "+((MyAgent)this.agent).getmycurrentpath().get(((MyAgent)this.agent).getmycurrentpath().size()-1));
 			succ=((AbstractDedaleAgent)this.myAgent).moveTo(((MyAgent)this.agent).getNodeToVisit());
 			if(succ==false ){
 				cpt+=1;
@@ -67,7 +58,6 @@ public class MovetoTarget extends OneShotBehaviour {
 			this.exitValue=2;
 		}
 		else{
-			System.out.println("Je suis sur le trésor");
 			//si on est passé par tous les trésors :
 			
 			this.exitValue=1;

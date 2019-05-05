@@ -1,1 +1,1 @@
-( ap-description  :name "Ithaq" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://asma-Lenovo-G580:7778/acc))))
+( ap-description  :name "Ithaq" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://sou-X550LD:7778/acc))))

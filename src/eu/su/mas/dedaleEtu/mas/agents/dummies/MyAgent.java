@@ -309,7 +309,6 @@ public class MyAgent extends AbstractDedaleAgent   {
 		
 		for (int k=0; k<inter.size();k++){
 			for (int i=0;i<this.objetcsFound.size();i++){
-				System.out.println("--------------------------k "+k);
 				if(this.objetcsFound.get(i).getLeft().equals(inter.get(k))){
 					//System.out.println(this.objetcsFound.get(i));
 					tr_sorted.add(this.objetcsFound.get(i));
