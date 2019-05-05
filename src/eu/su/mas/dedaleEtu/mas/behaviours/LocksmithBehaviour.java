@@ -1,18 +1,12 @@
 package eu.su.mas.dedaleEtu.mas.behaviours;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import dataStructures.tuple.Couple;
 import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
-import eu.su.mas.dedaleEtu.mas.behaviours.communication.Triple;
 import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 
 public class LocksmithBehaviour extends OneShotBehaviour{
@@ -21,9 +15,9 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 	 * 
 	 */
 	private Agent agent;
+	@SuppressWarnings("unused")
 	private String myPosition;
 	private static final long serialVersionUID = -4590903119174947799L;
-	private boolean finished=false;
 	private int exitValue;
 	public LocksmithBehaviour(Agent agent) {
 		super();
@@ -33,7 +27,6 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 	@Override
 	public void action() {
 			//pathToTarget=((MyAgent)this.agent).getTheNearestTrs(this.myPosition);
-			
 			this.exitValue=30;
 			this.myPosition=((AbstractDedaleAgent)this.agent).getCurrentPosition();
 			System.out.println(((AbstractDedaleAgent)this.agent).getLocalName()+" je suis dans le behaviour locksmith");
@@ -55,10 +48,10 @@ public class LocksmithBehaviour extends OneShotBehaviour{
 								System.out.println("-------------------");
 								((MyAgent)this.agent).setIndex_last_tr(((MyAgent)this.agent).getIndex_last_tr()+1);
 								
-								//j'appelle mes potes collecteurs pour collecter 
+								//j'appelle mes collegues collecteurs pour collecter 
 							}else{
-								System.out.println(((AbstractDedaleAgent)this.agent).getLocalName()+" j'ai besoin d'aide yaaa");
-								//Je vais appeler mes potes collecteur pour m'aider a ouvrir
+								System.out.println(((AbstractDedaleAgent)this.agent).getLocalName()+" I need help");
+								//Je vais appeler mes collegues collecteurs pour m'aider a ouvrir
 								this.exitValue=3;
 							}
 

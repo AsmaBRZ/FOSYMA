@@ -58,9 +58,7 @@ public class MovetoTarget extends OneShotBehaviour {
 			if(cpt>1){
 				Random r= new Random();
 				List<Couple<String,List<Couple<Observation,Integer>>>> lobs=((AbstractDedaleAgent)this.myAgent).observe();//myPosition
-				
 				int moveId=1+r.nextInt(lobs.size()-1);
-				System.out.println("mmmmmmmmmmmmmmiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiimmmmmmmmmmmmmmiiiiiiiiiiiiiine"+moveId);
 				((MyAgent)this.myAgent).moveTo(lobs.get(moveId).getLeft());
 				myPosition=((AbstractDedaleAgent)this.myAgent).getCurrentPosition();
 				((MyAgent)this.myAgent).setcurrentpathh(((MyAgent)this.myAgent).getShortestPath(myPosition,((MyAgent)this.agent).getNodeToVisit()));

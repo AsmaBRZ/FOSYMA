@@ -31,7 +31,6 @@ public class CollectBehaviour extends OneShotBehaviour {
 
 		for(Couple<Observation,Integer> o:lObservations){
 			if ((o.getLeft()==Observation.GOLD || o.getLeft()==Observation.DIAMOND)  && o.getRight()>0 ){
-				System.out.println("yyyyyyyyyyyyyyyyyyyyyyyyyyooooooooooooooooooooooooooooouuuuuuuuuuuhoooooooooooooooooooooooooouuu");
 				//si j'ai un sac vide 
 				if(((AbstractDedaleAgent)this.myAgent).getBackPackFreeSpace()>0){
 					int pick=((AbstractDedaleAgent)this.myAgent).pick();

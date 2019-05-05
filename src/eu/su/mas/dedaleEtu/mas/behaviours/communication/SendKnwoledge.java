@@ -8,7 +8,6 @@ import dataStructures.tuple.Couple;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import eu.su.mas.dedale.env.Observation;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
-import eu.su.mas.dedaleEtu.mas.knowledge.MapRepresentation;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
@@ -23,14 +22,12 @@ import jade.lang.acl.ACLMessage;
 public class SendKnwoledge extends OneShotBehaviour{
 
 	private static final long serialVersionUID = -2058134622078521998L;
-	private MapRepresentation myMap;
 	private Agent agent;
 	//Nodes known but not yet visited
 	private List<String> openNodes;
 	//Visited nodes
 	private Set<String> closedNodes;
 	private List<String[]> edges;
-	private boolean finished= false;
 	//private String receiver;
 	private List<String> receivers;
 	public SendKnwoledge (final Agent myagent,List<String> r ,List<String> openNodes ,Set<String> closedNodes) {
@@ -52,7 +49,8 @@ public class SendKnwoledge extends OneShotBehaviour{
 				//MessageKnowledge mk=new MessageKnowledge(myMap,openNodes,closedNodes);
 				List<Couple<String,List<Couple<Observation,Integer>>>>  objectsFound=((MyAgent)this.agent).getObjetcsFound();
 				this.edges=((MyAgent)agent).getMap().getEdges();
-				Object[] mk= {myPosition,openNodes,closedNodes,edges,objectsFound};
+				String myClass=this.agent.getClass().getName();
+				Object[] mk= {myPosition,openNodes,closedNodes,edges,objectsFound,myClass};
 				for(int i=0;i<this.receivers.size();i++) {
 					//System.out.println("Agent "+agent.getLocalName()+ " message send to"+this.receivers.get(i));
 					msg=new ACLMessage(ACLMessage.INFORM);
@@ -62,41 +60,15 @@ public class SendKnwoledge extends OneShotBehaviour{
 					msg.addReceiver(new AID(this.receivers.get(i),AID.ISLOCALNAME));
 					((AbstractDedaleAgent)agent).sendMessage(msg);
 				}
-				
-				/*System.out.println("*******************ENVOI***************************");	
-				System.out.println("position");
-				System.out.println(myPosition);
-				System.out.println("open");
-				System.out.println(openNodes);
-				System.out.println("close");
-				System.out.println(closedNodes);
-				System.out.println("edges");
-				for(int i=0;i<edges.size();i++){
-					System.out.println("i="+i+" "+edges.get(i)[0]);
-					System.out.println("i="+i+" "+edges.get(i)[1]);
-				}
-				System.out.println("***********************************************");*/
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			
-			//Mandatory to use this method (it takes into account the environment to decide if someone is reachable or not)
-			//System.out.println("Agent" +agent.getLocalName()+ "Before send");
-
-			
-			//System.out.println("Agent "+agent.getLocalName()+ "After send");
-			//finished=true;
+			}			
 		}
 	}
 	@Override
 	 public int onEnd() {
 	      return 0;
 	 } 
-/*
-	@Override
-	public boolean done() {
-		// TODO Auto-generated method stub
-		return finished;
-	}*/
+
 }

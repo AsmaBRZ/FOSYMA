@@ -41,11 +41,7 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 		System.out.println(agent.getLocalName()+" I am exploring "+((AbstractDedaleAgent)this.myAgent).getCurrentPosition()+" observation "+((AbstractDedaleAgent)this.myAgent).observe());
 		//System.out.println(agent.getLocalName()+" My list of open nodes"+((MyAgent)this.myAgent).getOpenedNodes().toString());
 		((MyAgent) agent).addHist(((AbstractDedaleAgent)this.myAgent).getCurrentPosition());
-		List<String> hist=((MyAgent) agent).getHist();
-		int N=hist.size();
-		if((N>1 && hist.get(N-1)==hist.get(N-2))){//and list open not empty
-			//interblocage --> informer les agents qui sont dans l'interblocage		
-		}
+
 		if(((MyAgent)agent).getMap()==null)
 			((MyAgent)agent).setMap(new MapRepresentation());
 
@@ -123,19 +119,5 @@ public class ExploSoloBehaviour extends OneShotBehaviour{
 				((AbstractDedaleAgent)this.myAgent).moveTo(nextNode);
 			}
 		}
-		//System.out.println("Finished=true");
-		//finished=true;
 	}
-	
-	/*@Override
-	public int onEnd() {
-		return this.exitValue;
-	}*/
-/*
-	@Override
-	public boolean done() {
-		// TODO Auto-generated method stub
-		return finished;
-	}*/
-
 }

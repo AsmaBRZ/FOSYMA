@@ -8,20 +8,19 @@ import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
-import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 public class ReceiveKnowledge extends OneShotBehaviour{
 
 	private static final long serialVersionUID = -4404490189062055618L;
-	private boolean finished=false;
 	private Agent myAgent;
 	private int exitValue;
 	public ReceiveKnowledge(Agent agent) {
 		super();
 		this.myAgent = agent;
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public void action() {	
 		System.out.println("je m'appelle "+((AbstractDedaleAgent)this.myAgent).getLocalName()+" je suis dans le behaviour receive knowledge");
@@ -30,25 +29,20 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 		final ACLMessage msg = myAgent.receive(msgTemplate);
 		
 		if (msg != null) {	
-			//System.out.println("Agent \"+agent.getLocalName()"+ "in testing msg!=null");
-			//System.out.println(agent.getLocalName()+"<----Result received from "+msg.getSender().getLocalName());
 			try {
 				Object[] content=(Object[]) msg.getContentObject();
-				//System.out.println("*******************RECEPTION****************************");			
-				//System.out.println(content[0]+ " "+content[1]+ " "+content[2]+ " "+content[3]);
-				//System.out.println("***********************************************");
-
 				String positionReceived=(String) content[0];
 				List<String> openNodes=(List<String>)content[1];
 				Set<String> closedNodes=(Set<String>)content[2];
 				List<String[]> edges=(List<String[]>)content[3];
 				List<Couple<String,List<Couple<Observation,Integer>>>> newObjsFound=(List<Couple<String,List<Couple<Observation,Integer>>>> )content[4];;
+				String senderClass=(String)content[5];
+				if(senderClass.equals("eu.su.mas.dedaleEtu.mas.agents.dummies.AgentTanker")){
+					//I update the tanker's position
+					((MyAgent)this.myAgent).setTankerPos(positionReceived);
+				}
 				((MyAgent) myAgent).updateKnowledge(positionReceived,openNodes,closedNodes,edges);
-				//System.out.println("before update receive: "+((MyAgent)this.myAgent).getObjetcsFound().toString());
 				((MyAgent) myAgent).updateObjsFound(newObjsFound);
-				//System.out.println("On receive:"+newObjsFound.toString());
-				//System.out.println("after update receive: "+((MyAgent)this.myAgent).getObjetcsFound().toString());
-				
 			} catch (UnreadableException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -76,10 +70,5 @@ public class ReceiveKnowledge extends OneShotBehaviour{
 	public int onEnd() {
 		return this.exitValue;
 	}
-/*
-	@Override
-	public boolean done() {
-		return finished;
-	}*/
-	
+
 }

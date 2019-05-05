@@ -7,10 +7,9 @@ import java.util.List;
 import eu.su.mas.dedale.mas.AbstractDedaleAgent;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.AgentCollect;
 import eu.su.mas.dedaleEtu.mas.agents.dummies.AgentExplo;
-import eu.su.mas.dedaleEtu.mas.agents.dummies.MyAgent;
+import eu.su.mas.dedaleEtu.mas.agents.dummies.AgentSilo;
 import eu.su.mas.dedale.mas.agents.GateKeeperAgent;
-
-
+import eu.su.mas.dedale.mas.agents.dedaleDummyAgents.DummyTankerAgent;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
@@ -19,7 +18,6 @@ import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 import org.junit.Assert;
 import jade.wrapper.AgentContainer;
-import java.util.*;
 
 
 /**
@@ -37,6 +35,7 @@ public class Principal {
 
 	private static HashMap<String, ContainerController> containerList=new HashMap<String, ContainerController>();// container's name - container's ref
 	private static List<AgentController> agentList;// agents's ref
+	@SuppressWarnings("unused")
 	private static Runtime rt;	
 
 	public static void main(String[] args){
@@ -226,7 +225,6 @@ public class Principal {
 	}
 
 
-
 	/**********************************************
 	 * 
 	 * Methods used to create the agents and to start them
@@ -301,7 +299,8 @@ public class Principal {
 //		ag=createNewDedaleAgent(c, agentName, DummyWumpusShift.class.getName(), entityParameters);
 //		agentList.add(ag);
 		
-		int nbAgents=4;
+		int nbAgents=5;
+		@SuppressWarnings("unused")
 		List<AbstractDedaleAgent> myAgents=new ArrayList<AbstractDedaleAgent>();
 		List<String> friends=new ArrayList<String>();
 		for(int j=1;j<=nbAgents;j++) {
@@ -309,7 +308,7 @@ public class Principal {
 		}
 		System.out.println("*-******************************"+ConfigurationFile.INSTANCE_CONFIGURATION_ENTITIES);
 		int nbAgentExplo=2;
-		for(int i=1;i<=nbAgents;i++) {
+		for(int i=1;i<nbAgents;i++) {
 			//1) Get the container where the agent will appear
 			c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
 			Assert.assertNotNull("This container does not exist",c);
@@ -321,34 +320,48 @@ public class Principal {
 			//3) If you want to give specific parameters to your agent, add them here
 			Object [] entityParameters2={myFriends,nbAgentExplo};
 			//4) Give the class name of your agent to let the system instantiate it
+			ag=null;
 			if(i<=nbAgentExplo) {
 				ag=createNewDedaleAgent(c, agentName, AgentExplo.class.getName(), entityParameters2);
 			}
-			else {
+			if(i>nbAgentExplo && i<nbAgents) {
 				ag=createNewDedaleAgent(c, agentName, AgentCollect.class.getName(), entityParameters2);
-			}
+			}/*
+			else {
+				//here: i == nbAgents. The last agent is the Tanker
+				ag=createNewDedaleAgent(c, agentName, AgentSilo.class.getName(), entityParameters2);
+			}*/
 			agentList.add(ag);
 		}
-		
 		/***************
 		 * AGENT Tanker
 		 ***************/
 		
 		//1) Get the container where the agent will appear
-//		c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
-//		Assert.assertNotNull("This container does not exist",c);
+		c = containerList.get(ConfigurationFile.LOCAL_CONTAINER2_NAME);
+		Assert.assertNotNull("This container does not exist",c);
 //		
 //		//2) Give the name of your agent, MUST be the same as the one given in the entities file.
-//		agentName="Tanker1";
+		agentName="e"+nbAgents;
 //		
 //		//3) If you want to give specific parameters to your agent, add them here
-//		Object [] entityParametersT={"My parameters"};
+		List<String> myFriends=new ArrayList<String>(friends);
+		myFriends.remove("e"+nbAgents);
+		//System.out.println("friend of "+agentName+" are:"+myFriends.toString());
+		//3) If you want to give specific parameters to your agent, add them here
+		Object [] entityParameters2={myFriends,nbAgentExplo};
 //		
 //		//4) Give the class name of your agent to let the system instantiate it
-//		ag=createNewDedaleAgent(c, agentName, DummyTankerAgent.class.getName(), entityParametersT);
-//		agentList.add(ag);
-		
-		
+		AgentController tanker=null;
+		tanker =createNewDedaleAgent(c, agentName, AgentSilo.class.getName(), entityParameters2);
+		try {
+			System.out.println("aggg"+tanker.getName());
+		} catch (StaleProxyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		agentList.add(tanker);
+
 		/*********************
 		 * All agents created
 		 *********************/

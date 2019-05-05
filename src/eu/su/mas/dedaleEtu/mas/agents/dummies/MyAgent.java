@@ -15,6 +15,7 @@ import eu.su.mas.dedaleEtu.mas.behaviours.communication.Triple;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.FSMBehaviour;
 public class MyAgent extends AbstractDedaleAgent   {
+	
 	//agentName
 	//communicationRange
 	//initialLocation
@@ -23,6 +24,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 	//detectionRadius
 	//strengthExpertise
 	//LockPickingExpertise
+	
 	private static final long serialVersionUID = 2384524762066236260L;
     //Current knowledge of the agent regarding the environment
 	protected MapRepresentation map;
@@ -35,6 +37,7 @@ public class MyAgent extends AbstractDedaleAgent   {
 	protected List<String> myHistory=new ArrayList<String>();
 	protected List<Behaviour> lb;
 	//type 1:Explore 2:collect 3: explore
+	protected String tankerPos;
 	protected int type=5;
 	protected List<Couple<String,List<Couple<Observation,Integer>>>> objetcsFound;
 	protected FSMBehaviour fsm ;
@@ -60,6 +63,14 @@ public class MyAgent extends AbstractDedaleAgent   {
 	public MapRepresentation getMap() {
 		return map;
 
+	}
+
+	public String getTankerPos() {
+		return tankerPos;
+	}
+
+	public void setTankerPos(String tankerPos) {
+		this.tankerPos = tankerPos;
 	}
 
 	public void setMap(MapRepresentation myMap) {
